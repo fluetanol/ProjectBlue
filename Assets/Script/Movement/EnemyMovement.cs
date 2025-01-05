@@ -2,20 +2,23 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]   
 public class EnemyMovement : MonoBehaviour
-{   
-    enum EenemyMoveType{
+{
+
+    public enum EenemyMoveType
+    {
         linear,
         linearInterpolation
     }
+
     private Rigidbody _rigidbody;
     [SerializeField] private EenemyMoveType _enemyMoveType = EenemyMoveType.linearInterpolation;
 
     [Header("Setting Enemy Move Speed")]
-    [Tooltip("It's only used when the enemyMoveType is linearInterpolation")]
-    [SerializeField] [Range(0.1f, 5f)] private float _linearInterpolationMoveSpeed = 1f;
+    [SerializeField, ConditionalField(nameof(_enemyMoveType), (int)EenemyMoveType.linear), Range(1, 10)]
+    private float _linearMoveSpeed = 5f;
 
-    [Tooltip("It's only used when the enemyMoveType is linear")]
-    [SerializeField] [Range(1, 10)] private float _linearMoveSpeed = 1f;
+    [SerializeField, ConditionalField(nameof(_enemyMoveType), (int)EenemyMoveType.linearInterpolation), Range(0.1f, 2f)] 
+    private float _linearInterpolationMoveSpeed = 1f; 
 
     void Awake(){
         _rigidbody = GetComponent<Rigidbody>();
