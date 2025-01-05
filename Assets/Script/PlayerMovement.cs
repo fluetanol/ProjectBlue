@@ -7,6 +7,8 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerMovement : MonoBehaviour
 {
+    public static Vector3 PlayerPosition;
+
     enum EPlayerMoveAxis{
         XY = 0,
         XZ = 1
@@ -72,6 +74,7 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate() {
         Vector3 delta = _moveTypeList[(int)_playerMoveAxisType] * PlayerStats.MoveSpeed * Time.fixedDeltaTime;
         _rigidbody.MovePosition(_rigidbody.position + delta);
+        PlayerPosition = _rigidbody.position;
     }
 
 
