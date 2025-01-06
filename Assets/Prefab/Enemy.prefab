@@ -150,5 +150,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyMoveType: 0
-  _linearMoveSpeed: 1
+  _linearMoveSpeed: 5
   _linearInterpolationMoveSpeed: 1.042
