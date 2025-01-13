@@ -328,8 +328,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyObject: {fileID: 1646390889}
-  _spawnCycle: 5
-  _spawnCount: 1
+  _spawnCycle: 3
+  _spawnCount: 5
   _maxSpawn: 200
 --- !u!1 &330585543
 GameObject:
@@ -575,7 +575,7 @@ Light:
   m_Lightmapping: 2
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
+  m_BounceIntensity: 0.62
   m_ColorTemperature: 5000
   m_UseColorTemperature: 1
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
@@ -595,13 +595,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 410087039}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: -4.8386045, y: -21.038864, z: -18.442575}
+  m_LocalRotation: {x: 0.6260931, y: 0.038392805, z: 0.04708838, w: 0.7773778}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1739795167}
-  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 75.884, y: 29.113, z: 29.823}
 --- !u!114 &410087042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -867,8 +867,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyObject: {fileID: 1646390889}
-  _spawnCycle: 5
-  _spawnCount: 1
+  _spawnCycle: 3
+  _spawnCount: 5
   _maxSpawn: 200
 --- !u!1 &832575517
 GameObject:
@@ -1171,8 +1171,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyObject: {fileID: 1646390889}
-  _spawnCycle: 5
-  _spawnCount: 1
+  _spawnCycle: 3
+  _spawnCount: 5
   _maxSpawn: 200
 --- !u!1 &1297379780
 GameObject:
@@ -1219,8 +1219,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyObject: {fileID: 1646390889}
-  _spawnCycle: 5
-  _spawnCount: 1
+  _spawnCycle: 3
+  _spawnCount: 5
   _maxSpawn: 200
 --- !u!1 &1339132165
 GameObject:
@@ -1376,8 +1376,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyObject: {fileID: 1646390889}
-  _spawnCycle: 5
-  _spawnCount: 1
+  _spawnCycle: 3
+  _spawnCount: 5
   _maxSpawn: 200
 --- !u!54 &1585002271 stripped
 Rigidbody:
@@ -1511,8 +1511,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyObject: {fileID: 1646390889}
-  _spawnCycle: 5
-  _spawnCount: 1
+  _spawnCycle: 3
+  _spawnCount: 5
   _maxSpawn: 200
 --- !u!43 &2119841206
 Mesh:
@@ -1695,6 +1695,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 1408774566391116386, guid: d230969e464745f40b2efebc7fb48238, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2128614666623052651, guid: d230969e464745f40b2efebc7fb48238, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -1816,15 +1820,15 @@ PrefabInstance:
       objectReference: {fileID: 1585002271}
     - target: {fileID: 1939176608565811219, guid: 7040efd5c5437b2488027c04dd79f0bb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.085283
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1939176608565811219, guid: 7040efd5c5437b2488027c04dd79f0bb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1939176608565811219, guid: 7040efd5c5437b2488027c04dd79f0bb, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -6.8486204
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1939176608565811219, guid: 7040efd5c5437b2488027c04dd79f0bb, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1860,7 +1864,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6907771436660855085, guid: 7040efd5c5437b2488027c04dd79f0bb, type: 3}
       propertyPath: m_DynamicOccludee
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6907771436660855085, guid: 7040efd5c5437b2488027c04dd79f0bb, type: 3}
       propertyPath: m_StaticShadowCaster
