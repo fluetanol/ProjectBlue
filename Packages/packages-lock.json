@@ -2,7 +2,7 @@
   "dependencies": {
     "com.autodesk.fbx": {
       "version": "5.1.1",
-      "depth": 2,
+      "depth": 1,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
@@ -210,8 +210,8 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.formats.fbx": {
-      "version": "5.1.1",
-      "depth": 1,
+      "version": "5.1.2",
+      "depth": 0,
       "source": "registry",
       "dependencies": {
         "com.autodesk.fbx": "5.1.1",

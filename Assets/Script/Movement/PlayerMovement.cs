@@ -67,6 +67,7 @@ public class PlayerMovement : MonoBehaviour
         _inputActions.Player.Move.canceled += OnMoveCancel;
         _inputActions.Player.Attack.started += OnClickStart;
         _inputActions.Player.Attack.canceled += OnClickCancel;
+        _inputActions.Player.Look2.performed += OnLook;
         _inputActions.Enable();   
     }
 
@@ -110,6 +111,14 @@ public class PlayerMovement : MonoBehaviour
         _isClicked = false;
         ClickTime = 0;
       //  Debug.Log("ClickedCancel");
+    }
+
+    void OnLook(InputAction.CallbackContext context)
+    {
+        Ray ray = Camera.main.ScreenPointToRay(context.ReadValue<Vector2>());
+        if(Physics.Raycast(ray, out RaycastHit hit)){
+            transform.LookAt(hit.point);
+        }
     }
 
 
