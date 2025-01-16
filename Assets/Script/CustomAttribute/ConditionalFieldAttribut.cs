@@ -7,7 +7,6 @@ public class ConditionalFieldAttribute : PropertyAttribute
 
     public ConditionalFieldAttribute(string conditionFieldName, int conditionValue)
     {
-        Debug.Log(conditionFieldName);
         ConditionFieldName = conditionFieldName;
         ConditionValue = conditionValue;
     }

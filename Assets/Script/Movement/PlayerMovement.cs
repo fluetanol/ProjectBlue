@@ -15,31 +15,37 @@ public class PlayerMovement : MonoBehaviour
     }
     [SerializeField] private EPlayerMoveAxis _playerMoveAxisType;
 
+    // Player Input Actions
+    public static InputSystem_Actions InputActions
+    {
+        get
+        {
+
+            if (_inputActions == null)
+            {
+                _inputActions = new InputSystem_Actions();
+            }
+
+            return _inputActions;
+        }
+        private set { }
+    }
+
+    // Player Move Direction
     public static Vector3 MoveDirction
     {
         get;
         private set;
     }
 
+    // Player Click Time
     public static float ClickTime
     {
         get;
         private set;
     }
 
-    public static InputSystem_Actions InputActions
-    {
-        get{
-
-            if(_inputActions == null){
-                _inputActions = new InputSystem_Actions();
-            }
-        
-            return _inputActions;
-        }
-        private set{}
-    }
-        
+    [Header("Player Stats")]
     public PlayerStats PlayerStats;
 
 
@@ -84,7 +90,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if(_isClicked) {
             ClickTime += Time.deltaTime;
-            //Debug.Log(ClickTime);
+            
         }
     }
     
@@ -113,12 +119,16 @@ public class PlayerMovement : MonoBehaviour
       //  Debug.Log("ClickedCancel");
     }
 
-    void OnLook(InputAction.CallbackContext context)
+    private void OnLook(InputAction.CallbackContext context)
     {
         Ray ray = Camera.main.ScreenPointToRay(context.ReadValue<Vector2>());
         if(Physics.Raycast(ray, out RaycastHit hit)){
             transform.LookAt(hit.point);
         }
+    }
+
+    private void AttackShooting(){
+
     }
 
 

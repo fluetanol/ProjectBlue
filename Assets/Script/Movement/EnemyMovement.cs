@@ -3,31 +3,30 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]   
 public class EnemyMovement : MonoBehaviour
 {
-
     public enum EenemyMoveType
     {
         linear,
         linearInterpolation
     }
 
-    private Rigidbody _rigidbody;
-
+    public enum EenemyAttackType{
+        near,
+        far,
+        middle
+    }
+    
+    [SerializeField] private int EnemyCode;
+    [SerializeField] private Rigidbody _rigidbody;
     [SerializeField] private Rigidbody _target;
+
+
+    [Header("Setting Enemy Move Stats Scriptable Object")]
+    [SerializeField] private EnemyStats _enemyStats;
+
     private Vector3 _targetPosition;
 
-    [SerializeField] private EenemyMoveType _enemyMoveType = EenemyMoveType.linearInterpolation;
-
-    [Header("Setting Enemy Move Speed")]
-    [SerializeField, ConditionalField(nameof(_enemyMoveType), (int)EenemyMoveType.linear), Range(1, 10)]
-    private float _linearMoveSpeed = 5f;
-
-    [SerializeField, ConditionalField(nameof(_enemyMoveType), (int)EenemyMoveType.linearInterpolation), Range(0.1f, 2f)] 
-    private float _linearInterpolationMoveSpeed = 1f; 
-
-    
-
     void Awake(){
-        _rigidbody = GetComponent<Rigidbody>();
+        if(_rigidbody == null) _rigidbody = GetComponent<Rigidbody>();
     }
 
     void FixedUpdate(){
@@ -38,13 +37,14 @@ public class EnemyMovement : MonoBehaviour
     private Vector3 enemyMove(){
         _targetPosition = _target != null ? _target.position : PlayerMovement.PlayerPosition;
 
-        if(_enemyMoveType == EenemyMoveType.linearInterpolation)
-            return Vector3.Lerp(_rigidbody.position, _targetPosition, Time.fixedDeltaTime * _linearInterpolationMoveSpeed);
+        if(_enemyStats[0].EnemyMoveType == EenemyMoveType.linearInterpolation)
+            return Vector3.Lerp(_rigidbody.position, _targetPosition, 
+            Time.fixedDeltaTime * _enemyStats[0]._linearInterpolationMoveSpeed);
 
         else{
             Vector3 direction = _targetPosition - _rigidbody.position;
             direction.Normalize();
-            return _rigidbody.position + direction * Time.fixedDeltaTime * _linearMoveSpeed;
+            return _rigidbody.position + direction * Time.fixedDeltaTime * _enemyStats[0]._linearMoveSpeed;
         }
     }
 
