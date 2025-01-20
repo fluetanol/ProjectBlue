@@ -1763,6 +1763,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 66559f2871b48684bb994c86c742a225, type: 2}
+    - target: {fileID: 6296004204824205424, guid: d230969e464745f40b2efebc7fb48238, type: 3}
+      propertyPath: BulletPrefab
+      value: 
+      objectReference: {fileID: 5393025680698808366, guid: 1e85f281574dcb745af4b9fa622bac66, type: 3}
     - target: {fileID: 6358887359229884743, guid: d230969e464745f40b2efebc7fb48238, type: 3}
       propertyPath: m_Mesh
       value: 

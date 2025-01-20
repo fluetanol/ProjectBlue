@@ -45,13 +45,18 @@ public class PlayerMovement : MonoBehaviour
         private set;
     }
 
+    public Transform ShootPoint;
+
     [Header("Player Stats")]
     public PlayerStats PlayerStats;
 
+    [SerializeField] GameObject BulletPrefab;
 
     private static InputSystem_Actions _inputActions;
     private        Rigidbody           _rigidbody;
     private        bool                _isClicked = false;
+    private        Vector2             _lookPosition;
+
     private        Vector3[]           _moveTypeList{
         get{
             return new Vector3[]
@@ -109,7 +114,8 @@ public class PlayerMovement : MonoBehaviour
     void OnClickStart(InputAction.CallbackContext context)
     {
         _isClicked = true;
-       // Debug.Log("ClickedStart");
+        AttackShooting();
+        Debug.Log("ClickedStart");
     }
 
     void OnClickCancel(InputAction.CallbackContext context)
@@ -124,10 +130,14 @@ public class PlayerMovement : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(context.ReadValue<Vector2>());
         if(Physics.Raycast(ray, out RaycastHit hit)){
             transform.LookAt(hit.point);
+            _lookPosition = hit.point;
         }
     }
 
     private void AttackShooting(){
+        GameObject Bullet = Instantiate(BulletPrefab, ShootPoint.position, ShootPoint.rotation);
+        Bullet bulletComponent = Bullet.GetComponent<Bullet>();
+        bulletComponent.bulletDiretion = transform.forward;
 
     }
 
