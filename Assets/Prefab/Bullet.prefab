@@ -154,6 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a79132ed490de17409c07c6ec6975bdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isPenetration: 0
   _bulletSpeed: 20
   _bulletDamage: 3
   _bulletLifeTime: 5
@@ -167,10 +168,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 192
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0

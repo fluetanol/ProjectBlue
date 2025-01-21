@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    [SerializeField] private bool  _isPenetration;
     [SerializeField] private float _bulletSpeed;
     [SerializeField] private float _bulletDamage;
     [SerializeField] private float _bulletLifeTime;
@@ -29,5 +30,12 @@ public class Bullet : MonoBehaviour
 
     public void SetBulletDirection(Vector3 direction){
         bulletDiretion = direction;
+    }
+
+    private void OnCollisionEnter(Collision other) {
+        if(other.gameObject.TryGetComponent(out EnemyMovement enemy))
+            enemy.TakeDamage((int)_bulletDamage);
+
+        Destroy(this.gameObject);
     }
 }

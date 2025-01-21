@@ -3,6 +3,9 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]   
 public class EnemyMovement : MonoBehaviour
 {
+    public int health = 3;
+    public int damage = 1;
+
     public enum EenemyMoveType
     {
         linear,
@@ -33,6 +36,14 @@ public class EnemyMovement : MonoBehaviour
         Vector3 nextPosition = enemyMove();
         _rigidbody.MovePosition(nextPosition);
     }
+
+    public void TakeDamage(int damage){
+        health -= damage;
+        if(health <= 0){
+            Destroy(gameObject);
+        }
+    }
+
 
     private Vector3 enemyMove(){
         _targetPosition = _target != null ? _target.position : PlayerMovement.PlayerPosition;
