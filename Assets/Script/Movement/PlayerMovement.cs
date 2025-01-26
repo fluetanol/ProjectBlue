@@ -103,12 +103,15 @@ public class PlayerMovement : MonoBehaviour
 
     private static Vector3 MiniCollideAndSlide(Vector3 delta, RaycastHit hit)
     {
-        float restMagnitude = delta.magnitude - hit.distance;
+        //float restMagnitude = delta.magnitude - hit.distance;
 
-        //현 위치와 충돌 위치와의 거리 + 충돌 위치에서 빗면에 사영시킨 거리 = delta.magnitude
+        //현 위치와 충돌 위치와의 거리 = delta.magnitude
         delta = delta.normalized * hit.distance;
-        Vector3 projectDelta = Vector3.ProjectOnPlane(delta, hit.normal) * restMagnitude;
-        delta = delta + projectDelta;
+
+        //Vector3 projectDelta = Vector3.ProjectOnPlane(delta, hit.normal) * restMagnitude;
+        //delta = delta + projectDelta;
+        delta = Vector3.ProjectOnPlane(delta, hit.normal);
+
         return delta;
     }
 
