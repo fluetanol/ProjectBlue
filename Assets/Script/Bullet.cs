@@ -40,6 +40,11 @@ public class Bullet : MonoBehaviour
             Destroy(gameObject);
         }
 
+        Collider[] colliders= Physics.OverlapBox(center, halfExtents, orientation, mask);
+        if(colliders.Length > 0){
+            Destroy(gameObject);
+        }
+
 
         _rigidbody.MovePosition(_rigidbody.position + delta);
         _bulletLifeTimeCounter += Time.fixedDeltaTime;
