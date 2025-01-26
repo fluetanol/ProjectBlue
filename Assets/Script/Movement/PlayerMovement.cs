@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
@@ -57,6 +58,8 @@ public class PlayerMovement : MonoBehaviour
     private        Rigidbody           _rigidbody;
     private        bool                _isClicked = false;
     private        Vector2             _lookPosition;
+    private        float                _attackTime = 0f;
+
 
     private        Vector3[]           _moveTypeList{
         get{
@@ -96,12 +99,26 @@ public class PlayerMovement : MonoBehaviour
             delta = MiniCollideAndSlide(delta, hit);
         }
 
-
         _rigidbody.MovePosition(_rigidbody.position + delta);
         PlayerPosition = _rigidbody.position;
     }
 
-    private static Vector3 MiniCollideAndSlide(Vector3 delta, RaycastHit hit)
+
+    // Update is called once per frame
+    void Update()
+    { 
+        CheckClickTime();   
+    }
+
+    private void CheckClickTime(){
+        if (_isClicked)
+        {
+            ClickTime += Time.deltaTime;
+        }
+    }
+
+
+    private Vector3 MiniCollideAndSlide(Vector3 delta, RaycastHit hit)
     {
         //float restMagnitude = delta.magnitude - hit.distance;
 
@@ -113,12 +130,6 @@ public class PlayerMovement : MonoBehaviour
         delta = Vector3.ProjectOnPlane(delta, hit.normal);
 
         return delta;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if(_isClicked)  ClickTime += Time.deltaTime;
     }
 
     private void CapsuleCastInfo(out float radius, out Vector3 point1, out Vector3 point2)
@@ -146,7 +157,7 @@ public class PlayerMovement : MonoBehaviour
     void OnClickStart(InputAction.CallbackContext context)
     {
         _isClicked = true;
-        AttackShooting();
+        StartCoroutine(Coroutine_Attacking());
        // Debug.Log("ClickedStart");
     }
 
@@ -154,8 +165,10 @@ public class PlayerMovement : MonoBehaviour
     {
         _isClicked = false;
         ClickTime = 0;
+        StopAllCoroutines();
       //  Debug.Log("ClickedCancel");
     }
+
 
     private void OnLook(InputAction.CallbackContext context)
     {
@@ -167,6 +180,14 @@ public class PlayerMovement : MonoBehaviour
             _lookPosition = hitpoint;
         }
     }
+
+    private IEnumerator Coroutine_Attacking(){
+        while(true){
+            AttackShooting();
+            yield return new WaitForSeconds(PlayerStats.AttackSpeed);
+        }
+    }
+
 
     private void AttackShooting(){
         GameObject Bullet = Instantiate(BulletPrefab, ShootPoint.position, ShootPoint.rotation);

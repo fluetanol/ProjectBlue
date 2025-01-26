@@ -9,8 +9,11 @@ public class PlayerStats : ScriptableObject
         public short WeaponLevel;
     }
 
-    public float Health;
+    public int Health;
     public float MoveSpeed;
+    public float AttackSpeed;
+     // 시간 단위로 입력, 만약 0.5초에 한번이면 0.5f
+
     public List<int> HoldWeaponList;
 }
 
