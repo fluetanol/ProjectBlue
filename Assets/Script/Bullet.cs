@@ -1,16 +1,35 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
+
+
+public struct BoxCastInfo
+{
+    public Vector3 center;
+    public Vector3 halfExtents;
+    public Quaternion orientation;
+    public LayerMask mask;
+}
+
+public static class ExtensionPhysics{
+    public static bool BoxCasts(this Physics physics, ref BoxCastInfo boxCastInfo, Vector3 direction, float distance){
+        return Physics.BoxCast(boxCastInfo.center, boxCastInfo.halfExtents, direction, 
+        out RaycastHit hit, boxCastInfo.orientation, distance, boxCastInfo.mask);
+    }
+}
+
 
 [RequireComponent(typeof(Rigidbody))]
 public class Bullet : MonoBehaviour
 {
-    [SerializeField] private bool  _isPenetration;
-    [SerializeField] private float _bulletSpeed;
-    [SerializeField] private float _bulletDamage;
-    [SerializeField] private float _bulletLifeTime;
-    [SerializeField] private BoxCollider _boxCollider;
-    
+
+
+    [SerializeField] private bool           _isPenetration;
+    [SerializeField] private float          _bulletSpeed;
+    [SerializeField] private float          _bulletDamage;
+    [SerializeField] private float          _bulletLifeTime;
+    [SerializeField] private BoxCollider    _boxCollider;
+                     private BoxCastInfo    _boxCastInfo;   
+
     public Vector3 bulletDiretion{
         get;
         set;
@@ -22,71 +41,69 @@ public class Bullet : MonoBehaviour
     void Start(){
          _rigidbody = GetComponent<Rigidbody>();
         if(_boxCollider == null) _boxCollider = GetComponent<BoxCollider>();
-       // StartCoroutine(LateFixedUpdate());
+        MakeBoxCastInfo();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
         Vector3 delta = _bulletSpeed * Time.fixedDeltaTime * bulletDiretion;
+        UpdateBoxCastInfo();
+        BoxCasting(delta);
+        BoxOverlaping();
+        _rigidbody.MovePosition(_rigidbody.position + delta);
+        LifeTimeCounter();
+    }
 
-        Vector3 center, halfExtents;
-        Quaternion orientation;
-        LayerMask mask;
-        BoxCastInfo(out center, out halfExtents, out orientation, out mask);
 
-        
-        if (Physics.BoxCast(center, halfExtents, delta, out RaycastHit hit, orientation, delta.magnitude, mask ))
+    private void BoxOverlaping()
+    {
+        Collider[] colliders = Physics.OverlapBox(_boxCastInfo.center, _boxCastInfo.halfExtents,
+                                _boxCastInfo.orientation, _boxCastInfo.mask);
+        if (colliders.Length > 0)
         {
-            
-            if (hit.collider.TryGetComponent(out EnemyMovement enemy)){
-                print("take DMG");
-                enemy.TakeDamage((int)_bulletDamage);
-            }
-            Destroy(gameObject);
-        }
-
-        Collider[] colliders= Physics.OverlapBox(center, halfExtents, orientation, mask);
-        if(colliders.Length > 0){
             if (colliders[0].TryGetComponent(out EnemyMovement enemy))
             {
-                print("take DMG2");
+               // print("take DMG2");
                 enemy.TakeDamage((int)_bulletDamage);
             }
 
             Destroy(gameObject);
         }
-
-
-        _rigidbody.MovePosition(_rigidbody.position + delta);
-        _bulletLifeTimeCounter += Time.fixedDeltaTime;
-
-        if (_bulletLifeTime <= _bulletLifeTimeCounter) Destroy(gameObject);
     }
 
-
-
-
-
-    private void BoxCastInfo(out Vector3 center, out Vector3 halfExtents, out Quaternion orientation, out LayerMask mask)
+    private void BoxCasting(Vector3 delta)
     {
-        center = _boxCollider.bounds.center;
-        halfExtents = _boxCollider.size * 0.5f;
-        orientation = _rigidbody.rotation;
-        mask = LayerMask.GetMask("Enemy", "Obstacle");
-    }
+        if (Physics.BoxCast(_boxCastInfo.center, _boxCastInfo.halfExtents, delta,
+        out RaycastHit hit, _boxCastInfo.orientation, delta.magnitude, _boxCastInfo.mask))
+        {
 
-
-    private IEnumerator LateFixedUpdate(){
-        while(true){
-            print("LateFixedUpdate");
-            yield return new WaitForFixedUpdate();
+            if (hit.collider.TryGetComponent(out EnemyMovement enemy))
+            {
+               // print("take DMG");
+                enemy.TakeDamage((int)_bulletDamage);
+            }
+            Destroy(gameObject);
         }
-
     }
 
-    public void SetBulletDirection(Vector3 direction){
-        bulletDiretion = direction;
+    private void MakeBoxCastInfo()
+    {
+        _boxCastInfo = new BoxCastInfo(){
+            center = _boxCollider.bounds.center,
+            halfExtents = _boxCollider.size * 0.5f,
+            orientation = _rigidbody.rotation,
+            mask = LayerMask.GetMask("Enemy", "Obstacle")
+        };
+    }
+
+    private void UpdateBoxCastInfo(){
+        _boxCastInfo.center = _boxCollider.bounds.center;
+    }
+
+    private void LifeTimeCounter(){
+        _bulletLifeTimeCounter += Time.fixedDeltaTime;
+        if (_bulletLifeTime <= _bulletLifeTimeCounter) Destroy(gameObject);
     }
 
 }

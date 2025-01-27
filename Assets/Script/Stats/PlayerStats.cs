@@ -5,8 +5,8 @@ using UnityEngine;
 public class PlayerStats : ScriptableObject
 {
     public struct WeaponCondition{
-        public short WeaponCode;
-        public short WeaponLevel;
+        public ushort WeaponCode;
+        public ushort WeaponLevel;
     }
 
     public int Health;
@@ -15,8 +15,4 @@ public class PlayerStats : ScriptableObject
      // 시간 단위로 입력, 만약 0.5초에 한번이면 0.5f
 
     public List<int> HoldWeaponList;
-}
-
-public struct WeaponInfo{
-
 }
