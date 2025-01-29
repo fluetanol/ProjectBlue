@@ -155,10 +155,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isPenetration: 0
-  _bulletSpeed: 20
-  _bulletDamage: 3
-  _bulletLifeTime: 5
-  _boxCollider: {fileID: 0}
+  _bulletSpeed: 0
+  _bulletDamage: 0
+  _bulletLifeTime: 0
+  _boxCollider: {fileID: 3166956819435788635}
 --- !u!65 &3166956819435788635
 BoxCollider:
   m_ObjectHideFlags: 0

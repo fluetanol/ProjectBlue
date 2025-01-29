@@ -1,6 +1,6 @@
 using System.Collections;
+using Unity.Profiling;
 using UnityEngine;
-
 
 public struct BoxCastInfo
 {
@@ -10,19 +10,9 @@ public struct BoxCastInfo
     public LayerMask mask;
 }
 
-public static class ExtensionPhysics{
-    public static bool BoxCasts(this Physics physics, ref BoxCastInfo boxCastInfo, Vector3 direction, float distance){
-        return Physics.BoxCast(boxCastInfo.center, boxCastInfo.halfExtents, direction, 
-        out RaycastHit hit, boxCastInfo.orientation, distance, boxCastInfo.mask);
-    }
-}
-
-
 [RequireComponent(typeof(Rigidbody))]
 public class Bullet : MonoBehaviour
 {
-
-
     [SerializeField] private bool           _isPenetration;
     [SerializeField] private float          _bulletSpeed;
     [SerializeField] private float          _bulletDamage;
@@ -43,7 +33,6 @@ public class Bullet : MonoBehaviour
         if(_boxCollider == null) _boxCollider = GetComponent<BoxCollider>();
         MakeBoxCastInfo();
     }
-
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -54,6 +43,13 @@ public class Bullet : MonoBehaviour
         _rigidbody.MovePosition(_rigidbody.position + delta);
         LifeTimeCounter();
     }
+
+    public void SetBulletStats(WeaponStats.WeaponInfo weaponInfo){
+        _bulletSpeed = weaponInfo.GetBulletSpeed();
+        _bulletLifeTime = weaponInfo.GetBulletLifeTime();
+        _bulletDamage = weaponInfo.Damage;
+    }
+
 
 
     private void BoxOverlaping()

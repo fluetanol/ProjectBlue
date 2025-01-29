@@ -18,16 +18,7 @@ MonoBehaviour:
     Damage: 3
     AttackSpeed: 0.5
     WeaponType: 1
-    WeaponPrefab: {fileID: 0}
-    BulletSpeed: 3
-    BulletLifeTime: 0
-    BulletPrefab: {fileID: 0}
-  - WeaponCode: 1
-    WeaponName: 
-    Damage: 0
-    AttackSpeed: 0
-    WeaponType: 1
-    WeaponPrefab: {fileID: 0}
-    BulletSpeed: 0
-    BulletLifeTime: 0
-    BulletPrefab: {fileID: 0}
+    WeaponPrefab: {fileID: 1362942879075791228, guid: 682383d6018066742b343386e514476c, type: 3}
+    BulletSpeed: 20
+    BulletLifeTime: 5
+    BulletPrefab: {fileID: 5393025680698808366, guid: 1e85f281574dcb745af4b9fa622bac66, type: 3}

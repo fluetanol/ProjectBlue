@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+//Weapon에 대한 기본 스탯 정보를 가지고 있음
 
 [CreateAssetMenu(fileName = "WeaponStats", menuName = "ScriptableObjects/WeaponStats", order = 1)]
 public class WeaponStats : ScriptableObject
@@ -16,7 +17,7 @@ public class WeaponStats : ScriptableObject
     public struct WeaponInfo{
         [Header("Basic Weapon Info")]
         public ushort  WeaponCode;
-        public string WeaponName;
+        public string  WeaponName;
         public ushort  Damage;
         public float   AttackSpeed;     //공격 속도입니다. 0.5초에 한번이면 0.5f
 
@@ -29,7 +30,7 @@ public class WeaponStats : ScriptableObject
         [SerializeField, ConditionalField(nameof(WeaponType), (int)EWeaponType.far)]
         private float   BulletLifeTime;
         [ConditionalField(nameof(WeaponType), (int)EWeaponType.far)]
-        private GameObject BulletPrefab;
+        public GameObject BulletPrefab;
 
         public ushort GetBulletSpeed(){
             if(WeaponType == EWeaponType.near) return 0;

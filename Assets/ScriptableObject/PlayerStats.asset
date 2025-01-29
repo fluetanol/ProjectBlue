@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: PlayerStats
   m_EditorClassIdentifier: 
   Health: 10
+  Defense: 1
   MoveSpeed: 8
-  AttackSpeed: 0.5
-  HoldWeaponList: 
+  WeaponID: 0

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]   
-public class EnemyMovement : MonoBehaviour
+public class EnemyMovement : MonoBehaviour, IDamageable
 {
     public int health = 3;
     public int damage = 1;

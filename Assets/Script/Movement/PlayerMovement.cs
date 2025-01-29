@@ -1,8 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -21,7 +18,6 @@ public class PlayerMovement : MonoBehaviour
     {
         get
         {
-
             if (_inputActions == null)
             {
                 _inputActions = new InputSystem_Actions();
@@ -46,19 +42,11 @@ public class PlayerMovement : MonoBehaviour
         private set;
     }
 
-    public Transform ShootPoint;
-
-    [Header("Player Stats")]
-    public PlayerStats PlayerStats;
-
-    [SerializeField] GameObject BulletPrefab;
-
     private static InputSystem_Actions _inputActions;
     private        CapsuleCollider     _collider;
     private        Rigidbody           _rigidbody;
     private        bool                _isClicked = false;
     private        Vector2             _lookPosition;
-    private        float                _attackTime = 0f;
 
 
     private        Vector3[]           _moveTypeList{
@@ -90,7 +78,7 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        Vector3 delta = _moveTypeList[(int)_playerMoveAxisType] * PlayerStats.MoveSpeed * Time.fixedDeltaTime;
+        Vector3 delta = _moveTypeList[(int)_playerMoveAxisType] * PlayerDataManager.currentMoveSpeed * Time.fixedDeltaTime;
         float radius;
         Vector3 point1, point2;
         CapsuleCastInfo(out radius, out point1, out point2);
@@ -182,18 +170,16 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private IEnumerator Coroutine_Attacking(){
+        float attackSpeed = PlayerDataManager.WeaponStats[PlayerDataManager.PlayerStats.WeaponID].AttackSpeed;
         while(true){
             AttackShooting();
-            yield return new WaitForSeconds(PlayerStats.AttackSpeed);
+            yield return new WaitForSeconds(attackSpeed);
         }
     }
 
 
     private void AttackShooting(){
-        GameObject Bullet = Instantiate(BulletPrefab, ShootPoint.position, ShootPoint.rotation);
-        Bullet bulletComponent = Bullet.GetComponent<Bullet>();
-        bulletComponent.bulletDiretion = transform.forward;
-
+        PlayerDataManager.weapon.Attack();
     }
 
 
