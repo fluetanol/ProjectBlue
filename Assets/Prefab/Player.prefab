@@ -146,6 +146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerMoveAxisType: 1
+  _animator: {fileID: 5234233292839676567}
 --- !u!114 &5342096377579361702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,6 +258,10 @@ PrefabInstance:
       value: Hayase Yuuka
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 2b3642064464b1a46b1748fabf69c13e, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 66559f2871b48684bb994c86c742a225, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 2b3642064464b1a46b1748fabf69c13e, type: 3}
       propertyPath: m_ApplyRootMotion
       value: 0
       objectReference: {fileID: 0}
@@ -270,5 +275,10 @@ PrefabInstance:
 --- !u!4 &2180753384305766637 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2b3642064464b1a46b1748fabf69c13e, type: 3}
+  m_PrefabInstance: {fileID: 1858067841026873094}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &5234233292839676567 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 2b3642064464b1a46b1748fabf69c13e, type: 3}
   m_PrefabInstance: {fileID: 1858067841026873094}
   m_PrefabAsset: {fileID: 0}

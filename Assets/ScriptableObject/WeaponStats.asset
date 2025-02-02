@@ -16,7 +16,7 @@ MonoBehaviour:
   - WeaponCode: 0
     WeaponName: Test
     Damage: 3
-    AttackSpeed: 0.5
+    AttackSpeed: 0.2
     WeaponType: 1
     WeaponPrefab: {fileID: 1362942879075791228, guid: 682383d6018066742b343386e514476c, type: 3}
     BulletSpeed: 20

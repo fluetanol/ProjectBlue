@@ -42,10 +42,23 @@ public class PlayerMovement : MonoBehaviour
         private set;
     }
 
+    public static bool IsClicked
+    {
+        get;
+        private set;
+    }
+
+    public static bool IsMove
+    {
+        get;
+        private set;
+    }
+
+    [SerializeField] private Animator _animator;
+
     private static InputSystem_Actions _inputActions;
     private        CapsuleCollider     _collider;
     private        Rigidbody           _rigidbody;
-    private        bool                _isClicked = false;
     private        Vector2             _lookPosition;
 
 
@@ -99,8 +112,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void CheckClickTime(){
-        if (_isClicked)
-        {
+        if (IsClicked){
             ClickTime += Time.deltaTime;
         }
     }
@@ -134,27 +146,32 @@ public class PlayerMovement : MonoBehaviour
     {
         //Debug.Log(context.ReadValue<Vector2>());
         MoveDirction = context.ReadValue<Vector2>();
+        IsMove = true;
+        SetAnimMove();
     }
 
     void OnMoveCancel(InputAction.CallbackContext context)
     {
        // Debug.Log(context.ReadValue<Vector2>());
         MoveDirction = Vector2.zero;
+        IsMove = false;
+        SetAnimMove();
     }
     
     void OnClickStart(InputAction.CallbackContext context)
     {
-        _isClicked = true;
+        IsClicked = true;
         StartCoroutine(Coroutine_Attacking());
        // Debug.Log("ClickedStart");
+       SetAnimClick();
     }
 
     void OnClickCancel(InputAction.CallbackContext context)
     {
-        _isClicked = false;
+        IsClicked = false;
         ClickTime = 0;
+        SetAnimClick();
         StopAllCoroutines();
-      //  Debug.Log("ClickedCancel");
     }
 
 
@@ -181,6 +198,17 @@ public class PlayerMovement : MonoBehaviour
     private void AttackShooting(){
         PlayerDataManager.weapon.Attack();
     }
+
+    private void SetAnimMove(){
+        _animator.SetBool("IsMove", IsMove);
+        print("IsMove : " + IsMove);
+    }
+
+    private void SetAnimClick(){
+        _animator.SetBool("IsClicked", IsClicked);
+        print("IsClicked : " + IsClicked);
+    }
+
 
 
 }

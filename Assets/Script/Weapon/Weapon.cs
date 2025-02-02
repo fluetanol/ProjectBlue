@@ -1,11 +1,7 @@
 using UnityEngine;
 
-interface IAttackable
-{
-    void Attack();
-}
 
-public class Weapon : MonoBehaviour, IAttackable
+public class Weapon : MonoBehaviour
 {
     //무기가 원거리인 경우에만 장착
     private GameObject ShootingBulletPrefab;
@@ -21,6 +17,4 @@ public class Weapon : MonoBehaviour, IAttackable
         ShootingBulletPrefab = weaponInfo.BulletPrefab;
         ShootingBulletPrefab.GetComponent<Bullet>().SetBulletStats(weaponInfo);
     }
-
 }
-

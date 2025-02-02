@@ -24,8 +24,8 @@ public class PlayerDataManager : MonoBehaviour, IDamageable, IHealable
     public static float                  currentAtk;       //플레이어 자체 공격력
     public static float                  currentMoveSpeed;
     public static float                  currentAttackSpeed;
-
-
+    
+    
     private float damageRate =1;
 
 
