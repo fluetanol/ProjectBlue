@@ -14,11 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WeaponList:
   - WeaponCode: 0
-    WeaponName: Test
+    WeaponName: normalgun
     Damage: 3
     AttackSpeed: 0.2
     WeaponType: 1
     WeaponPrefab: {fileID: 1362942879075791228, guid: 682383d6018066742b343386e514476c, type: 3}
     BulletSpeed: 20
     BulletLifeTime: 5
+    BulletPrefab: {fileID: 5393025680698808366, guid: 1e85f281574dcb745af4b9fa622bac66, type: 3}
+  - WeaponCode: 1
+    WeaponName: shotgun
+    Damage: 7
+    AttackSpeed: 0.5
+    WeaponType: 1
+    WeaponPrefab: {fileID: 1362942879075791228, guid: 682383d6018066742b343386e514476c, type: 3}
+    BulletSpeed: 0
+    BulletLifeTime: 0.1
     BulletPrefab: {fileID: 5393025680698808366, guid: 1e85f281574dcb745af4b9fa622bac66, type: 3}
