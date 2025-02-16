@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyInfoList:
   - EnemyCode: 0
-    EnemyHealth: 5
+    EnemyHealth: 20
     EnemyDamage: 10
     EnemyMoveType: 0
     _linearMoveSpeed: 4.73

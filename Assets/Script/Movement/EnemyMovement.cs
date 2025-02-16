@@ -1,8 +1,10 @@
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]   
 public class EnemyMovement : MonoBehaviour, IDamageable
 {
+    public Transform testobj;
     public int health = 3;
     public int damage = 1;
 
@@ -30,6 +32,7 @@ public class EnemyMovement : MonoBehaviour, IDamageable
 
     void Awake(){
         if(_rigidbody == null) _rigidbody = GetComponent<Rigidbody>();
+       // health =_enemyStats.SetEnemyStats(EnemyCode);
     }
 
     void FixedUpdate(){
@@ -38,10 +41,18 @@ public class EnemyMovement : MonoBehaviour, IDamageable
     }
 
     public void TakeDamage(int damage){
+        StartCoroutine(TEST());
         health -= damage;
         if(health <= 0){
             Destroy(gameObject);
         }
+    }
+
+    IEnumerator TEST(){
+        testobj.gameObject.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        testobj.gameObject.SetActive(false);
+
     }
 
 

@@ -4,7 +4,10 @@ using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerMovement : MonoBehaviour
-{
+{   
+    [Header("For Debugging")]
+    public LineRenderer lineRenderer;
+
     public static Vector3 PlayerPosition;
 
     enum EPlayerMoveAxis{
@@ -26,6 +29,11 @@ public class PlayerMovement : MonoBehaviour
             return _inputActions;
         }
         private set { }
+    }
+
+    public static Vector3 LookDirection{
+        get;
+        private set;
     }
 
     // Player Move Direction
@@ -54,12 +62,17 @@ public class PlayerMovement : MonoBehaviour
         private set;
     }
 
+    public static Vector3 _lookPosition{
+        get;
+        private set;
+    }
+
+
     [SerializeField] private Animator _animator;
 
     private static InputSystem_Actions _inputActions;
     private        CapsuleCollider     _collider;
     private        Rigidbody           _rigidbody;
-    private        Vector2             _lookPosition;
 
 
     private        Vector3[]           _moveTypeList{
@@ -106,9 +119,22 @@ public class PlayerMovement : MonoBehaviour
 
 
     // Update is called once per frame
-    void Update()
-    { 
-        CheckClickTime();   
+    void Update(){ 
+        CheckClickTime();
+       fordebug();
+    }
+
+    void fordebug(){
+        if(lineRenderer == null) return;
+        Vector3 direction = _lookPosition - transform.position;
+        Vector3 dir = Quaternion.AngleAxis(30, Vector3.up) * direction;
+        Vector3 dir2 = Quaternion.AngleAxis(-30, Vector3.up) * direction;
+        dir.y = 0;
+        dir2.y = 0;
+        lineRenderer.SetPosition(0, transform.position);
+        lineRenderer.SetPosition(1, transform.position + dir);
+        lineRenderer.SetPosition(2, transform.position);
+        lineRenderer.SetPosition(3, transform.position + dir2);
     }
 
     private void CheckClickTime(){
@@ -183,6 +209,7 @@ public class PlayerMovement : MonoBehaviour
             hitpoint.y= 0;
             transform.LookAt(hitpoint);
             _lookPosition = hitpoint;
+            LookDirection = (_lookPosition - transform.position).normalized;
         }
     }
 
@@ -201,14 +228,30 @@ public class PlayerMovement : MonoBehaviour
 
     private void SetAnimMove(){
         _animator.SetBool("IsMove", IsMove);
-        print("IsMove : " + IsMove);
+      //  print("IsMove : " + IsMove);
     }
 
     private void SetAnimClick(){
         _animator.SetBool("IsClicked", IsClicked);
-        print("IsClicked : " + IsClicked);
+       // print("IsClicked : " + IsClicked);
     }
 
+
+    public static Color Debugcolor = Color.red;
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Debugcolor;
+        Gizmos.DrawWireSphere(transform.position, 6);
+        
+        Vector3 direction = _lookPosition - transform.position;
+        Vector3 dir1 = Quaternion.AngleAxis(30, Vector3.up) * direction;
+        Vector3 dir2 = Quaternion.AngleAxis(-30, Vector3.up) * direction;
+
+        Gizmos.DrawRay(transform.position, direction);
+        Gizmos.DrawRay(transform.position, dir1);
+        Gizmos.DrawRay(transform.position, dir2);
+    }
 
 
 }
