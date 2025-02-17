@@ -121,20 +121,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update(){ 
         CheckClickTime();
-       fordebug();
-    }
-
-    void fordebug(){
-        if(lineRenderer == null) return;
-        Vector3 direction = _lookPosition - transform.position;
-        Vector3 dir = Quaternion.AngleAxis(30, Vector3.up) * direction;
-        Vector3 dir2 = Quaternion.AngleAxis(-30, Vector3.up) * direction;
-        dir.y = 0;
-        dir2.y = 0;
-        lineRenderer.SetPosition(0, transform.position);
-        lineRenderer.SetPosition(1, transform.position + dir);
-        lineRenderer.SetPosition(2, transform.position);
-        lineRenderer.SetPosition(3, transform.position + dir2);
+        forDebug();
     }
 
     private void CheckClickTime(){
@@ -204,9 +191,8 @@ public class PlayerMovement : MonoBehaviour
     private void OnLook(InputAction.CallbackContext context)
     {
         Ray ray = Camera.main.ScreenPointToRay(context.ReadValue<Vector2>());
-        if(Physics.Raycast(ray, out RaycastHit hit)){
+        if(Physics.Raycast(ray, out RaycastHit hit, 100, LayerMask.GetMask("Ground"))){
             Vector3 hitpoint = hit.point;
-            hitpoint.y= 0;
             transform.LookAt(hitpoint);
             _lookPosition = hitpoint;
             LookDirection = (_lookPosition - transform.position).normalized;
@@ -239,18 +225,36 @@ public class PlayerMovement : MonoBehaviour
 
     public static Color Debugcolor = Color.red;
 
+
+    void forDebug()
+    {
+        if (lineRenderer == null) return;
+        Vector3 direction = _lookPosition - transform.position;
+        Vector3 dir = Quaternion.AngleAxis(30, Vector3.up) * direction;
+        Vector3 dir2 = Quaternion.AngleAxis(-30, Vector3.up) * direction;
+        dir.y = 0;
+        dir2.y = 0;
+        dir = dir.normalized * 6;
+        dir2 = dir2.normalized * 6;
+        lineRenderer.SetPosition(0, transform.position);
+        lineRenderer.SetPosition(1, transform.position + dir);
+        lineRenderer.SetPosition(2, transform.position);
+        lineRenderer.SetPosition(3, transform.position + dir2);
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Debugcolor;
+
         Gizmos.DrawWireSphere(transform.position, 6);
-        
-        Vector3 direction = _lookPosition - transform.position;
+
+        Vector3 direction = (_lookPosition - transform.position).normalized;
         Vector3 dir1 = Quaternion.AngleAxis(30, Vector3.up) * direction;
         Vector3 dir2 = Quaternion.AngleAxis(-30, Vector3.up) * direction;
 
-        Gizmos.DrawRay(transform.position, direction);
-        Gizmos.DrawRay(transform.position, dir1);
-        Gizmos.DrawRay(transform.position, dir2);
+        Gizmos.DrawRay(transform.position, direction * 6);
+        Gizmos.DrawRay(transform.position, dir1 * 6);
+        Gizmos.DrawRay(transform.position, dir2 * 6);
     }
 
 

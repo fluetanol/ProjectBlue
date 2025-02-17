@@ -1053,6 +1053,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1876603286}
+  - {fileID: 997673036}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 60.03, y: 0, z: 0}
 --- !u!114 &330585547
@@ -2315,13 +2316,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 997673034}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.5, y: 0, z: 0, w: 0.8660254}
-  m_LocalPosition: {x: 0, y: 9.490254, z: -5}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1030858522}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 330585546}
   m_LocalEulerAnglesHint: {x: 60, y: 0, z: 0}
 --- !u!1 &1030858521
 GameObject:
@@ -3013,7 +3014,7 @@ GameObject:
   - component: {fileID: 1339132168}
   - component: {fileID: 1339132167}
   - component: {fileID: 1339132170}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Land
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4615,7 +4616,6 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 330585546}
-  - {fileID: 997673036}
   - {fileID: 1739795167}
   - {fileID: 6316952154509447128}
   - {fileID: 1445020375}
