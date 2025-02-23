@@ -1,48 +1,46 @@
 using System.Collections;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(SphereCollider))]
-public class ShotBullet : MonoBehaviour
+public class ShotBullet : Bullet
 {
     [SerializeField] private bool _isPenetration;
-    [SerializeField] private float _bulletDamage;
-    [SerializeField] private float _bulletLifeTime;
     [SerializeField] private float _radius;
     [SerializeField] private float _angle;
 
-    public Vector3 bulletDiretion
-    {
-        get;
-        set;
-    }
 
 
     void Start()
     {
-        SphereCast();
-        StartCoroutine(BulletLifeTime());
+        BulletCollide();
     }
 
-    public void SetBulletStats(WeaponStats.WeaponInfo weaponInfo)
+    public override void SetBulletStats(WeaponStats.WeaponInfo weaponInfo)
     {
         _bulletLifeTime = weaponInfo.GetBulletLifeTime();
         _bulletDamage = weaponInfo.Damage;
     }
 
 
-    private void SphereCast(){
+    protected override void BulletCollide(){
         Collider[] enimies = Physics.OverlapSphere(transform.position, _radius, LayerMask.GetMask("Enemy"));
         Vector3 playerPosition = PlayerMovement.PlayerPosition;
         
         for(int i=0; i<enimies.Length; i++){
+            bool inRange = false;
             if(enimies[i].TryGetComponent(out IDamageable Idmg)){
-                CheckRange(enimies[i].transform, Idmg);
+                inRange  = CheckRange(enimies[i].transform, Idmg);
+            }
+            if(inRange && enimies[i].TryGetComponent(out IForceable Iforce)){
+                print("force!");
+                Iforce.Knockback(bulletDiretion, _bulletDamage / 2);
             }
         }
     }
 
-    private void CheckRange(Transform target, IDamageable Idmg)
+    private bool CheckRange(Transform target, IDamageable Idmg)
     {
         Vector3 lookDirection = PlayerMovement.LookDirection;
         Vector3 targetPosition = target.position;
@@ -52,7 +50,6 @@ public class ShotBullet : MonoBehaviour
 
         Debug.DrawLine(targetPosition, originPosition, Color.cyan, 5f);
         Debug.DrawRay(transform.position, lookDirection, Color.blue, 5f);
-
 
         //dot = |a||b|cos(theta)
         //cos(theta) = dot / |a||b|
@@ -68,12 +65,15 @@ public class ShotBullet : MonoBehaviour
            // print("dmg!");
             Idmg.TakeDamage((int)_bulletDamage);
              PlayerMovement.Debugcolor = Color.green;
+             return true;
+        }else{
+            return false;
         }
     }
 
 
 
-    IEnumerator BulletLifeTime(){
+    protected override IEnumerator BulletLifeTime(){
         yield return new WaitForSeconds(_bulletLifeTime);
         Destroy(gameObject);
     }

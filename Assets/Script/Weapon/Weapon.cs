@@ -9,12 +9,12 @@ public class Weapon : MonoBehaviour
     public virtual void Attack() {
         //총알 발사
          GameObject g = Instantiate(ShootingBulletPrefab, transform.position, transform.rotation);
-         Bullet b = g.GetComponent<Bullet>();
+         BasicBullet b = g.GetComponent<BasicBullet>();
          b.bulletDiretion = transform.forward;
     }
 
     public virtual void SetWeaponStats(WeaponStats.WeaponInfo weaponInfo) {
         if(ShootingBulletPrefab == null) ShootingBulletPrefab = weaponInfo.BulletPrefab;
-        ShootingBulletPrefab.GetComponent<Bullet>().SetBulletStats(weaponInfo);
+        ShootingBulletPrefab.GetComponent<BasicBullet>().SetBulletStats(weaponInfo);
     }
 }

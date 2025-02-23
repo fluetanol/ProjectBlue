@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 5726809310809627168}
   - component: {fileID: 2897638273502122179}
   - component: {fileID: 5288681101928356967}
-  - component: {fileID: 4371788333320752124}
+  - component: {fileID: 3110319909200992707}
   m_Layer: 0
-  m_Name: sHOTGUN
+  m_Name: BasicGun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -87,7 +87,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &4371788333320752124
+--- !u!114 &3110319909200992707
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -96,6 +96,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1362942879075791228}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8a25017985fbb64c951bca6c68bc7ea, type: 3}
+  m_Script: {fileID: 11500000, guid: 95d5a8daa0b08754193d230e4427a01e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

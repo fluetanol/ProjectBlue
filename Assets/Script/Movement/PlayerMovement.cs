@@ -246,7 +246,9 @@ public class PlayerMovement : MonoBehaviour
     {
         Gizmos.color = Debugcolor;
 
-        Gizmos.DrawWireSphere(transform.position, 6);
+        //Gizmos.DrawWireSphere(transform.position, 6);
+        //(x-a)^2 + (z-b)^2 = r^2;
+
 
         Vector3 direction = (_lookPosition - transform.position).normalized;
         Vector3 dir1 = Quaternion.AngleAxis(30, Vector3.up) * direction;
