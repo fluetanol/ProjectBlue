@@ -12,7 +12,7 @@ interface IForceable
 public class EnemyMovement : MonoBehaviour, IDamageable, IForceable
 {
     public Transform testobj;
-    public int health = 3;
+    public float health = 3;
     public int damage = 1;
 
     public enum EenemyMoveType
@@ -47,7 +47,7 @@ public class EnemyMovement : MonoBehaviour, IDamageable, IForceable
         _rigidbody.MovePosition(nextPosition);
     }
 
-    public void TakeDamage(int damage){
+    public void TakeDamage(float damage){
         StartCoroutine(TEST());
         health -= damage;
         if(health <= 0){

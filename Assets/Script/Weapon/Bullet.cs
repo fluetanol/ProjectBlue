@@ -12,15 +12,25 @@ public abstract class Bullet : MonoBehaviour
         set;
     }
 
-    void OnEnable(){
+    void Awake() {
         GetBulletComponent();
+    }
+
+    void OnEnable(){
         StartCoroutine(BulletLifeTime());
     }
-    
-    public abstract void SetBulletStats(WeaponStats.WeaponInfo weaponInfo);
+
     
     protected abstract void BulletCollide();
     protected abstract IEnumerator BulletLifeTime();
-    protected virtual void GetBulletComponent(){ }
+
+    public virtual void SetBulletStats(WeaponStats.WeaponInfo weaponInfo){
+        _bulletLifeTime = weaponInfo.GetBulletLifeTime();
+        _bulletDamage = weaponInfo.Damage;
+    }
+    
+    protected virtual void GetBulletComponent(){ 
+
+    }
 
 }

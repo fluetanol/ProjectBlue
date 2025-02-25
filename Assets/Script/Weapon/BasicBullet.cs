@@ -35,14 +35,12 @@ public class BasicBullet : Bullet
         _rigidbody = GetComponent<Rigidbody>();
         if(_boxCollider == null) _boxCollider = GetComponent<BoxCollider>();
         MakeBoxCastInfo();
-
     }
 
 
     public override void SetBulletStats(WeaponStats.WeaponInfo weaponInfo){
+        base.SetBulletStats(weaponInfo);
         _bulletSpeed = weaponInfo.GetBulletSpeed();
-        _bulletLifeTime = weaponInfo.GetBulletLifeTime();
-        _bulletDamage = weaponInfo.Damage;
     }
 
 

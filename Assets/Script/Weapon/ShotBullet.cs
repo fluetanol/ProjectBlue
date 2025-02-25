@@ -10,17 +10,9 @@ public class ShotBullet : Bullet
     [SerializeField] private float _radius;
     [SerializeField] private float _angle;
 
-
-
     void Start()
     {
         BulletCollide();
-    }
-
-    public override void SetBulletStats(WeaponStats.WeaponInfo weaponInfo)
-    {
-        _bulletLifeTime = weaponInfo.GetBulletLifeTime();
-        _bulletDamage = weaponInfo.Damage;
     }
 
 

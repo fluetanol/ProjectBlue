@@ -19,8 +19,8 @@ public class PlayerDataManager : MonoBehaviour, IDamageable, IHealable
     public static Weapon  weapon;
 
 
-    public static int                    currentHP;
-    public static int                    currentDEF;
+    public static float                    currentHP;
+    public static float                    currentDEF;
     public static float                  currentAtk;       //플레이어 자체 공격력
     public static float                  currentMoveSpeed;
     public static float                  currentAttackSpeed;
@@ -82,14 +82,14 @@ public class PlayerDataManager : MonoBehaviour, IDamageable, IHealable
         else currentMoveSpeed -= currentMoveSpeed * rate;
     }
 
-    void IDamageable.TakeDamage(int damage){
+    void IDamageable.TakeDamage(float damage){
         currentHP -= damage;
         if(currentHP <= 0){
             // Game Over
         }
     }
 
-    void IHealable.TakeHeal(int heal){
+    void IHealable.TakeHeal(float heal){
         currentHP += heal;
         if(currentHP > PlayerStats.Health){
             currentHP = PlayerStats.Health;

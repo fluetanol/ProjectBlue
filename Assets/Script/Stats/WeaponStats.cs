@@ -32,6 +32,18 @@ public class WeaponStats : ScriptableObject
         [ConditionalField(nameof(WeaponType), (int)EWeaponType.far)]
         public GameObject BulletPrefab;
 
+        [SerializeField, ConditionalField(nameof(WeaponType), (int)EWeaponType.near)]
+        private float AttackLifeTime;
+        [SerializeField, ConditionalField(nameof(WeaponType), (int)EWeaponType.near)]
+        private float AttackAngle;
+        [SerializeField, ConditionalField(nameof(WeaponType), (int)EWeaponType.near)]
+        private float AttackDistance;
+
+        public float GetAttackLifeTime(){
+            if(WeaponType == EWeaponType.far) return 0;
+            return AttackLifeTime;
+        }
+
         public ushort GetBulletSpeed(){
             if(WeaponType == EWeaponType.near) return 0;
             return BulletSpeed;
@@ -41,6 +53,17 @@ public class WeaponStats : ScriptableObject
             if(WeaponType == EWeaponType.near) return 0;
             return BulletLifeTime;
         }
+
+        public float GetAttackAngle(){
+            if(WeaponType == EWeaponType.far) return 0;
+            return AttackAngle;
+        }
+
+        public float GetAttackDistance(){
+            if(WeaponType == EWeaponType.far) return 0;
+            return AttackDistance;
+        }
+
     }
     
     [SerializeField] private List<WeaponInfo> WeaponList;

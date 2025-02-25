@@ -2,10 +2,10 @@ using UnityEngine;
 
 public interface IDamageable
 {
-    void TakeDamage(int amage);
+    void TakeDamage(float amage);
 }
 
 public interface IHealable
 {
-    void TakeHeal(int heal);
+    void TakeHeal(float heal);
 }
