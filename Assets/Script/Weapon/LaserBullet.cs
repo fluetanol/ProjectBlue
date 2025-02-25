@@ -13,11 +13,13 @@ public class LaserBullet : Bullet
     {
         _lineRenderer.SetPosition(0, transform.position);
         _lineRenderer.SetPosition(1, transform.position + transform.forward * _bulletDistance);
+        bulletDiretion = transform.forward;
     }
 
     public override void SetBulletStats(WeaponStats.WeaponInfo weaponInfo)
     {
         base.SetBulletStats(weaponInfo);
+        bulletDiretion = transform.forward;
         _bulletDistance = weaponInfo.GetAttackDistance();
         _bulletLifeTime = weaponInfo.GetAttackLifeTime();
 
@@ -26,11 +28,22 @@ public class LaserBullet : Bullet
 
     protected override void BulletCollide()
     {
-        RaycastHit[] hits = Physics.RaycastAll(transform.position, bulletDiretion, _bulletDistance, LayerMask.GetMask("Enemy"));
 
-        hits.ToList().ForEach(hit => {
-            hit.collider.GetComponent<EnemyMovement>().TakeDamage(_bulletDamage);
-        });
+        RaycastHit[] hits = Physics.RaycastAll(transform.position, bulletDiretion, _bulletDistance, LayerMask.GetMask("Enemy"));
+       
+        if(hits.Length == 0) {
+            print("no hits");
+            return;
+        }
+        print("collide!");
+        foreach (RaycastHit hit in hits){
+            if(hit.collider.gameObject != null && hit.collider.gameObject.GetComponent<IDamageable>() != null) 
+                 hit.collider.gameObject.GetComponent<IDamageable>().TakeDamage(_bulletDamage);
+            else{
+                print("danger! null");
+            }
+        }
+
 
     }
 
