@@ -15,4 +15,4 @@ MonoBehaviour:
   Health: 10
   Defense: 1
   MoveSpeed: 8
-  WeaponID: 2
+  WeaponID: 1

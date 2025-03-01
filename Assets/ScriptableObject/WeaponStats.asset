@@ -15,7 +15,7 @@ MonoBehaviour:
   WeaponList:
   - WeaponCode: 0
     WeaponName: normalgun
-    Damage: 2
+    Damage: 4
     AttackSpeed: 0.35
     WeaponType: 1
     WeaponPrefab: {fileID: 1362942879075791228, guid: 682383d6018066742b343386e514476c, type: 3}
@@ -27,7 +27,7 @@ MonoBehaviour:
     AttackDistance: 0
   - WeaponCode: 1
     WeaponName: shotgun
-    Damage: 5
+    Damage: 7
     AttackSpeed: 1
     WeaponType: 1
     WeaponPrefab: {fileID: 1362942879075791228, guid: 9f0c97f6a2726fa4e89ea2d4685a018c, type: 3}
@@ -39,13 +39,13 @@ MonoBehaviour:
     AttackDistance: 0
   - WeaponCode: 2
     WeaponName: lasergun
-    Damage: 5
+    Damage: 3
     AttackSpeed: 0.1
     WeaponType: 0
     WeaponPrefab: {fileID: 1362942879075791228, guid: c76c2ba95d4492c46b626601932078fb, type: 3}
     BulletSpeed: 0
     BulletLifeTime: 0.25
     BulletPrefab: {fileID: 3655683344137838809, guid: f1fda20905fd51249814a3b12e4197cf, type: 3}
-    AttackLifeTime: 1
-    AttackAngle: 0
+    AttackLifeTime: 0.6
+    AttackAngle: 1
     AttackDistance: 50
