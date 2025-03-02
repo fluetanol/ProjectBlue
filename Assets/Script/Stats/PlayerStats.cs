@@ -9,7 +9,8 @@ public class PlayerStats : ScriptableObject
     public int   Health;         //전체 체력
     public int   Defense;        //방어력
     public float MoveSpeed;      //이동 속도
-    public int   WeaponID;         //갖고 있는 무기의 id (주무기)
+    public int   WeaponID;       //갖고 있는 무기의 id (주무기)
+    public float   DMGTick;    //데미지 틱 (최소 이 시간이 지나야 다시 데미지를 받을 수 있음)
 
     //보조무기도 추가 될 예정입니다
 

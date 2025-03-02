@@ -10,6 +10,9 @@ public class EnemyStats : ScriptableObject
         public short  EnemyCode;
         public short  EnemyHealth;
         public short  EnemyDamage;
+        public float  EnemyDmgTick;
+        public float  EnemyAttackTick;
+
 
         [Header("Setting Enemy Move Stats")]
         public EnemyMovement.EenemyMoveType EnemyMoveType;

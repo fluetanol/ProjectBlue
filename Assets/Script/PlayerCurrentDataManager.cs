@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,11 +20,13 @@ public class PlayerDataManager : MonoBehaviour, IDamageable, IHealable
     public static Weapon  weapon;
 
 
-    public static float                    currentHP;
-    public static float                    currentDEF;
+    public float                         currentHP;
+    public static float                  currentDEF;
     public static float                  currentAtk;       //플레이어 자체 공격력
     public static float                  currentMoveSpeed;
     public static float                  currentAttackSpeed;
+    public static float                  DmgTick;
+    private bool                         isWaitDmgTick = false; //데미지 틱을 기다리는 중인지 확인
     
     
     private float damageRate =1;
@@ -48,6 +51,7 @@ public class PlayerDataManager : MonoBehaviour, IDamageable, IHealable
         currentHP        =  PlayerStats.Health;
         currentMoveSpeed = PlayerStats.MoveSpeed;
         currentAttackSpeed = wponinfo.AttackSpeed;
+        DmgTick = PlayerStats.DMGTick;
 
         GameObject createWeapon = Instantiate(wponinfo.WeaponPrefab, ShootPoint.position, Quaternion.identity, this.transform);
         weapon = createWeapon.GetComponent<Weapon>();
@@ -83,7 +87,11 @@ public class PlayerDataManager : MonoBehaviour, IDamageable, IHealable
     }
 
     void IDamageable.TakeDamage(float damage){
-        currentHP -= damage;
+        if(!isWaitDmgTick){
+            currentHP -= damage;
+            StartCoroutine(DmgTickTimer());
+        }
+
         if(currentHP <= 0){
             // Game Over
         }
@@ -96,4 +104,9 @@ public class PlayerDataManager : MonoBehaviour, IDamageable, IHealable
         }
     }
     
+    public IEnumerator DmgTickTimer(){
+        isWaitDmgTick = true;
+        yield return new WaitForSeconds(DmgTick);
+        isWaitDmgTick = false;
+    }
 }

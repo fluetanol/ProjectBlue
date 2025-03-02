@@ -16,6 +16,8 @@ MonoBehaviour:
   - EnemyCode: 0
     EnemyHealth: 20
     EnemyDamage: 10
+    EnemyDmgTick: 0
+    EnemyAttackTick: 0.5
     EnemyMoveType: 0
     _linearMoveSpeed: 4.73
     _linearInterpolationMoveSpeed: 1

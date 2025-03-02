@@ -16,3 +16,4 @@ MonoBehaviour:
   Defense: 1
   MoveSpeed: 8
   WeaponID: 1
+  DMGTick: 0.75
