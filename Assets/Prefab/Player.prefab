@@ -306,6 +306,7 @@ MonoBehaviour:
   _playerStats: {fileID: 11400000, guid: 385b8705e86a5884f9b42204193c03b1, type: 2}
   _weaponStats: {fileID: 11400000, guid: 9bb14c387f983984ba9f8efba8caf9e6, type: 2}
   ShootPoint: {fileID: 8719710632490607961}
+  currentHP: 0
 --- !u!1 &2317485225955801730
 GameObject:
   m_ObjectHideFlags: 0
@@ -483,6 +484,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -2913161684632636607, guid: 2b3642064464b1a46b1748fabf69c13e, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 52d7856c8658a754ab27862643d12265, type: 2}
+    - target: {fileID: -2913161684632636607, guid: 2b3642064464b1a46b1748fabf69c13e, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 6ca27f534604b8f408ba01000677c6a1, type: 2}
+    - target: {fileID: -2913161684632636607, guid: 2b3642064464b1a46b1748fabf69c13e, type: 3}
+      propertyPath: 'm_Materials.Array.data[2]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a87a076b7d553ba448198cea18e2ce75, type: 2}
+    - target: {fileID: -2913161684632636607, guid: 2b3642064464b1a46b1748fabf69c13e, type: 3}
+      propertyPath: 'm_Materials.Array.data[3]'
+      value: 
+      objectReference: {fileID: 2100000, guid: e8c812c024044de44a200f9b1a72977c, type: 2}
+    - target: {fileID: -2913161684632636607, guid: 2b3642064464b1a46b1748fabf69c13e, type: 3}
+      propertyPath: 'm_Materials.Array.data[4]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 8eec7c05d6693af4ca339541be9c91d5, type: 2}
     - target: {fileID: 919132149155446097, guid: 2b3642064464b1a46b1748fabf69c13e, type: 3}
       propertyPath: m_Name
       value: Hayase Yuuka
