@@ -21,6 +21,8 @@ public class EnemyMovement : MonoBehaviour, IDamageable, IForceable, IAttackable
     public float attackTick;
     public float dmgTick;
 
+    [SerializeField] private Animator _animator;
+
     public enum EenemyMoveType
     {
         linear,
@@ -43,16 +45,19 @@ public class EnemyMovement : MonoBehaviour, IDamageable, IForceable, IAttackable
 
     private Vector3 _targetPosition, _nextPosition;
     private bool _isAttacking = false;  
+    private bool _isDead = false;
 
     void Awake(){
         if(_rigidbody == null) _rigidbody = GetComponent<Rigidbody>();
-
         InitializeStats();
-
+        if(_animator == null) _animator =  GetComponent<Animator>();
        // health =_enemyStats.SetEnemyStats(EnemyCode);
     }
 
     void FixedUpdate(){
+        if(_isDead) {
+            return;
+        }
         _nextPosition = enemyMove();
         Attack();
         _rigidbody.MovePosition(_nextPosition);
@@ -70,13 +75,16 @@ public class EnemyMovement : MonoBehaviour, IDamageable, IForceable, IAttackable
         //StartCoroutine(TEST());
         health -= damage;
         if(health <= 0){
-            Destroy(gameObject);
+            _isDead = true;
+            _animator.SetBool("isDead", _isDead);
+            //Destroy(gameObject);
         }
     }
 
     private Vector3 enemyMove(){
         _targetPosition = _target != null ? _target.position : PlayerMovement.PlayerPosition;
 
+        transform.LookAt(_targetPosition);
         if(_enemyStats[0].EnemyMoveType == EenemyMoveType.linearInterpolation)
             return Vector3.Lerp(_rigidbody.position, _targetPosition, 
             Time.fixedDeltaTime * _enemyStats[0]._linearInterpolationMoveSpeed);
@@ -88,11 +96,12 @@ public class EnemyMovement : MonoBehaviour, IDamageable, IForceable, IAttackable
         }
     }
 
+    //근접 공격
      public void Attack(){
         if(_isAttacking){
-            print("wait z");
             return;
         } 
+
         //공격 로직
         Vector3 newdirection = (  _nextPosition - _rigidbody.position).normalized;
         if (Physics.Raycast(_rigidbody.position, newdirection, out RaycastHit hit,
@@ -100,6 +109,7 @@ public class EnemyMovement : MonoBehaviour, IDamageable, IForceable, IAttackable
         LayerMask.GetMask("Player"))){
             StartCoroutine(AttackTimer());
             hit.collider.GetComponent<IDamageable>().TakeDamage(damage);
+            _animator.SetBool("isAttack", true);
         }
         //Debug.DrawRay(_rigidbody.position, newdirection * (Vector3.Distance(_rigidbody.position, _nextPosition)+1f), Color.red,3f);
     }
@@ -115,6 +125,7 @@ public class EnemyMovement : MonoBehaviour, IDamageable, IForceable, IAttackable
         _isAttacking = true;
         yield return new WaitForSeconds(attackTick);
         _isAttacking = false;
+        _animator.SetBool("isAttack", _isAttacking);
     }
 
     IEnumerator TEST()
