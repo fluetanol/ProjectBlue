@@ -34,7 +34,7 @@ public class PlayerDataManager : MonoBehaviour, IDamageable, IHealable
 
     //데미지 계산 공식
     // (공격력 * 공력력 증가율 + 무기 공격력) - 적 방어력 (일반적으론 보스 빼곤 0임)
-    
+
     //받는 피해 계산 공식
     // max((적 공격력 - 내 방어력), 최소피해량) 
 
