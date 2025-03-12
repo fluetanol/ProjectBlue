@@ -6,6 +6,9 @@ Shader "Custom/DistanceFade"
         _MainTex ("Texture", 2D) = "white" {}
         _FadeStart ("Fade Start", Float) = 2.0
         _FadeEnd ("Fade End", Float) = 5.0
+        _FadeToogle ("Fade Toogle", int) = 0
+        _PlayerPosition ("Player Position", Vector) = (0, 0, 0, 0)
+
     }
 
     SubShader
@@ -39,7 +42,10 @@ Shader "Custom/DistanceFade"
             float _FadeStart;
             float _FadeEnd;
             float3 _PlayerPosition;
-
+            bool _FadeToogle;
+        
+            
+            
             v2f vert (appdata v)
             {
                 v2f o;
