@@ -10,7 +10,7 @@ public class Weapon : MonoBehaviour
         //총알 발사
          GameObject g = Instantiate(ShootingBulletPrefab, transform.position, transform.rotation);
          BasicBullet b = g.GetComponent<BasicBullet>();
-         b.bulletDiretion = transform.forward;
+         b.bulletDirection = transform.forward;
     }
 
     /// <summary>

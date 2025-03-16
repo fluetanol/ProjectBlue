@@ -24,7 +24,7 @@ public class BasicBullet : Bullet
     // Update is called once per frame
     void FixedUpdate()
     {
-        delta = _bulletSpeed * Time.fixedDeltaTime * bulletDiretion;
+        delta = _bulletSpeed * Time.fixedDeltaTime * bulletDirection;
         UpdateBoxCastInfo();
         BulletCollide();
         _rigidbody.MovePosition(_rigidbody.position + delta);

@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health: 10
   Defense: 1
-  MoveSpeed: 8
+  MoveSpeed: 10
   WeaponID: 1
   DMGTick: 0.75

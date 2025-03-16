@@ -6,7 +6,7 @@ public abstract class Bullet : MonoBehaviour
     [SerializeField] protected float _bulletDamage;
     [SerializeField] protected float _bulletLifeTime;
 
-    public Vector3 bulletDiretion
+    public Vector3 bulletDirection
     {
         get;
         set;

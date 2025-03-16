@@ -84,7 +84,7 @@ GameObject:
   - component: {fileID: 563047285856146446}
   - component: {fileID: 8357478284662996053}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -114,7 +114,7 @@ ParticleSystem:
   m_GameObject: {fileID: 6172811429834876469}
   serializedVersion: 8
   lengthInSec: 1.5
-  simulationSpeed: 4.5
+  simulationSpeed: 7.5
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -69,7 +70,6 @@ public class PlayerMovement : MonoBehaviour
 
 
     [SerializeField] private Animator _animator;
-
     private static InputSystem_Actions _inputActions;
     private        CapsuleCollider     _collider;
     private        Rigidbody           _rigidbody;
@@ -85,6 +85,30 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+
+    struct CapsuleInfo
+    {
+        public float radius;
+        public Vector3 point1;
+        public Vector3 point2;
+    }
+
+    [Header("For Movement")]
+    public int HorizontalCollideRecursion = 3;
+    public int VerticalCollideRecursion = 3;
+    public Transform leftFootIK, rightFootIK;
+
+
+    //추후엔 별도의 물리 시스템 설정값 다루는 스크립터블 오브젝트로 편입시킬 예정
+    public float GravityMultiplier = 1.25f;
+
+    /// <summary>
+    /// for movement vector
+    /// </summary>
+    public Vector3 ydelta = Vector3.zero;
+    public Vector3 xdelta = Vector3.zero;
+    public Vector3 nextDelta = Vector3.zero;
+    public bool isGrounded = false;
 
     void Awake() {
         _rigidbody = GetComponent<Rigidbody>();
@@ -102,21 +126,30 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
+    private Vector3 groundNormal, groundPoint;
+    
     void FixedUpdate()
     {
-        Vector3 delta = _moveTypeList[(int)_playerMoveAxisType] * PlayerDataManager.currentMoveSpeed * Time.fixedDeltaTime;
-        float radius;
-        Vector3 point1, point2;
-        CapsuleCastInfo(out radius, out point1, out point2);
+        xdelta =  _moveTypeList[(int)_playerMoveAxisType] * PlayerDataManager.currentMoveSpeed * Time.fixedDeltaTime;
+        if(isGrounded) ydelta = Vector3.zero;
+        ydelta += Physics.gravity * Time.fixedDeltaTime * Time.fixedDeltaTime * GravityMultiplier;
 
-        if (Physics.CapsuleCast(point1, point2, radius, delta.normalized, out RaycastHit hit, delta.magnitude)){
-            delta = MiniCollideAndSlide(delta, hit);
-        }
+        //print(ydelta.y+" "+ Physics.gravity * Time.fixedDeltaTime * Time.fixedDeltaTime);
 
-        _rigidbody.MovePosition(_rigidbody.position + delta);
+        nextDelta = HorizontalCollideAndSlide(xdelta, _rigidbody.position, 0);
+        nextDelta += VerticalCollideAndSlide(ydelta, _rigidbody.position + nextDelta, 0);
+    
+        _rigidbody.MovePosition(_rigidbody.position + nextDelta);
         PlayerPosition = _rigidbody.position;
-    }
 
+
+
+        //RaycastHit hit;
+        //if (Physics.Raycast(_animator.GetIKPosition(AvatarIKGoal.LeftFoot) + Vector3.up * 0.5f, Vector3.down, out hit, 1.0f))
+        //{
+        //    groundNormal = hit.normal;
+        //}
+    }
 
     // Update is called once per frame
     void Update(){ 
@@ -131,28 +164,84 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    private Vector3 MiniCollideAndSlide(Vector3 delta, RaycastHit hit)
+    private Vector3 HorizontalCollideAndSlide(Vector3 delta, Vector3 playerPosition, int count, int maxRecursion = 3)
     {
-        //float restMagnitude = delta.magnitude - hit.distance;
+        if (count >= maxRecursion) return delta;
 
-        //현 위치와 충돌 위치와의 거리 = delta.magnitude
-        delta = delta.normalized * hit.distance;
+        CapsuleInfo info = CapsuleCastInfo(playerPosition);
+        Vector3 direction = delta.normalized;
+        Vector3 sumVector = Vector3.zero;
 
-        //Vector3 projectDelta = Vector3.ProjectOnPlane(delta, hit.normal) * restMagnitude;
-        //delta = delta + projectDelta;
-        delta = Vector3.ProjectOnPlane(delta, hit.normal);
+        if (Physics.CapsuleCast(info.point1, info.point2, info.radius, direction, out RaycastHit hit, delta.magnitude + 0.01f)){
+            if(count == 0) print(hit.normal +" "+ direction +" " + Vector3.Dot(direction, hit.normal));
+            //hit하고 남은 거리와 벡터
+            float restMagnitude = delta.magnitude - hit.distance;
+            if(restMagnitude <= 0.01f) return direction * (hit.distance - 0.01f);
 
-        return delta;
+            Vector3 movedelta = direction * hit.distance;
+
+            //남은 벡터로 충돌 검사
+            Vector3 projectDelta = Vector3.ProjectOnPlane(delta, hit.normal).normalized * restMagnitude;
+            return sumVector + HorizontalCollideAndSlide(projectDelta, playerPosition + movedelta , count + 1);
+        }else{
+            return delta;
+        }
     }
 
-    private void CapsuleCastInfo(out float radius, out Vector3 point1, out Vector3 point2)
+
+
+     private Vector3 VerticalCollideAndSlide(Vector3 delta, Vector3 playerPosition, int count, int maxRecursion = 3)
     {
-        radius = _collider.radius;
-        Vector3 center = transform.position + _collider.center;
+        if (count >= maxRecursion) return delta;
+
+        CapsuleInfo info = CapsuleCastInfo(playerPosition);
+        Vector3 direction = delta.normalized;
+        Vector3 sumVector = Vector3.zero;
+
+        if (Physics.CapsuleCast(info.point1, info.point2, info.radius, direction, out RaycastHit hit, delta.magnitude + 0.01f))
+        {
+            if(!isGrounded){
+                isGrounded = true;
+            }
+
+            //hit하고 남은 거리와 벡터
+            float restMagnitude = delta.magnitude - hit.distance;
+            if (restMagnitude <= 0.01f) return direction * (hit.distance - 0.01f);
+
+            Vector3 movedelta = direction * hit.distance;
+
+            //남은 벡터로 충돌 검사
+            Vector3 projectDelta = Vector3.ProjectOnPlane(delta, hit.normal).normalized * restMagnitude;
+            return sumVector + HorizontalCollideAndSlide(projectDelta, playerPosition + movedelta, count + 1);
+        }
+        else
+        {
+            if(isGrounded) isGrounded = false;
+            return delta;
+        }
+    }
+
+
+
+
+
+    private CapsuleInfo CapsuleCastInfo(Vector3 playerPosition)
+    {
+        float radius = _collider.radius;
+        Vector3 center = playerPosition + _collider.center;
         float halfHeight = Mathf.Max(_collider.height / 2 - _collider.radius, 0);// 캡슐 높이에서 반지름 제외
-        point1 = center + Vector3.up * halfHeight;
-        point2 = center + Vector3.down * halfHeight;
+        Vector3 point1 = center + Vector3.up * halfHeight;
+        Vector3 point2 = center + Vector3.down * halfHeight;
+
+        return new CapsuleInfo()
+        {
+            radius = radius,
+            point1 = point1,
+            point2 = point2
+        };
     }
+
+
 
 
     void OnMoveStart(InputAction.CallbackContext context)
@@ -193,6 +282,7 @@ public class PlayerMovement : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(context.ReadValue<Vector2>());
         if(Physics.Raycast(ray, out RaycastHit hit, 100, LayerMask.GetMask("Ground"))){
             Vector3 hitpoint = hit.point;
+            hitpoint.y = transform.position.y;
             transform.LookAt(hitpoint);
             _lookPosition = hitpoint;
             LookDirection = (_lookPosition - transform.position).normalized;

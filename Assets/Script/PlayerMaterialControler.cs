@@ -5,6 +5,7 @@ public class PlayerMaterialControler : MonoBehaviour
     //!!!!*********test***********!!!!//
     public Material fadeMaterial; // DistanceFadeMaterial
     RaycastHit hits;
+
     void Update()
     {
         if(Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, 
@@ -20,4 +21,5 @@ public class PlayerMaterialControler : MonoBehaviour
 
 
     }
+
 }

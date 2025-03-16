@@ -18,7 +18,7 @@ public class LaserBullet : Bullet
     {
         _lineRenderer.SetPosition(0, transform.position);
         _lineRenderer.SetPosition(1, transform.position + transform.forward * _bulletDistance);
-        bulletDiretion = transform.forward;
+        bulletDirection = transform.forward;
     }
 
     private void cmdray(){
@@ -33,7 +33,7 @@ public class LaserBullet : Bullet
 
         };
         for(int i=0; i<rcount; i++){
-            RaycastCommand cmd = new(transform.position, bulletDiretion, queryParameters, _bulletDistance);
+            RaycastCommand cmd = new(transform.position, bulletDirection, queryParameters, _bulletDistance);
             commands[i] = cmd;
          }
 
@@ -58,7 +58,7 @@ public class LaserBullet : Bullet
     public override void SetBulletStats(WeaponStats.WeaponInfo weaponInfo)
     {
         base.SetBulletStats(weaponInfo);
-        bulletDiretion = transform.forward;
+        bulletDirection = transform.forward;
         _bulletDistance = weaponInfo.GetAttackDistance();
         _bulletLifeTime = weaponInfo.GetAttackLifeTime();
 
@@ -68,9 +68,9 @@ public class LaserBullet : Bullet
     protected override void BulletCollide()
     {
     
-        //RaycastHit[] hits = Physics.RaycastAll(transform.position, bulletDiretion, _bulletDistance, LayerMask.GetMask("Enemy"));
+        //RaycastHit[] hits = Physics.RaycastAll(transform.position, bulletDirection, _bulletDistance, LayerMask.GetMask("Enemy"));
         Vector3 size = Vector3.right * thickness + Vector3.forward * thickness;
-        RaycastHit[] hits = Physics.BoxCastAll(transform.position, size, bulletDiretion, Quaternion.identity, _bulletDistance, LayerMask.GetMask("Enemy"));
+        RaycastHit[] hits = Physics.BoxCastAll(transform.position, size, bulletDirection, Quaternion.identity, _bulletDistance, LayerMask.GetMask("Enemy"));
         
 
         if (hits.Length == 0) {

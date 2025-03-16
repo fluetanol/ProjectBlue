@@ -60,6 +60,8 @@ public class EnemyMovement : MonoBehaviour, IDamageable, IForceable, IAttackable
         }
         _nextPosition = enemyMove();
         Attack();
+        //_rigidbody.linearVelocity = (_nextPosition - _rigidbody.position)/Time.fixedDeltaTime;
+        //Debug.Log(_nextPosition +" " + _rigidbody.position);
         _rigidbody.MovePosition(_nextPosition);
     }
 
@@ -82,6 +84,7 @@ public class EnemyMovement : MonoBehaviour, IDamageable, IForceable, IAttackable
     }
 
     private Vector3 enemyMove(){
+        //기본 타겟은 항상 플레이어입니다.
         _targetPosition = _target != null ? _target.position : PlayerMovement.PlayerPosition;
 
         transform.LookAt(_targetPosition);
@@ -118,6 +121,8 @@ public class EnemyMovement : MonoBehaviour, IDamageable, IForceable, IAttackable
     //현재 enemy는 dynamic 모드라서 addforce로 처리하지만
     //kinematic으로 변경해야 하는 순간이 온다면 코드 바꿔야 할 예정
     public void Knockback(Vector3 direction, float force){
+        print("force!" + direction + " " + force);
+        
         _rigidbody.AddForce(direction * force,ForceMode.Impulse);
     }
 

@@ -25,9 +25,11 @@ public class ShotBullet : Bullet
             if(enimies[i].TryGetComponent(out IDamageable Idmg)){
                 inRange  = CheckRange(enimies[i].transform, Idmg);
             }
+
+            //안 밀리는 녀석들도 있을 테니 나눠서 처리하려고 이렇게 해놓음
             if(inRange && enimies[i].TryGetComponent(out IForceable Iforce)){
-                print("force!");
-                Iforce.Knockback(bulletDiretion, _bulletDamage / 2);
+                bulletDirection = enimies[i].transform.position - PlayerMovement.PlayerPosition;
+                Iforce.Knockback(bulletDirection, _bulletDamage / 2);
             }
         }
     }
