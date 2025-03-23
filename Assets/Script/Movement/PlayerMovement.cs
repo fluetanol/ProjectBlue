@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+//[ExecuteInEditMode]
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerMovement : MonoBehaviour
 {   
@@ -96,8 +97,6 @@ public class PlayerMovement : MonoBehaviour
     [Header("For Movement")]
     public int HorizontalCollideRecursion = 3;
     public int VerticalCollideRecursion = 3;
-    public Transform leftFootIK, rightFootIK;
-
 
     //추후엔 별도의 물리 시스템 설정값 다루는 스크립터블 오브젝트로 편입시킬 예정
     public float GravityMultiplier = 1.25f;
@@ -109,6 +108,15 @@ public class PlayerMovement : MonoBehaviour
     public Vector3 xdelta = Vector3.zero;
     public Vector3 nextDelta = Vector3.zero;
     public bool isGrounded = false;
+
+    [Space]
+    [Header("For Stair Movement")]
+    public Transform stairRayCastPoint1;
+    public Transform stairRayCastPoint2;
+    public Transform slopeRayCastPoint;
+    public float stairRayCastDistance = 0.5f;
+    
+
 
     void Awake() {
         _rigidbody = GetComponent<Rigidbody>();
@@ -136,19 +144,20 @@ public class PlayerMovement : MonoBehaviour
 
         //print(ydelta.y+" "+ Physics.gravity * Time.fixedDeltaTime * Time.fixedDeltaTime);
 
-        nextDelta = HorizontalCollideAndSlide(xdelta, _rigidbody.position, 0);
-        nextDelta += VerticalCollideAndSlide(ydelta, _rigidbody.position + nextDelta, 0);
-    
+        //stair 검사
+        if(IsStair() && isGrounded && xdelta != Vector3.zero){
+             nextDelta = StairMovement();
+            // nextDelta += VerticalCollideAndSlide(ydelta, _rigidbody.position + nextDelta, 0);
+        }
+        else{
+            //없는 경우 일반 collide and slide
+           nextDelta = HorizontalCollideAndSlide(xdelta, _rigidbody.position, 0);
+           nextDelta += VerticalCollideAndSlide(ydelta, _rigidbody.position + nextDelta, 0);
+        }
+
+
         _rigidbody.MovePosition(_rigidbody.position + nextDelta);
         PlayerPosition = _rigidbody.position;
-
-
-
-        //RaycastHit hit;
-        //if (Physics.Raycast(_animator.GetIKPosition(AvatarIKGoal.LeftFoot) + Vector3.up * 0.5f, Vector3.down, out hit, 1.0f))
-        //{
-        //    groundNormal = hit.normal;
-        //}
     }
 
     // Update is called once per frame
@@ -162,6 +171,48 @@ public class PlayerMovement : MonoBehaviour
             ClickTime += Time.deltaTime;
         }
     }
+    
+
+    private bool IsStair(){
+        Ray stairConfimRay = new Ray(slopeRayCastPoint.position, slopeRayCastPoint.forward);
+
+        //1. stair인지 확인 (stair는 최소조건이 반드시 90도 입니다.)
+        if(Physics.Raycast(stairConfimRay, out RaycastHit hit, PlayerDataManager.currentMoveSpeed * Time.fixedDeltaTime)){
+           // print(hit.normal);
+            if(hit.normal  == Vector3.right || hit.normal == Vector3.left || hit.normal == Vector3.forward || hit.normal == Vector3.back){
+                
+                
+                //2. 올라갈 수 있는 stair인지 확인
+                Ray climbConfirmRay = new Ray(stairRayCastPoint1.position, stairRayCastPoint1.forward);
+                if(!Physics.Raycast(climbConfirmRay, PlayerDataManager.currentMoveSpeed * Time.fixedDeltaTime)){
+                        print("can climb stair"); 
+                        return true;
+                    
+                }
+
+                //올라갈 수 없는 stair면 벽일 확률이 높음...
+            }
+        }
+        return false;
+    }
+
+    private Vector3 StairMovement(){
+        Ray stairPointRay = new Ray(stairRayCastPoint2.position, Vector3.down);
+        Vector3 delta = Vector3.zero;
+        if (Physics.Raycast(stairPointRay, out RaycastHit hit, stairRayCastDistance)){
+            Vector3 targetPosition = hit.point;
+           // targetPosition.y += 0.01f;
+            //targetPosition.y += _collider.height / 2;   0.01f는 오차 보정
+
+            print((targetPosition - _rigidbody.position).magnitude +" " + xdelta.magnitude);
+            Debug.DrawRay(_rigidbody.position, targetPosition - _rigidbody.position, Color.green, 5);
+            delta = (targetPosition - _rigidbody.position).normalized * xdelta.magnitude;
+        }
+        return delta;
+    }
+
+
+
 
 
     private Vector3 HorizontalCollideAndSlide(Vector3 delta, Vector3 playerPosition, int count, int maxRecursion = 3)
@@ -173,7 +224,10 @@ public class PlayerMovement : MonoBehaviour
         Vector3 sumVector = Vector3.zero;
 
         if (Physics.CapsuleCast(info.point1, info.point2, info.radius, direction, out RaycastHit hit, delta.magnitude + 0.01f)){
-            if(count == 0) print(hit.normal +" "+ direction +" " + Vector3.Dot(direction, hit.normal));
+            if(count == 0) {
+                //print(hit.normal +" "+ direction +" " + Vector3.Dot(direction, hit.normal));
+                //Debug.DrawRay(hit.point, hit.normal, Color.green, 5);
+            }
             //hit하고 남은 거리와 벡터
             float restMagnitude = delta.magnitude - hit.distance;
             if(restMagnitude <= 0.01f) return direction * (hit.distance - 0.01f);
@@ -184,6 +238,24 @@ public class PlayerMovement : MonoBehaviour
             Vector3 projectDelta = Vector3.ProjectOnPlane(delta, hit.normal).normalized * restMagnitude;
             return sumVector + HorizontalCollideAndSlide(projectDelta, playerPosition + movedelta , count + 1);
         }else{
+            if(count == 0 && _playerMoveAxisType == EPlayerMoveAxis.XZ)
+            {
+                //print("!!");
+                //내려가는 slope에서 경사면을 인지 못하는 경우를 대비한 것으로,
+                //만약 이를 조절하고 싶다면 내려갈 때는 붕 떠서 내려가게 하는 별도의 tag를 가진 지형을 만드십시오
+                if(Physics.CapsuleCast(info.point1, info.point2, info.radius, Vector3.down, out RaycastHit hit2, ydelta.magnitude + 0.01f)){
+                    Vector3 projectDelta = Vector3.ProjectOnPlane(xdelta, hit2.normal).normalized;
+                    //ydelta = -hit2.normal * ydelta.magnitude;
+
+                    print(projectDelta + " "+ hit2.normal);
+                    Debug.DrawRay(playerPosition, projectDelta, Color.red, 5);
+                    return sumVector  + HorizontalCollideAndSlide(projectDelta * xdelta.magnitude, playerPosition , count + 1);
+                }else{
+                    print("no?");
+                }
+            }
+
+
             return delta;
         }
     }
@@ -222,9 +294,6 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-
-
-
     private CapsuleInfo CapsuleCastInfo(Vector3 playerPosition)
     {
         float radius = _collider.radius;
@@ -240,9 +309,6 @@ public class PlayerMovement : MonoBehaviour
             point2 = point2
         };
     }
-
-
-
 
     void OnMoveStart(InputAction.CallbackContext context)
     {
@@ -338,8 +404,7 @@ public class PlayerMovement : MonoBehaviour
 
         //Gizmos.DrawWireSphere(transform.position, 6);
         //(x-a)^2 + (z-b)^2 = r^2;
-
-
+        /*
         Vector3 direction = (_lookPosition - transform.position).normalized;
         Vector3 dir1 = Quaternion.AngleAxis(30, Vector3.up) * direction;
         Vector3 dir2 = Quaternion.AngleAxis(-30, Vector3.up) * direction;
@@ -347,6 +412,26 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.DrawRay(transform.position, direction * 6);
         Gizmos.DrawRay(transform.position, dir1 * 6);
         Gizmos.DrawRay(transform.position, dir2 * 6);
+        */
+
+/*
+        Vector3 point1 = stairRayCastPoint1.position;
+        Vector3 point2 = stairRayCastPoint2.position;
+        Gizmos.DrawRay(point1, stairRayCastPoint1.forward * Vector3.Distance(point1, point2));
+        Gizmos.DrawRay(point2, Vector3.down * stairRayCastDistance);
+        if(_rigidbody!=null) Debug.DrawRay(_rigidbody.position, nextDelta, Color.blue, 5);
+        if (!Physics.Raycast(point1, stairRayCastPoint1.forward * Vector3.Distance(point1, point2), Vector3.Distance(point1, point2))){
+            if (Physics.Raycast(point2, Vector3.down, out RaycastHit hit2, stairRayCastDistance))
+            {
+                Gizmos.DrawSphere(hit2.point, 0.05f);
+              //  print("stair");
+            }
+        }
+
+        Vector3 point3 = slopeRayCastPoint.position;
+
+        Gizmos.DrawRay(point3, slopeRayCastPoint.forward * PlayerDataManager.currentMoveSpeed * Time.fixedDeltaTime);
+*/
     }
 
 

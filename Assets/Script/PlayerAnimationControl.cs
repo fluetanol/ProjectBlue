@@ -17,6 +17,7 @@ public class PlayerAnimationControl : MonoBehaviour
 
     void OnAnimatorIK(int layerIndex)
     {
+        
         print("OnAnimatorIK");
         if (animator)
         {
@@ -67,6 +68,7 @@ public class PlayerAnimationControl : MonoBehaviour
                 }
             }
         }
+        
     }
 
 /*
