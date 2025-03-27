@@ -97,6 +97,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("For Movement")]
     public int HorizontalCollideRecursion = 3;
     public int VerticalCollideRecursion = 3;
+    public float skinWidth = 0.01f; //스킨 두께
 
     //추후엔 별도의 물리 시스템 설정값 다루는 스크립터블 오브젝트로 편입시킬 예정
     public float GravityMultiplier = 1.25f;
@@ -111,12 +112,13 @@ public class PlayerMovement : MonoBehaviour
 
     [Space]
     [Header("For Stair Movement")]
-    public Transform stairRayCastPoint1;
-    public Transform stairRayCastPoint2;
-    public Transform slopeRayCastPoint;
-    public float stairRayCastDistance = 0.5f;
-    
+    public float maxStepHeight = 0.5f;
+    public float stepCheckDistance = 0.1f; // 계단 감지 거리
 
+
+    [Space]
+    [Header("For Wall Movement")]
+    [Range(0,1)] public float wallFriction = 1f;  //벽 마찰, 낮을 수록 강해짐
 
     void Awake() {
         _rigidbody = GetComponent<Rigidbody>();
@@ -144,17 +146,10 @@ public class PlayerMovement : MonoBehaviour
 
         //print(ydelta.y+" "+ Physics.gravity * Time.fixedDeltaTime * Time.fixedDeltaTime);
 
-        //stair 검사
-        if(IsStair() && isGrounded && xdelta != Vector3.zero){
-             nextDelta = StairMovement();
-            // nextDelta += VerticalCollideAndSlide(ydelta, _rigidbody.position + nextDelta, 0);
-        }
-        else{
-            //없는 경우 일반 collide and slide
-           nextDelta = HorizontalCollideAndSlide(xdelta, _rigidbody.position, 0);
-           nextDelta += VerticalCollideAndSlide(ydelta, _rigidbody.position + nextDelta, 0);
-        }
 
+
+        nextDelta = HorizontalCollideAndSlide(xdelta, _rigidbody.position, 0);
+        nextDelta += VerticalCollideAndSlide(ydelta, _rigidbody.position + nextDelta, 0);
 
         _rigidbody.MovePosition(_rigidbody.position + nextDelta);
         PlayerPosition = _rigidbody.position;
@@ -171,50 +166,65 @@ public class PlayerMovement : MonoBehaviour
             ClickTime += Time.deltaTime;
         }
     }
-    
 
-    private bool IsStair(){
-        Ray stairConfimRay = new Ray(slopeRayCastPoint.position, slopeRayCastPoint.forward);
 
-        //1. stair인지 확인 (stair는 최소조건이 반드시 90도 입니다.)
-        if(Physics.Raycast(stairConfimRay, out RaycastHit hit, PlayerDataManager.currentMoveSpeed * Time.fixedDeltaTime)){
-           // print(hit.normal);
-            if(hit.normal  == Vector3.right || hit.normal == Vector3.left || hit.normal == Vector3.forward || hit.normal == Vector3.back){
-                
-                
-                //2. 올라갈 수 있는 stair인지 확인
-                Ray climbConfirmRay = new Ray(stairRayCastPoint1.position, stairRayCastPoint1.forward);
-                if(!Physics.Raycast(climbConfirmRay, PlayerDataManager.currentMoveSpeed * Time.fixedDeltaTime)){
-                        print("can climb stair"); 
-                        return true;
-                    
+    /// <summary>
+    /// 계단을 올라가는 로직
+    /// </summary>
+    /// <param name="delta">다음 이동 델타</param>
+    /// <returns>다음 계단 위치로 가기 위한 delta벡터를 반환합니다. 계단이 아니라면 영벡터를 반환함.</returns>
+    private Vector3 StairStepUp(Vector3 delta){
+        Vector3 stepUp = Vector3.zero;
+        Vector3 direction = delta.normalized;
+
+
+        Vector3 stepcheck = 
+            _rigidbody.position + delta + 
+            Vector3.up * maxStepHeight + 
+            direction * stepCheckDistance;
+
+
+        /*
+
+                           pos
+                     [       * ------>|  Ray |-----           플레이어 진행방향으로 Ray를 쏘는데, 이때 max step height만큼 높은 위치에서 쏜다.
+               max   [       *        |      |                ray가 충돌하지 않는 다는 것은 계단 형태로 인해 음푹 들어가서 발 디딜곳이 존재한다는 것이다.
+              step   [       *  |-----v------|                반대로 충돌한다면 이는 벽이거나, 계단이여도 계단의 경사가 너무 가파르다는 것이다.
+            height   [       *  |    Ray2                     
+                    ==============================            만약 ray가 충돌 하지 않아 계단임이 확인 되었다면 이번엔 아랫방향으로 ray를 쏜다.
+                                                              ray가 충돌 했을 때 평평한 면(Vector3.up)이면 우리가 생각하는 계단이므로 다음 위치치 y값을 반환하는 형태이다.
+                                                              다만 이건 내가 "계단은 무조건 90도여야 한다"라는 규정을 내렸기 때문에 가능한거고
+                                                              평탄하지 않은 계단 설정이 있다면(이를테면 조금 높은 바위 언덕) 이라면 좀 더 다양한 로직이 필요할 것.
+        */                          
+
+        Ray ray = new Ray(_rigidbody.position + delta + Vector3.up * maxStepHeight, direction);
+
+        
+        Debug.DrawRay(_rigidbody.position + delta + Vector3.up * maxStepHeight, direction * stepCheckDistance, Color.green, 5);
+        Debug.DrawRay(stepcheck, Vector3.down * maxStepHeight, Color.cyan, 5);
+
+        if(!Physics.Raycast(ray, stepCheckDistance)){
+            Ray ray2 = new Ray(stepcheck, Vector3.down);
+            
+            if(Physics.Raycast(ray2, out RaycastHit hit, maxStepHeight)){
+                if(hit.normal == Vector3.up){
+                    print("stair");
+                    stepUp = new Vector3(0, hit.point.y - _rigidbody.position.y, 0);
                 }
-
-                //올라갈 수 없는 stair면 벽일 확률이 높음...
             }
         }
-        return false;
-    }
-
-    private Vector3 StairMovement(){
-        Ray stairPointRay = new Ray(stairRayCastPoint2.position, Vector3.down);
-        Vector3 delta = Vector3.zero;
-        if (Physics.Raycast(stairPointRay, out RaycastHit hit, stairRayCastDistance)){
-            Vector3 targetPosition = hit.point;
-           // targetPosition.y += 0.01f;
-            //targetPosition.y += _collider.height / 2;   0.01f는 오차 보정
-
-            print((targetPosition - _rigidbody.position).magnitude +" " + xdelta.magnitude);
-            Debug.DrawRay(_rigidbody.position, targetPosition - _rigidbody.position, Color.green, 5);
-            delta = (targetPosition - _rigidbody.position).normalized * xdelta.magnitude;
-        }
-        return delta;
+        return stepUp;
     }
 
 
-
-
-
+    /// <summary>
+    /// 수평방향 충돌 및 슬라이드
+    /// </summary>
+    /// <param name="delta">다음 프레임의 velocity 또는 slide한 후 잔여 벡터</param>
+    /// <param name="playerPosition">collide and slide 후 플레이어가 있을 위치</param>
+    /// <param name="count">재귀 횟수</param>
+    /// <param name="maxRecursion">최대 collide and slide 횟수</param>
+    /// <returns>재귀가 끝나거나 특정 종료 조건을 맞이한 후 반환되는 잔여 벡터</returns>
     private Vector3 HorizontalCollideAndSlide(Vector3 delta, Vector3 playerPosition, int count, int maxRecursion = 3)
     {
         if (count >= maxRecursion) return delta;
@@ -223,39 +233,55 @@ public class PlayerMovement : MonoBehaviour
         Vector3 direction = delta.normalized;
         Vector3 sumVector = Vector3.zero;
 
-        if (Physics.CapsuleCast(info.point1, info.point2, info.radius, direction, out RaycastHit hit, delta.magnitude + 0.01f)){
-            if(count == 0) {
-                //print(hit.normal +" "+ direction +" " + Vector3.Dot(direction, hit.normal));
-                //Debug.DrawRay(hit.point, hit.normal, Color.green, 5);
-            }
+        //Notice!!!
+        //skin width의 개념은 매우 중요합니다.
+        //0.01f의 여유분을 두고 충돌 검사를 하고, 다음 위치는 그 skin width만큼 다시 뺀 위치로,
+        //즉, "덜 충돌한 듯한" 느낌을 주어야 충돌판정이 boundary 위치에서 잘못된 cast가 일어나 노클립하는 현상을 방지할 수 있습니다.
+        //물론 최대한 덜 빼야 속도 손실이 덜하긴 하지만, 아무리 못해도 (skin width / 재귀 횟수) 만큼은 빼서 위치를 보정해주세요.
+        if (Physics.CapsuleCast(info.point1, info.point2, info.radius, direction, out RaycastHit hit, delta.magnitude + skinWidth)){
+            
             //hit하고 남은 거리와 벡터
-            float restMagnitude = delta.magnitude - hit.distance;
-            if(restMagnitude <= 0.01f) return direction * (hit.distance - 0.01f);
+            float restMagnitude = Math.Abs(delta.magnitude - hit.distance);
 
-            Vector3 movedelta = direction * hit.distance;
+            //계단을 올라가거나, 벽에 부딪혔거나 둘 중 하나나
+            if (Vector3.Angle(hit.normal, Vector3.up) > 75)
+            {
+                Vector3 stepup = StairStepUp(delta);
 
+                // TODO: 계단을 올라가는 경우엔 Y값을 변동시킨 상태로 계산
+                //계단을 올라가는 경우가 아니라면 사영시킨 벡터로 변환
+                //-> 벽과 계단을 구분하는 로직이며 벽에서 비빌 때는 미끄러지듯 부드럽게 움직이도록 하는 코드입니다.
+                // 물론, 마찰을 쎄게 주고 싶다면 restMagnitude에 마찰 가중치를 주면 됩니다.
+                return stepup == Vector3.zero ?
+                        Vector3.ProjectOnPlane(delta, hit.normal).normalized * restMagnitude * wallFriction
+                        : delta + stepup;
+            }
+
+            if (restMagnitude <= 0.01f) {
+                return direction * (hit.distance - 0.003f);
+            }
+
+
+            Vector3 movedelta = direction * (hit.distance - 0.003f);
             //남은 벡터로 충돌 검사
             Vector3 projectDelta = Vector3.ProjectOnPlane(delta, hit.normal).normalized * restMagnitude;
-            return sumVector + HorizontalCollideAndSlide(projectDelta, playerPosition + movedelta , count + 1);
-        }else{
+            sumVector += HorizontalCollideAndSlide(projectDelta, playerPosition + movedelta, count + 1) + movedelta;
+            
+            return sumVector;
+        }
+        else{
             if(count == 0 && _playerMoveAxisType == EPlayerMoveAxis.XZ)
             {
-                //print("!!");
-                //내려가는 slope에서 경사면을 인지 못하는 경우를 대비한 것으로,
+                //TODO: 내려가는 slope에서 경사면을 인지 못하는 경우를 대비한 것으로,
                 //만약 이를 조절하고 싶다면 내려갈 때는 붕 떠서 내려가게 하는 별도의 tag를 가진 지형을 만드십시오
-                if(Physics.CapsuleCast(info.point1, info.point2, info.radius, Vector3.down, out RaycastHit hit2, ydelta.magnitude + 0.01f)){
+                if (Physics.CapsuleCast(info.point1, info.point2, info.radius, Vector3.down, out RaycastHit hit2, ydelta.magnitude + 0.01f)){
                     Vector3 projectDelta = Vector3.ProjectOnPlane(xdelta, hit2.normal).normalized;
                     //ydelta = -hit2.normal * ydelta.magnitude;
-
-                    print(projectDelta + " "+ hit2.normal);
-                    Debug.DrawRay(playerPosition, projectDelta, Color.red, 5);
+                    //print(projectDelta + " "+ hit2.normal);
+                    //Debug.DrawRay(playerPosition, projectDelta, Color.red, 5);
                     return sumVector  + HorizontalCollideAndSlide(projectDelta * xdelta.magnitude, playerPosition , count + 1);
-                }else{
-                    print("no?");
                 }
             }
-
-
             return delta;
         }
     }
@@ -280,11 +306,12 @@ public class PlayerMovement : MonoBehaviour
             float restMagnitude = delta.magnitude - hit.distance;
             if (restMagnitude <= 0.01f) return direction * (hit.distance - 0.01f);
 
-            Vector3 movedelta = direction * hit.distance;
+            Vector3 movedelta = direction * (hit.distance - 0.01f);
 
             //남은 벡터로 충돌 검사
             Vector3 projectDelta = Vector3.ProjectOnPlane(delta, hit.normal).normalized * restMagnitude;
-            return sumVector + HorizontalCollideAndSlide(projectDelta, playerPosition + movedelta, count + 1);
+            return sumVector += HorizontalCollideAndSlide(projectDelta, playerPosition + movedelta, count + 1) + movedelta;
+            
         }
         else
         {
@@ -402,36 +429,17 @@ public class PlayerMovement : MonoBehaviour
     {
         Gizmos.color = Debugcolor;
 
-        //Gizmos.DrawWireSphere(transform.position, 6);
-        //(x-a)^2 + (z-b)^2 = r^2;
-        /*
-        Vector3 direction = (_lookPosition - transform.position).normalized;
-        Vector3 dir1 = Quaternion.AngleAxis(30, Vector3.up) * direction;
-        Vector3 dir2 = Quaternion.AngleAxis(-30, Vector3.up) * direction;
+        Gizmos.DrawWireSphere(transform.position, 0.1f);
 
-        Gizmos.DrawRay(transform.position, direction * 6);
-        Gizmos.DrawRay(transform.position, dir1 * 6);
-        Gizmos.DrawRay(transform.position, dir2 * 6);
-        */
 
-/*
-        Vector3 point1 = stairRayCastPoint1.position;
-        Vector3 point2 = stairRayCastPoint2.position;
-        Gizmos.DrawRay(point1, stairRayCastPoint1.forward * Vector3.Distance(point1, point2));
-        Gizmos.DrawRay(point2, Vector3.down * stairRayCastDistance);
-        if(_rigidbody!=null) Debug.DrawRay(_rigidbody.position, nextDelta, Color.blue, 5);
-        if (!Physics.Raycast(point1, stairRayCastPoint1.forward * Vector3.Distance(point1, point2), Vector3.Distance(point1, point2))){
-            if (Physics.Raycast(point2, Vector3.down, out RaycastHit hit2, stairRayCastDistance))
-            {
-                Gizmos.DrawSphere(hit2.point, 0.05f);
-              //  print("stair");
-            }
-        }
+        Vector3 rayStart = transform.position + Vector3.up * maxStepHeight;
 
-        Vector3 point3 = slopeRayCastPoint.position;
+        Gizmos.DrawLine(transform.position, rayStart);
 
-        Gizmos.DrawRay(point3, slopeRayCastPoint.forward * PlayerDataManager.currentMoveSpeed * Time.fixedDeltaTime);
-*/
+        //Vector3 rayDir = new Vector3(direction.x, -maxStepHeight, direction.z).normalized;
+    
+
+
     }
 
 
