@@ -565,7 +565,7 @@ Material:
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _OutlineMaskColor: {r: 0, g: 0, b: 0, a: 1}
     - _Outline_Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-    - _PlayerPosition: {r: 3.2249868, g: 0.52463347, b: 7.4055443, a: 0}
+    - _PlayerPosition: {r: -1.7722442, g: -0.09000002, b: -1.6917741, a: 0}
     - _RimLightColor: {r: 1, g: 1, b: 1, a: 1}
     - _RimLightMaskColor: {r: 1, g: 0, b: 1, a: 1}
     - _SecondShadeMaskColor: {r: 0, g: 0, b: 1, a: 1}

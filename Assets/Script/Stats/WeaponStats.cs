@@ -23,7 +23,7 @@ public class WeaponStats : ScriptableObject
 
         public EWeaponType WeaponType;
         public GameObject  WeaponPrefab;
-
+        public LayerMask   BasicAttackMask;
 
         [SerializeField, Header("Bullet Info"), ConditionalField(nameof(WeaponType), (int)EWeaponType.far)]
         private ushort  BulletSpeed;    

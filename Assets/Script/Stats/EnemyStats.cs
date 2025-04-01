@@ -15,15 +15,15 @@ public class EnemyStats : ScriptableObject
 
 
         [Header("Setting Enemy Move Stats")]
-        public EnemyMovement.EenemyMoveType EnemyMoveType;
-        [SerializeField, ConditionalField(nameof(EnemyMoveType), (int)EnemyMovement.EenemyMoveType.linear), Range(1, 10)]
+        public EenemyMoveType EnemyMoveType;
+        [SerializeField, ConditionalField(nameof(EnemyMoveType), (int)EenemyMoveType.linear), Range(1, 10)]
         public float _linearMoveSpeed;
         
-        [SerializeField, ConditionalField(nameof(EnemyMoveType), (int)EnemyMovement.EenemyMoveType.linearInterpolation), Range(0.1f, 2f)]
+        [SerializeField, ConditionalField(nameof(EnemyMoveType), (int)EenemyMoveType.linearInterpolation), Range(0.1f, 2f)]
         public float _linearInterpolationMoveSpeed;
 
         [Header("Setting Enemy Attack Stats")]
-        public EnemyMovement.EenemyAttackType EnemyAttackType;
+        public EenemyAttackType EnemyAttackType;
 
 
     }

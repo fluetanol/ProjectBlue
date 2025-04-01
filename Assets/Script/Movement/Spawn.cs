@@ -1,9 +1,10 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Spawn : MonoBehaviour
 {
-    [SerializeField] private GameObject _enemyObject;
+    [SerializeField] private List<GameObject> _enemyObject;
     [SerializeField] private float      _spawnCycle = 3f;
     [SerializeField] private int        _spawnCount = 3;
     [SerializeField] private int        _maxSpawn = 30;
@@ -21,7 +22,9 @@ public class Spawn : MonoBehaviour
             yield return new WaitForSeconds(_spawnCycle);
 
             for(int i = 0; i < _spawnCount; i++){
-                Instantiate(_enemyObject, transform.position, Quaternion.identity);
+                int randomIndex = Random.Range(0, _enemyObject.Count);
+                GameObject enemyObject = _enemyObject[randomIndex];
+                Instantiate(enemyObject, transform.position, Quaternion.identity);
             }
 
             _enemyCount += _spawnCount;

@@ -48,6 +48,7 @@ public class PlayerDataManager : MonoBehaviour, IDamageable, IHealable
     private void InitializeCurrentStats(){
         int weaponCode = PlayerStats.WeaponID;
         WeaponStats.WeaponInfo wponinfo = _weaponStats[weaponCode];
+        wponinfo.BasicAttackMask += LayerMask.GetMask("Enemy");
         currentHP        =  PlayerStats.Health;
         currentMoveSpeed = PlayerStats.MoveSpeed;
         currentAttackSpeed = wponinfo.AttackSpeed;

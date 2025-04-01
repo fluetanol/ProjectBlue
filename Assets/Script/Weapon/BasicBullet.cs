@@ -57,7 +57,7 @@ public class BasicBullet : Bullet
                                 _boxCastInfo.orientation, _boxCastInfo.mask);
         if (colliders.Length > 0)
         {
-            if (colliders[0].TryGetComponent(out EnemyMovement enemy))
+            if (colliders[0].TryGetComponent(out IDamageable enemy))
             {
                // print("take DMG2");
                 enemy.TakeDamage((int)_bulletDamage);
@@ -73,7 +73,7 @@ public class BasicBullet : Bullet
         out RaycastHit hit, _boxCastInfo.orientation, delta.magnitude, _boxCastInfo.mask))
         {
 
-            if (hit.collider.TryGetComponent(out EnemyMovement enemy))
+            if (hit.collider.TryGetComponent(out IDamageable enemy))
             {
                // print("take DMG");
                 enemy.TakeDamage((int)_bulletDamage);
@@ -88,7 +88,7 @@ public class BasicBullet : Bullet
             center = _boxCollider.bounds.center,
             halfExtents = _boxCollider.size * 0.5f,
             orientation = _rigidbody.rotation,
-            mask = LayerMask.GetMask("Enemy", "Obstacle")
+            mask = _bulletMask 
         };
     }
 

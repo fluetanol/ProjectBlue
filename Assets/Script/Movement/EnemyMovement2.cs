@@ -2,15 +2,26 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
 
+
 [RequireComponent(typeof(Rigidbody))]   
-public class EnemyMovement : MonoBehaviour, IDamageable, IForceable, IAttackable
+public class EnemyMovement2 : MonoBehaviour, IDamageable, IForceable, IAttackable
 {
+    [Header("Enemy Basic Stats")]
     public Transform testobj;
     public float health = 3;
     public int   damage = 1;
     public float attackTick;
     public float dmgTick;
 
+    [Header("Enemy Additional Stats")]
+    public float _moveSpeed;
+    public float range; //공격 범위 반지름
+    public int _weaponCode; //무기 코드
+    public Transform ShotPoint; //무기 발사 위치
+
+
+
+    [Header("Enemy Components")]
     [SerializeField] private Animator _animator;
     [SerializeField] private int EnemyCode;
     [SerializeField] private Rigidbody _rigidbody;
@@ -21,8 +32,10 @@ public class EnemyMovement : MonoBehaviour, IDamageable, IForceable, IAttackable
     [SerializeField] private EnemyStats _enemyStats;
 
     private Vector3 _targetPosition, _nextPosition;
+    private Weapon _weapon;
     private bool _isAttacking = false;  
     private bool _isDead = false;
+    private bool _moveLock = false;
 
     void Awake(){
         if(_rigidbody == null) _rigidbody = GetComponent<Rigidbody>();
@@ -31,14 +44,23 @@ public class EnemyMovement : MonoBehaviour, IDamageable, IForceable, IAttackable
        // health =_enemyStats.SetEnemyStats(EnemyCode);
     }
 
+    void Start(){
+         WeaponStats.WeaponInfo weaponStats = PlayerDataManager.WeaponStats[_weaponCode];
+         weaponStats.BasicAttackMask += LayerMask.GetMask("Player");
+         GameObject createWeapon = Instantiate(weaponStats.WeaponPrefab, ShotPoint.position, Quaternion.identity, this.transform);
+         _weapon = createWeapon.GetComponent<Weapon>();
+         _weapon.SetWeaponStats(weaponStats);
+    
+    }
+
     void FixedUpdate(){
         if(_isDead) {
             return;
         }
         _nextPosition = enemyMove();
         Attack();
-        //_rigidbody.linearVelocity = (_nextPosition - _rigidbody.position)/Time.fixedDeltaTime;
-        //Debug.Log(_nextPosition +" " + _rigidbody.position);
+
+        if(_moveLock) return;
         _rigidbody.MovePosition(_nextPosition);
     }
 
@@ -56,7 +78,6 @@ public class EnemyMovement : MonoBehaviour, IDamageable, IForceable, IAttackable
         if(health <= 0){
             _isDead = true;
             _animator.SetBool("isDead", _isDead);
-            //Destroy(gameObject);
         }
     }
 
@@ -83,14 +104,20 @@ public class EnemyMovement : MonoBehaviour, IDamageable, IForceable, IAttackable
         } 
 
         //공격 로직
-        Vector3 newdirection = (  _nextPosition - _rigidbody.position).normalized;
-        if (Physics.Raycast(_rigidbody.position, newdirection, out RaycastHit hit,
-        Vector3.Distance(_rigidbody.position, _nextPosition) + 1f,
-        LayerMask.GetMask("Player"))){
+        Vector3 substraction = PlayerMovement.PlayerPosition - _rigidbody.position;
+        float distance = substraction.magnitude;
+
+        print("distance : " + distance);
+        
+        if (distance <= range){
+            _weapon.Attack();
             StartCoroutine(AttackTimer());
-            hit.collider.GetComponent<IDamageable>().TakeDamage(damage);
             _animator.SetBool("isAttack", true);
         }
+        else{
+            _moveLock = false;
+        }
+        
         //Debug.DrawRay(_rigidbody.position, newdirection * (Vector3.Distance(_rigidbody.position, _nextPosition)+1f), Color.red,3f);
     }
 
@@ -105,16 +132,16 @@ public class EnemyMovement : MonoBehaviour, IDamageable, IForceable, IAttackable
 
     private IEnumerator AttackTimer(){
         _isAttacking = true;
+        _moveLock = true;
         yield return new WaitForSeconds(attackTick);
         _isAttacking = false;
+        _moveLock = false;
         _animator.SetBool("isAttack", _isAttacking);
     }
 
-    IEnumerator TEST()
+    void OnDrawGizmos()
     {
-        testobj.gameObject.SetActive(true);
-        yield return new WaitForSeconds(1f);
-        testobj.gameObject.SetActive(false);
+        Gizmos.DrawWireSphere(transform.position, range);
     }
 
 }

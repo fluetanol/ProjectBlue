@@ -154,10 +154,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a79132ed490de17409c07c6ec6975bdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _bulletDamage: 3
+  _bulletLifeTime: 6
   _isPenetration: 0
-  _bulletSpeed: 0
-  _bulletDamage: 0
-  _bulletLifeTime: 0
+  _bulletSpeed: 50
   _boxCollider: {fileID: 3166956819435788635}
 --- !u!65 &3166956819435788635
 BoxCollider:

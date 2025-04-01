@@ -21,4 +21,5 @@ public class Weapon : MonoBehaviour
         if(ShootingBulletPrefab == null) ShootingBulletPrefab = weaponInfo.BulletPrefab;
         ShootingBulletPrefab.GetComponent<BasicBullet>().SetBulletStats(weaponInfo);
     }
+
 }
