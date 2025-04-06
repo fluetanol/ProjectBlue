@@ -1,9 +1,15 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
 
+public interface IPoolCreatable
+{
+    void PoolingCreate();
+}
+
 [RequireComponent(typeof(Rigidbody))]   
-public class EnemyMovement : MonoBehaviour, IDamageable, IForceable, IAttackable
+public class EnemyMovement : MonoBehaviour, IDamageable, IForceable, IAttackable, IDisposable, IPoolCreatable
 {
     public Transform testobj;
     public float health = 3;
@@ -31,6 +37,11 @@ public class EnemyMovement : MonoBehaviour, IDamageable, IForceable, IAttackable
        // health =_enemyStats.SetEnemyStats(EnemyCode);
     }
 
+    void OnEnable(){
+        gameObject.SetActive(true);
+        InitializeStats();
+    }
+
     void FixedUpdate(){
         if(_isDead) {
             return;
@@ -53,10 +64,14 @@ public class EnemyMovement : MonoBehaviour, IDamageable, IForceable, IAttackable
     public void TakeDamage(float damage){
         //StartCoroutine(TEST());
         health -= damage;
-        if(health <= 0){
+        DeadCheck();
+    }
+
+    private void DeadCheck(){
+        if (health <= 0)
+        {
             _isDead = true;
             _animator.SetBool("isDead", _isDead);
-            //Destroy(gameObject);
         }
     }
 
@@ -117,4 +132,16 @@ public class EnemyMovement : MonoBehaviour, IDamageable, IForceable, IAttackable
         testobj.gameObject.SetActive(false);
     }
 
+    public void Dispose()
+    {
+        gameObject.SetActive(false);
+        _animator.SetBool("isDead", false);
+        _isDead = false;
+    }
+
+    public void PoolingCreate()
+    {
+        gameObject.SetActive(true);
+        InitializeStats();
+    }
 }

@@ -255,6 +255,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -5873739258528381103, guid: e3d4e3e88ec6172429a2eda5c5e0ae25, type: 3}
+      propertyPath: m_SkinnedMotionVectors
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5873739258528381103, guid: e3d4e3e88ec6172429a2eda5c5e0ae25, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 21f28dd364e5d73439b751750b91a883, type: 2}

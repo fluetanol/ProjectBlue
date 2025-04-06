@@ -30,7 +30,8 @@ public class EnemyMovement2 : MonoBehaviour, IDamageable, IForceable, IAttackabl
 
     [Header("Setting Enemy Move Stats Scriptable Object")]
     [SerializeField] private EnemyStats _enemyStats;
-
+    WeaponStats.WeaponInfo weaponStats;
+    
     private Vector3 _targetPosition, _nextPosition;
     private Weapon _weapon;
     private bool _isAttacking = false;  
@@ -45,8 +46,8 @@ public class EnemyMovement2 : MonoBehaviour, IDamageable, IForceable, IAttackabl
     }
 
     void Start(){
-         WeaponStats.WeaponInfo weaponStats = PlayerDataManager.WeaponStats[_weaponCode];
-         weaponStats.BasicAttackMask += LayerMask.GetMask("Player");
+         WeaponStats.WeaponInfo weaponStats = EnemyCurrentDataManager.WeaponStats[_weaponCode];
+         weaponStats.AddMask(LayerMask.GetMask("Player"));
          GameObject createWeapon = Instantiate(weaponStats.WeaponPrefab, ShotPoint.position, Quaternion.identity, this.transform);
          _weapon = createWeapon.GetComponent<Weapon>();
          _weapon.SetWeaponStats(weaponStats);
@@ -107,7 +108,7 @@ public class EnemyMovement2 : MonoBehaviour, IDamageable, IForceable, IAttackabl
         Vector3 substraction = PlayerMovement.PlayerPosition - _rigidbody.position;
         float distance = substraction.magnitude;
 
-        print("distance : " + distance);
+       // print("distance : " + distance);
         
         if (distance <= range){
             _weapon.Attack();

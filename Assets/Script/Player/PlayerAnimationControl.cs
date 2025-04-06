@@ -18,7 +18,7 @@ public class PlayerAnimationControl : MonoBehaviour
     void OnAnimatorIK(int layerIndex)
     {
         
-        print("OnAnimatorIK");
+        //print("OnAnimatorIK");
         if (animator)
         {
             // Left Foot

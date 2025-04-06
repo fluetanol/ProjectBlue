@@ -49,7 +49,10 @@ public class BasicBullet : Bullet
         BoxOverlaping();
     }
 
-
+    public override void SetBulletMask(LayerMask mask){
+        base.SetBulletMask(mask);
+        _boxCastInfo.mask = mask;
+    }
 
     private void BoxOverlaping()
     {
@@ -69,6 +72,7 @@ public class BasicBullet : Bullet
 
     private void BoxCasting(Vector3 delta)
     {
+        //print("cast : " + _boxCastInfo.mask.value);
         if (Physics.BoxCast(_boxCastInfo.center, _boxCastInfo.halfExtents, delta,
         out RaycastHit hit, _boxCastInfo.orientation, delta.magnitude, _boxCastInfo.mask))
         {

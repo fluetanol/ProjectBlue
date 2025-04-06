@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6eda9d4d3ef9cb48b77f44058fbebc8, type: 3}
   m_Name: WeaponStats
   m_EditorClassIdentifier: 
+  testCount: 100
   WeaponList:
   - WeaponCode: 0
     WeaponName: normalgun

@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public abstract class Bullet : MonoBehaviour
+public abstract class Bullet : MonoBehaviour, IDisposable
 {
     [SerializeField] protected float _bulletDamage;
     [SerializeField] protected float _bulletLifeTime;
@@ -32,13 +32,17 @@ public abstract class Bullet : MonoBehaviour
     public virtual void SetBulletStats(WeaponStats.WeaponInfo weaponInfo){
         _bulletLifeTime = weaponInfo.GetBulletLifeTime();
         _bulletDamage = weaponInfo.Damage;
-        _bulletMask = weaponInfo.BasicAttackMask;
     }
     
 
-    protected virtual void GetBulletComponent(){ 
+    protected virtual void GetBulletComponent(){}
 
+    public virtual void SetBulletMask(LayerMask mask){
+        _bulletMask = mask;
     }
 
-
+    public void Dispose()
+    {
+        ObjectPoolManager.Instance.BulletPool.Return(this);
+    }
 }

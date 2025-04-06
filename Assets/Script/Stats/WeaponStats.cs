@@ -1,12 +1,19 @@
+using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
+
+interface ICloneable<T>{
+    T Clone();
+}
 
 //Weapon에 대한 기본 스탯 정보를 가지고 있음
 
 [CreateAssetMenu(fileName = "WeaponStats", menuName = "ScriptableObjects/WeaponStats", order = 1)]
 public class WeaponStats : ScriptableObject
 {
+    public int testCount = 0;
     [System.Serializable]
     public enum EWeaponType{
         near,
@@ -15,6 +22,20 @@ public class WeaponStats : ScriptableObject
 
     [System.Serializable]   
     public struct WeaponInfo{
+        public uint test{
+            get{
+                return test;
+            }
+            set{
+                test += value;
+            }
+        }
+
+        public void setTest(uint value){
+            test = value;
+        }
+
+        
         [Header("Basic Weapon Info")]
         public ushort  WeaponCode;
         public string  WeaponName;
@@ -38,6 +59,15 @@ public class WeaponStats : ScriptableObject
         private float AttackAngle;
         [SerializeField, ConditionalField(nameof(WeaponType), (int)EWeaponType.near)]
         private float AttackDistance;
+
+        public void AddMask(LayerMask mask){
+            BasicAttackMask = BasicAttackMask | mask;
+        }
+
+        public void RemoveMask(LayerMask mask){
+            //mask에 역을 취해서 &연산하면 되는 것, 관용문처럼 외워두자
+            BasicAttackMask = BasicAttackMask & ~mask;
+        }
 
         public float GetAttackLifeTime(){
             if(WeaponType == EWeaponType.far) return 0;
@@ -73,4 +103,8 @@ public class WeaponStats : ScriptableObject
             return WeaponList[idx];
         }
     }
+
+
+
+
 }

@@ -1,24 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Profiling;
+using Unity.VisualScripting;
 using UnityEngine;
 
+
+
 // 플레이어 기본 데이터를 받아온 뒤, 여기에서 실시간 수정을 합니다.
-public class PlayerDataManager : MonoBehaviour, IDamageable, IHealable
+public class PlayerDataManager : DataManager, IDamageable, IHealable
 {
     public struct WeaponCondition{
         public ushort WeaponCode;
         public ushort WeaponLevel;
     }
 
+    public static PlayerDataManager Instance { get; private set; }
+
     [SerializeField] private PlayerStats _playerStats;
     public static PlayerStats PlayerStats;
 
-    [SerializeField] private WeaponStats _weaponStats;
-    public static WeaponStats WeaponStats;
-
     public Transform ShootPoint;
-    public static Weapon  weapon;
+    public static Weapon weapon;
 
+    public WeaponStats.WeaponInfo wponInfo;
 
     public float                         currentHP;
     public static float                  currentDEF;
@@ -40,26 +44,31 @@ public class PlayerDataManager : MonoBehaviour, IDamageable, IHealable
 
 
     void Awake(){
+        if(Instance == null) Instance = this;
         PlayerStats = _playerStats;
         WeaponStats = _weaponStats;
         InitializeCurrentStats();
+        CreateWeapon(ref wponInfo);
     }
 
     private void InitializeCurrentStats(){
         int weaponCode = PlayerStats.WeaponID;
-        WeaponStats.WeaponInfo wponinfo = _weaponStats[weaponCode];
-        wponinfo.BasicAttackMask += LayerMask.GetMask("Enemy");
+        wponInfo = _weaponStats[weaponCode];
+        wponInfo.AddMask(LayerMask.GetMask("Enemy"));
+
         currentHP        =  PlayerStats.Health;
         currentMoveSpeed = PlayerStats.MoveSpeed;
-        currentAttackSpeed = wponinfo.AttackSpeed;
+        currentAttackSpeed = wponInfo.AttackSpeed;
         DmgTick = PlayerStats.DMGTick;
+        
+    }
+
+    private void CreateWeapon(ref WeaponStats.WeaponInfo wponinfo){
 
         GameObject createWeapon = Instantiate(wponinfo.WeaponPrefab, ShootPoint.position, Quaternion.identity, this.transform);
         weapon = createWeapon.GetComponent<Weapon>();
         weapon.SetWeaponStats(wponinfo);
-        
     }
-
 
 
     public float[] GetPlayerDamage(){
