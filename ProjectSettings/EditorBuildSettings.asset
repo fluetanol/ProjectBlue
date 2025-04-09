@@ -8,7 +8,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/LoadSceneTest.unity
+    guid: 164d83daa0af1c74c8178e3e4623520a
+  - enabled: 1
+    path: Assets/Scenes/ObjectPoolingTest.unity
+    guid: 53fc996e43c40c9449e225a20ecb3b5d
   m_configObjects:
-    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b,
-      type: 3}
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

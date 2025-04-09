@@ -246,15 +246,23 @@ public class PlayerMovement : MonoBehaviour
             //계단을 올라가거나, 벽에 부딪혔거나 둘 중 하나나
             if (Vector3.Angle(hit.normal, Vector3.up) > 75)
             {
+                print("slope or wall");
                 Vector3 stepup = StairStepUp(delta);
 
                 // TODO: 계단을 올라가는 경우엔 Y값을 변동시킨 상태로 계산
                 //계단을 올라가는 경우가 아니라면 사영시킨 벡터로 변환
                 //-> 벽과 계단을 구분하는 로직이며 벽에서 비빌 때는 미끄러지듯 부드럽게 움직이도록 하는 코드입니다.
                 // 물론, 마찰을 쎄게 주고 싶다면 restMagnitude에 마찰 가중치를 주면 됩니다.
-                return stepup == Vector3.zero ?
-                        Vector3.ProjectOnPlane(delta, hit.normal).normalized * restMagnitude * wallFriction
-                        : delta + stepup;
+                if(Vector3.zero == stepup){
+                    Vector3 temp = Vector3.ProjectOnPlane(delta, hit.normal).normalized * restMagnitude * wallFriction;
+                    temp.y = 0;
+                    return temp;
+                }
+                
+               else{
+                    return  delta + stepup;
+                }
+
             }
 
             if (restMagnitude <= 0.01f) {
