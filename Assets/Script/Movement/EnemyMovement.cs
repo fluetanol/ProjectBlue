@@ -99,13 +99,14 @@ public class EnemyMovement : MonoBehaviour, IDamageable, IForceable, IAttackable
 
         //공격 로직
         Vector3 newdirection = (  _nextPosition - _rigidbody.position).normalized;
-        if (Physics.Raycast(_rigidbody.position, newdirection, out RaycastHit hit,
+        if (Physics.Raycast(_rigidbody.position+ Vector3.up * 0.75f, newdirection, out RaycastHit hit,
         Vector3.Distance(_rigidbody.position, _nextPosition) + 1f,
         LayerMask.GetMask("Player"))){
             StartCoroutine(AttackTimer());
             hit.collider.GetComponent<IDamageable>().TakeDamage(damage);
             _animator.SetBool("isAttack", true);
         }
+
         //Debug.DrawRay(_rigidbody.position, newdirection * (Vector3.Distance(_rigidbody.position, _nextPosition)+1f), Color.red,3f);
     }
 

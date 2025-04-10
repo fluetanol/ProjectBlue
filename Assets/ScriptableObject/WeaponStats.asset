@@ -23,7 +23,7 @@ MonoBehaviour:
     BasicAttackMask:
       serializedVersion: 2
       m_Bits: 384
-    BulletSpeed: 20
+    BulletSpeed: 25
     BulletLifeTime: 5
     BulletPrefab: {fileID: 5393025680698808366, guid: 1e85f281574dcb745af4b9fa622bac66, type: 3}
     AttackLifeTime: 0
