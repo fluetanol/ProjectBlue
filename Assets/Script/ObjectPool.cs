@@ -56,7 +56,6 @@ public class ObjectPool<T> : IPoolable<T> where T : MonoBehaviour, IDisposable
             return null;
         }
         T obj = _pool.Dequeue();
-       // obj.gameObject.SetActive(true);
         Count--;
         return obj;
     }

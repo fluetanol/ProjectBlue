@@ -44,9 +44,9 @@ public class EnemyPoolManager : ObjectPoolManager<Enemy, EnemyPoolManager>
         return Get<Enemy>(num);
     }
 
-    public override Enemy Get(int num, Vector3 position, Quaternion rotation)
+    public override Enemy Get(int num, Vector3 position, Quaternion rotation, bool isActive = false)
     {
-        return Get<Enemy>(num, position, rotation);
+        return Get<Enemy>(num, position, rotation, isActive);
     }
 
 
@@ -56,8 +56,7 @@ public class EnemyPoolManager : ObjectPoolManager<Enemy, EnemyPoolManager>
     }
 
 
-
-    public override P Get<P>(int num, Vector3 position, Quaternion rotation)
+    public override P Get<P>(int num, Vector3 position, Quaternion rotation, bool isActive = false)
     {
         P enemy = Get<P>(num);
 
@@ -66,6 +65,8 @@ public class EnemyPoolManager : ObjectPoolManager<Enemy, EnemyPoolManager>
             enemy.transform.position = position;
             enemy.transform.rotation = rotation;
         }
+
+       // enemy.gameObject.SetActive(isActive);
         return enemy;
     }
 

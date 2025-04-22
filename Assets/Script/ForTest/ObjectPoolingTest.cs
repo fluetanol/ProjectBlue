@@ -20,7 +20,7 @@ public class ObjectPoolingTest : MonoBehaviour
         PoolingInfo poolingInfo = new PoolingInfo();
         poolingInfo.size = EnemyPoolManager.Instance.enemyStats.getSize();
         poolingInfo.PoolTypes = new int[] { 0, 1 };
-        poolingInfo.PoolCount = new int[] { 10, 10 };
+        poolingInfo.PoolCount = new int[] { 50, 50 };
         EnemyPoolManager.Instance.FirstCreate(poolingInfo);
 
 

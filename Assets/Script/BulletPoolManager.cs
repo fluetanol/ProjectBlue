@@ -59,7 +59,7 @@ public class BulletPoolManager : ObjectPoolManager<Bullet, BulletPoolManager>
         return bulletPool[num].Get() as P;
     }
 
-    public override P Get<P>(int num, Vector3 position, Quaternion rotation)
+    public override P Get<P>(int num, Vector3 position, Quaternion rotation, bool isActive = false)
     {
         P bullet = Get<P>(num);
         if (bullet != null)
@@ -75,7 +75,7 @@ public class BulletPoolManager : ObjectPoolManager<Bullet, BulletPoolManager>
         return bulletPool[num].Get();
     }
 
-    public override Bullet Get(int num, Vector3 position, Quaternion rotation)
+    public override Bullet Get(int num, Vector3 position, Quaternion rotation, bool isActive = false)
     {
         Bullet bullet = Get(num);
 

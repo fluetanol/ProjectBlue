@@ -23,9 +23,9 @@ public abstract class ObjectPoolManager<T, T2> : MonoBehaviour where T : MonoBeh
     }
 
     public abstract T Get(int num);
-    public abstract T Get(int num, Vector3 position, Quaternion rotation);
+    public abstract T Get(int num, Vector3 position, Quaternion rotation, bool isActive = false);
     public abstract P Get<P>(int num) where P : T;
-    public abstract P Get<P>(int num, Vector3 position, Quaternion rotation) where P : T;
+    public abstract P Get<P>(int num, Vector3 position, Quaternion rotation, bool isActive = false) where P : T;
     public abstract T[] Get(int num, int count);
     public abstract void Return(int num, T obj);
     public abstract void FirstCreate(PoolingInfo poolInfo);
