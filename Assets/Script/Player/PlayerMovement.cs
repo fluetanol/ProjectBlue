@@ -145,9 +145,6 @@ public class PlayerMovement : MonoBehaviour
         ydelta += Physics.gravity * Time.fixedDeltaTime * Time.fixedDeltaTime * GravityMultiplier;
 
         //print(ydelta.y+" "+ Physics.gravity * Time.fixedDeltaTime * Time.fixedDeltaTime);
-
-
-
         nextDelta = HorizontalCollideAndSlide(xdelta, _rigidbody.position, 0);
         nextDelta += VerticalCollideAndSlide(ydelta, _rigidbody.position + nextDelta, 0);
 
