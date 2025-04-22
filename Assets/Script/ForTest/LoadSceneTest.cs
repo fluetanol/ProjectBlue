@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class LoadSceneTest : MonoBehaviour
 {
+    public int createEnemyNum;
+    
     public GameObject prefab;
     public static LoadSceneTest Instance { get; private set; }
 

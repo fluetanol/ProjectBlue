@@ -25,6 +25,7 @@ public class EnemyStats : ScriptableObject
         [Header("Setting Enemy Attack Stats")]
         public EenemyAttackType EnemyAttackType;
 
+        public GameObject EnemyPrefab;
 
     }
 
@@ -34,5 +35,9 @@ public class EnemyStats : ScriptableObject
         get{
             return _enemyInfoList[idx];
         }
+    }
+
+    public int getSize(){
+        return _enemyInfoList.Count;
     }
 }

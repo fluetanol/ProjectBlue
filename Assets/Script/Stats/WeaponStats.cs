@@ -104,7 +104,11 @@ public class WeaponStats : ScriptableObject
         }
     }
 
-
+    public int Count{
+        get{
+            return WeaponList.Count;
+        }
+    }
 
 
 }

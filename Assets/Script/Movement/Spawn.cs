@@ -23,8 +23,8 @@ public class Spawn : MonoBehaviour
 
             for(int i = 0; i < _spawnCount; i++){
                 int randomIndex = Random.Range(0, _enemyObject.Count);
-                GameObject enemyObject = _enemyObject[randomIndex];
-                Instantiate(enemyObject, transform.position, Quaternion.identity);
+                Enemy em = EnemyPoolManager.Instance.Get(0, transform.position, Quaternion.identity);
+                //Instantiate(enemyObject, transform.position, Quaternion.identity);
             }
 
             _enemyCount += _spawnCount;

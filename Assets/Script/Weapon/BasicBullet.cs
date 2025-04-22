@@ -13,6 +13,7 @@ public struct BoxCastInfo
 [RequireComponent(typeof(Rigidbody))]
 public class BasicBullet : Bullet
 {
+    private int code = 0;
     [SerializeField] private bool           _isPenetration;
     [SerializeField] private float          _bulletSpeed;
     [SerializeField] private BoxCollider    _boxCollider;
@@ -37,6 +38,10 @@ public class BasicBullet : Bullet
         MakeBoxCastInfo();
     }
 
+    public void SetBulletPosition(Vector3 position, Quaternion rotation){
+        transform.position = position;
+        transform.rotation = rotation;
+    }
 
     public override void SetBulletStats(WeaponStats.WeaponInfo weaponInfo){
         base.SetBulletStats(weaponInfo);
@@ -66,7 +71,8 @@ public class BasicBullet : Bullet
                 enemy.TakeDamage((int)_bulletDamage);
             }
 
-            Destroy(gameObject);
+            BulletPoolManager.Instance.Return(_bulletCode, this);
+            //Destroy(gameObject);
         }
     }
 
@@ -82,7 +88,7 @@ public class BasicBullet : Bullet
                // print("take DMG");
                 enemy.TakeDamage((int)_bulletDamage);
             }
-            Destroy(gameObject);
+            BulletPoolManager.Instance.Return(_bulletCode, this);
         }
     }
 
@@ -108,7 +114,7 @@ public class BasicBullet : Bullet
             yield return new WaitForFixedUpdate();
         }
 
-        Destroy(gameObject);
+        BulletPoolManager.Instance.Return(_bulletCode, this);
     }
 
 }

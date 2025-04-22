@@ -4,28 +4,13 @@ using UnityEngine.Rendering;
 
 
 [RequireComponent(typeof(Rigidbody))]   
-public class EnemyMovement2 : MonoBehaviour, IDamageable, IForceable, IAttackable
+public class EnemyMovement2 : Enemy, IDamageable, IForceable, IAttackable
 {
-    [Header("Enemy Basic Stats")]
-    public Transform testobj;
-    public float health = 3;
-    public int   damage = 1;
-    public float attackTick;
-    public float dmgTick;
-
     [Header("Enemy Additional Stats")]
     public float _moveSpeed;
     public float range; //공격 범위 반지름
     public int _weaponCode; //무기 코드
     public Transform ShotPoint; //무기 발사 위치
-
-
-
-    [Header("Enemy Components")]
-    [SerializeField] private Animator _animator;
-    [SerializeField] private int EnemyCode;
-    [SerializeField] private Rigidbody _rigidbody;
-    [SerializeField] private Rigidbody _target;
 
 
     [Header("Setting Enemy Move Stats Scriptable Object")]
@@ -35,15 +20,8 @@ public class EnemyMovement2 : MonoBehaviour, IDamageable, IForceable, IAttackabl
     private Vector3 _targetPosition, _nextPosition;
     private Weapon _weapon;
     private bool _isAttacking = false;  
-    private bool _isDead = false;
     private bool _moveLock = false;
 
-    void Awake(){
-        if(_rigidbody == null) _rigidbody = GetComponent<Rigidbody>();
-        InitializeStats();
-        if(_animator == null) _animator =  GetComponent<Animator>();
-       // health =_enemyStats.SetEnemyStats(EnemyCode);
-    }
 
     void Start(){
          WeaponStats.WeaponInfo weaponStats = EnemyCurrentDataManager.WeaponStats[_weaponCode];
@@ -66,7 +44,7 @@ public class EnemyMovement2 : MonoBehaviour, IDamageable, IForceable, IAttackabl
     }
 
 
-    private void InitializeStats(){
+    protected sealed override void InitializeStats(){
         health = _enemyStats[EnemyCode].EnemyHealth;
         damage = _enemyStats[EnemyCode].EnemyDamage;
         dmgTick = _enemyStats[EnemyCode].EnemyDmgTick;
@@ -87,6 +65,8 @@ public class EnemyMovement2 : MonoBehaviour, IDamageable, IForceable, IAttackabl
         _targetPosition = _target != null ? _target.position : PlayerMovement.PlayerPosition;
 
         transform.LookAt(_targetPosition);
+        print("enemy look at : " + _targetPosition);
+        
         if(_enemyStats[0].EnemyMoveType == EenemyMoveType.linearInterpolation)
             return Vector3.Lerp(_rigidbody.position, _targetPosition, 
             Time.fixedDeltaTime * _enemyStats[0]._linearInterpolationMoveSpeed);
@@ -127,7 +107,6 @@ public class EnemyMovement2 : MonoBehaviour, IDamageable, IForceable, IAttackabl
     //kinematic으로 변경해야 하는 순간이 온다면 코드 바꿔야 할 예정
     public void Knockback(Vector3 direction, float force){
         print("force!" + direction + " " + force);
-        
         _rigidbody.AddForce(direction * force,ForceMode.Impulse);
     }
 
@@ -138,6 +117,15 @@ public class EnemyMovement2 : MonoBehaviour, IDamageable, IForceable, IAttackabl
         _isAttacking = false;
         _moveLock = false;
         _animator.SetBool("isAttack", _isAttacking);
+    }
+
+    public override void Dispose()
+    {
+        _moveLock = false;
+        _isAttacking = false;
+        _isDead = false;
+        StopCoroutine(AttackTimer());
+        base.Dispose();
     }
 
     void OnDrawGizmos()

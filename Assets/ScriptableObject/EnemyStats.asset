@@ -22,3 +22,14 @@ MonoBehaviour:
     _linearMoveSpeed: 4.73
     _linearInterpolationMoveSpeed: 1
     EnemyAttackType: 0
+    EnemyPrefab: {fileID: 6308480257989523103, guid: c87f80a9ca22c6b499d25d2f6dfc358b, type: 3}
+  - EnemyCode: 1
+    EnemyHealth: 20
+    EnemyDamage: 10
+    EnemyDmgTick: 0
+    EnemyAttackTick: 0.5
+    EnemyMoveType: 0
+    _linearMoveSpeed: 4.73
+    _linearInterpolationMoveSpeed: 1
+    EnemyAttackType: 0
+    EnemyPrefab: {fileID: 656918725280790176, guid: a88acf2f6a573ee4d809fe1a969ca3ec, type: 3}

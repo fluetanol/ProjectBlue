@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class Bullet : MonoBehaviour, IDisposable
 {
+    [SerializeField] protected int _bulletCode;
     [SerializeField] protected float _bulletDamage;
     [SerializeField] protected float _bulletLifeTime;
     [SerializeField] protected LayerMask _bulletMask;
@@ -14,7 +15,7 @@ public abstract class Bullet : MonoBehaviour, IDisposable
         set;
     }
 
-    void Awake() {
+    protected virtual void Awake() {
         print("Awake !!");
         GetBulletComponent();
     }
@@ -30,6 +31,7 @@ public abstract class Bullet : MonoBehaviour, IDisposable
 
 
     public virtual void SetBulletStats(WeaponStats.WeaponInfo weaponInfo){
+        _bulletCode = weaponInfo.WeaponCode;
         _bulletLifeTime = weaponInfo.GetBulletLifeTime();
         _bulletDamage = weaponInfo.Damage;
     }
@@ -43,6 +45,6 @@ public abstract class Bullet : MonoBehaviour, IDisposable
 
     public void Dispose()
     {
-        ObjectPoolManager.Instance.BulletPool.Return(this);
+       // BulletPoolManager.Instance.Return(_bulletNum, this);
     }
 }

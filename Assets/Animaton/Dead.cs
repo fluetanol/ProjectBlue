@@ -22,7 +22,8 @@ public class Dead : StateMachineBehaviour
         //if(animator.transform.parent.TryGetComponent<EnemyMovement>(out EnemyMovement enemyMovement)){
         //    ObjectPoolManager.Instance.EnemyPool.Return(enemyMovement);
         //}
-        animator.transform.parent.gameObject.SetActive(false);
+        EnemyPoolManager.Instance.Return(animator.transform.parent.gameObject.GetComponent<Enemy>().EnemyCode, animator.transform.parent.gameObject.GetComponent<EnemyMovement>());
+        //animator.transform.parent.gameObject.SetActive(false);
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

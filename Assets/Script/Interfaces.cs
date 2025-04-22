@@ -31,3 +31,12 @@ interface IAttackable
 {
     void Attack();
 }
+
+
+public interface IPoolable { }
+public interface IPoolable<T> : IPoolable where T : MonoBehaviour
+{
+    void Add(T obj);
+    T Get();
+    void Return(T obj);
+}
