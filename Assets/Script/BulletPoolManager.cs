@@ -34,7 +34,7 @@ public class BulletPoolManager : ObjectPoolManager<Bullet, BulletPoolManager>
             }
 
             print("create code : " + code);
-            bulletPool[code] = new ObjectPool<Bullet>(Parent, objs);
+            bulletPool[code] = new ObjectPool<Bullet>(Parent, prefab, enableCreateNew, objs);
         }
     }
 

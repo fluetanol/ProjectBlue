@@ -34,7 +34,7 @@ public class EnemyPoolManager : ObjectPoolManager<Enemy, EnemyPoolManager>
             
 
             print("create code : " + code);
-            enemyPool[code] = new ObjectPool<Enemy>(Parent, objs);
+            enemyPool[code] = new ObjectPool<Enemy>(Parent, prefab, enableCreateNew, objs);
         }
 
     }

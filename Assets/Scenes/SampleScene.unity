@@ -1158,6 +1158,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Building Sky_big_color02 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 694e1313d3f12e84aaf959ff6960ddaf, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 694e1313d3f12e84aaf959ff6960ddaf, type: 3}
       propertyPath: m_LocalPosition.x
       value: 26.771229
@@ -2373,7 +2377,7 @@ GameObject:
   - component: {fileID: 656424012}
   - component: {fileID: 656424011}
   - component: {fileID: 656424010}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4574,6 +4578,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Building_Bakery
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 65abb0f1b521f834bae80ea4c9d93734, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 65abb0f1b521f834bae80ea4c9d93734, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -4862,6 +4870,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 465a087311fd3de43a93f593b5ef2277, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enableCreateNew: 0
   Parent: {fileID: 1379510377}
   weaponStats: {fileID: 11400000, guid: 9bb14c387f983984ba9f8efba8caf9e6, type: 2}
   bulletPool: []
@@ -5055,6 +5064,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: c3e95e72d6dba334594c3c5c37fcf18a, type: 3}
       propertyPath: m_Name
       value: Building_Super Market
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: c3e95e72d6dba334594c3c5c37fcf18a, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: c3e95e72d6dba334594c3c5c37fcf18a, type: 3}
       propertyPath: m_LocalScale.x
@@ -5318,6 +5331,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 52f969fb493f02248ba2e0ab07d6d81f, type: 3}
       propertyPath: m_Name
       value: Building_Shoes Shop
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 52f969fb493f02248ba2e0ab07d6d81f, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 52f969fb493f02248ba2e0ab07d6d81f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5729,6 +5746,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07c30efc76251bf47bea8ccb72346d3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enableCreateNew: 0
   Parent: {fileID: 1670973288}
   enemyStats: {fileID: 11400000, guid: 83844d5aca4a99746a54138ee12ff7da, type: 2}
   enemyPool: []
@@ -7725,6 +7743,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 694e1313d3f12e84aaf959ff6960ddaf, type: 3}
       propertyPath: m_Name
       value: Building Sky_big_color02
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 694e1313d3f12e84aaf959ff6960ddaf, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 694e1313d3f12e84aaf959ff6960ddaf, type: 3}
       propertyPath: m_LocalPosition.x

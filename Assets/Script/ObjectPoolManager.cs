@@ -11,7 +11,9 @@ public struct PoolingInfo{
 public abstract class ObjectPoolManager<T, T2> : MonoBehaviour where T : MonoBehaviour, IDisposable where T2 : MonoBehaviour
 {
     public static T2 Instance { get; private set; }
-    
+
+    //풀링 오브젝트 이상으로 오브젝트를 생성시키려 할 때, 새로 생성할 것인지 여부
+    public bool enableCreateNew = false;
     public Transform Parent;
 
     protected virtual void Awake()
