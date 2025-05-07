@@ -78,12 +78,12 @@ public class BulletPoolManager : ObjectPoolManager<Bullet, BulletPoolManager>
     public override Bullet Get(int num, Vector3 position, Quaternion rotation, bool isActive = false)
     {
         Bullet bullet = Get(num);
-
         if (bullet != null)
         {
             bullet.transform.position = position;
             bullet.transform.rotation = rotation;
         }
+        bullet.gameObject.SetActive(isActive);
         return bullet;
     }
 

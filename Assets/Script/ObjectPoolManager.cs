@@ -2,11 +2,14 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public struct PoolingInfo{
     public int size;
     public int[] PoolTypes;
     public int[] PoolCount;
 }
+
+
 
 public abstract class ObjectPoolManager<T, T2> : MonoBehaviour where T : MonoBehaviour, IDisposable where T2 : MonoBehaviour
 {

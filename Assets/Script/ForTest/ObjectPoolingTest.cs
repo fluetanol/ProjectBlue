@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,8 +27,16 @@ public class ObjectPoolingTest : MonoBehaviour
 
         PoolingInfo poolingInfo2 = new PoolingInfo();
         poolingInfo2.size = BulletPoolManager.Instance.weaponStats.Count;
-        poolingInfo2.PoolTypes = new int[] { 0, 1, 2 };
-        poolingInfo2.PoolCount = new int[] { 100, 3, 1 };
+        poolingInfo2.PoolTypes = new int[poolingInfo2.size];
+        poolingInfo2.PoolCount = new int[poolingInfo2.size];
+        for(int i=0; i<poolingInfo2.size; ++i){
+        
+            poolingInfo2.PoolCount[i] = BulletPoolManager.Instance.weaponStats[i].PoolCount;
+            poolingInfo2.PoolTypes[i] = BulletPoolManager.Instance.weaponStats[i].WeaponCode;
+            print(poolingInfo2.PoolCount[i]);
+        }
+
+
         BulletPoolManager.Instance.FirstCreate(poolingInfo2);
         // StartCoroutine(test());
     }

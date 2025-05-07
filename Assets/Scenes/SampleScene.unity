@@ -11073,6 +11073,7 @@ MonoBehaviour:
     BasicAttackMask:
       serializedVersion: 2
       m_Bits: 0
+    PoolCount: 0
     BulletSpeed: 0
     BulletLifeTime: 0
     BulletPrefab: {fileID: 0}

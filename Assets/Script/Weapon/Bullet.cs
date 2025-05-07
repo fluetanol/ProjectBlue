@@ -20,7 +20,7 @@ public abstract class Bullet : MonoBehaviour, IDisposable
         GetBulletComponent();
     }
 
-    void OnEnable(){
+    protected virtual void OnEnable(){
         StartCoroutine(BulletLifeTime());
     }
 

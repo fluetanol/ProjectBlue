@@ -10,8 +10,10 @@ public class ShotBullet : Bullet
     [SerializeField] private float _radius;
     [SerializeField] private float _angle;
 
-    void Start()
-    {
+    override protected void OnEnable() {
+        base.OnEnable();
+        // _radius = GetComponent<SphereCollider>().radius;
+       // _radius = GetComponent<SphereCollider>().radius;
         BulletCollide();
     }
 
@@ -69,7 +71,7 @@ public class ShotBullet : Bullet
 
     protected override IEnumerator BulletLifeTime(){
         yield return new WaitForSeconds(_bulletLifeTime);
-        Destroy(gameObject);
+        BulletPoolManager.Instance.Return(_bulletCode, this);
     }
 
 }

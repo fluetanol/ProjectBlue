@@ -1,6 +1,5 @@
-using System;
+
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -45,6 +44,7 @@ public class WeaponStats : ScriptableObject
         public EWeaponType WeaponType;
         public GameObject  WeaponPrefab;
         public LayerMask   BasicAttackMask;
+        public ushort PoolCount;
 
         [SerializeField, Header("Bullet Info"), ConditionalField(nameof(WeaponType), (int)EWeaponType.far)]
         private ushort  BulletSpeed;    
@@ -59,6 +59,7 @@ public class WeaponStats : ScriptableObject
         private float AttackAngle;
         [SerializeField, ConditionalField(nameof(WeaponType), (int)EWeaponType.near)]
         private float AttackDistance;
+
 
         public void AddMask(LayerMask mask){
             BasicAttackMask = BasicAttackMask | mask;

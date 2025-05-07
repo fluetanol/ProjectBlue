@@ -13,7 +13,9 @@ public class LaserGun : Weapon
         if (ShootingBulletPrefab == null) ShootingBulletPrefab = weaponInfo.BulletPrefab;
         if (LaserBullet == null)
         {
-            LaserBullet = Instantiate(ShootingBulletPrefab, transform.position, transform.rotation);
+            LaserBullet = BulletPoolManager.Instance.Get(2).gameObject;
+
+            //Instantiate(ShootingBulletPrefab, transform.position, transform.rotation);
             LaserBullet.transform.parent = this.transform;
             laserBullet = LaserBullet.GetComponent<LaserBullet>();
             laserBullet.SetBulletStats(weaponInfo);

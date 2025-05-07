@@ -6,8 +6,8 @@ public class Weapon : MonoBehaviour
     //무기가 원거리인 경우에만 장착
    // protected GameObject ShootingBulletPrefab = null;
     protected GameObject ShootingBulletPrefab;
-    private LayerMask attackMask;
-    private WeaponStats.WeaponInfo weaponInfo;
+    protected LayerMask attackMask;
+    protected WeaponStats.WeaponInfo weaponInfo;
 
     void Awake()
     {
