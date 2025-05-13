@@ -13,11 +13,6 @@ public class ObjectPoolingTest : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected void Awake()
     {
-    }
-
-
-    void Start()
-    {
         PoolingInfo poolingInfo = new PoolingInfo();
         poolingInfo.size = EnemyPoolManager.Instance.enemyStats.getSize();
         poolingInfo.PoolTypes = new int[] { 0, 1 };
@@ -29,8 +24,9 @@ public class ObjectPoolingTest : MonoBehaviour
         poolingInfo2.size = BulletPoolManager.Instance.weaponStats.Count;
         poolingInfo2.PoolTypes = new int[poolingInfo2.size];
         poolingInfo2.PoolCount = new int[poolingInfo2.size];
-        for(int i=0; i<poolingInfo2.size; ++i){
-        
+        for (int i = 0; i < poolingInfo2.size; ++i)
+        {
+
             poolingInfo2.PoolCount[i] = BulletPoolManager.Instance.weaponStats[i].PoolCount;
             poolingInfo2.PoolTypes[i] = BulletPoolManager.Instance.weaponStats[i].WeaponCode;
             print(poolingInfo2.PoolCount[i]);
@@ -39,6 +35,12 @@ public class ObjectPoolingTest : MonoBehaviour
 
         BulletPoolManager.Instance.FirstCreate(poolingInfo2);
         // StartCoroutine(test());
+    }
+
+
+    void Start()
+    {
+
     }
 
     

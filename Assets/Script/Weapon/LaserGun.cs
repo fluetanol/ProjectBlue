@@ -17,6 +17,7 @@ public class LaserGun : Weapon
 
             //Instantiate(ShootingBulletPrefab, transform.position, transform.rotation);
             LaserBullet.transform.parent = this.transform;
+            LaserBullet.transform.localPosition = Vector3.zero;
             laserBullet = LaserBullet.GetComponent<LaserBullet>();
             laserBullet.SetBulletStats(weaponInfo);
         }

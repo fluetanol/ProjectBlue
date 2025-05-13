@@ -64,6 +64,10 @@ public class ObjectPool<T> : IPoolable<T> where T : MonoBehaviour, IDisposable
             GameObject newObject = MonoBehaviour.Instantiate(_prefab, _poolParent);
             return newObject.GetComponent<T>();
         }
+        else if(_pool.Count == 0 && !_enableCreateNew){
+            Debug.LogWarning("no object in pool : cant make new object");  
+            return null;
+        }
 
             T obj = _pool.Dequeue();
             Count--;

@@ -26,14 +26,14 @@ public class EnemyPoolManager : ObjectPoolManager<Enemy, EnemyPoolManager>
 
             int count = poolInfo.PoolCount[code];
             //그 적을 생성시킬 갯수
-            print("create count : " + count);
+//            print("create count : " + count);
             Enemy[] objs = new Enemy[count];
             for (int i=0; i<count; i++){
                 objs[i] = Instantiate(prefab, Parent).GetComponent<Enemy>();
             }
             
 
-            print("create code : " + code);
+    //            print("create code : " + code);
             enemyPool[code] = new ObjectPool<Enemy>(Parent, prefab, enableCreateNew, objs);
         }
 
