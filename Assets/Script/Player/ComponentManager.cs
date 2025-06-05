@@ -25,5 +25,34 @@ public class BasicComponents
 
 public class ComponentManager : MonoBehaviour
 {
-    public BasicComponents objectComponents;
+    public BasicComponents BasicComponents;
+    public LineRenderer LineRenderer;
+
+    public Rigidbody Rigidbody
+    {
+        get => BasicComponents.Rigidbody;
+        private set {}
+    }
+
+    public CapsuleCollider CapsuleCollider
+    {
+        get => BasicComponents.CapsuleCollider;
+        private set {}
+    }
+    public BoxCollider BoxCollider
+    {
+        get => BasicComponents.BoxCollider;
+        private set {}
+    }
+    public Animator Animator
+    {
+        get => BasicComponents.Animator;
+        private set{}
+    }
+    public Transform Transform
+    {
+        get => BasicComponents.Transform;
+        private set {}
+    }
+
 }

@@ -7,8 +7,10 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerMovement : MonoBehaviour
 {   
-    [Header("For Debugging")]
-    public LineRenderer lineRenderer;
+    [Header("Injection")]
+    [SerializeField] private ComponentManager   _componentManager;
+    [SerializeField] private PlayerInputManager _inputManager;
+
 
     public static Vector3 PlayerPosition;
 
@@ -54,11 +56,6 @@ public class PlayerMovement : MonoBehaviour
         private set;
     }
 
-
-    [SerializeField] private Animator _animator;
-    private        CapsuleCollider     _collider;
-    private        Rigidbody           _rigidbody;
-    private        PlayerInputManager _inputManager;
 
     private        Vector3[]           _moveTypeList{
         get{
@@ -108,8 +105,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Awake()
     {
-        _rigidbody = GetComponent<Rigidbody>();
-        _collider = GetComponent<CapsuleCollider>();
+        _componentManager = GetComponent<ComponentManager>();
         _inputManager = GetComponent<PlayerInputManager>();
         
     }
@@ -133,12 +129,13 @@ public class PlayerMovement : MonoBehaviour
         if(isGrounded) ydelta = Vector3.zero;
         ydelta += Physics.gravity * Time.fixedDeltaTime * Time.fixedDeltaTime * GravityMultiplier;
 
-        //print(ydelta.y+" "+ Physics.gravity * Time.fixedDeltaTime * Time.fixedDeltaTime);
-        nextDelta = HorizontalCollideAndSlide(xdelta, _rigidbody.position, 0);
-        nextDelta += VerticalCollideAndSlide(ydelta, _rigidbody.position + nextDelta, 0);
 
-        _rigidbody.MovePosition(_rigidbody.position + nextDelta);
-        PlayerPosition = _rigidbody.position;
+        //print(ydelta.y+" "+ Physics.gravity * Time.fixedDeltaTime * Time.fixedDeltaTime);
+        nextDelta = HorizontalCollideAndSlide(xdelta, _componentManager.Rigidbody.position, 0);
+        nextDelta += VerticalCollideAndSlide(ydelta, _componentManager.Rigidbody.position + nextDelta, 0);
+
+        _componentManager.Rigidbody.MovePosition(_componentManager.Rigidbody.position + nextDelta);
+        PlayerPosition = _componentManager.Rigidbody.position;
     }
 
     // Update is called once per frame
@@ -164,8 +161,8 @@ public class PlayerMovement : MonoBehaviour
         Vector3 direction = delta.normalized;
 
 
-        Vector3 stepcheck = 
-            _rigidbody.position + delta + 
+        Vector3 stepcheck =
+            _componentManager.Rigidbody.position + delta + 
             Vector3.up * maxStepHeight + 
             direction * stepCheckDistance;
 
@@ -183,10 +180,10 @@ public class PlayerMovement : MonoBehaviour
                                                               평탄하지 않은 계단 설정이 있다면(이를테면 조금 높은 바위 언덕) 이라면 좀 더 다양한 로직이 필요할 것.
         */
 
-        Ray ray = new Ray(_rigidbody.position + delta + Vector3.up * maxStepHeight, direction);
+        Ray ray = new Ray(_componentManager.Rigidbody.position + delta + Vector3.up * maxStepHeight, direction);
 
         
-        Debug.DrawRay(_rigidbody.position + delta + Vector3.up * maxStepHeight, direction * stepCheckDistance, Color.green, 5);
+        Debug.DrawRay(_componentManager.Rigidbody.position + delta + Vector3.up * maxStepHeight, direction * stepCheckDistance, Color.green, 5);
         Debug.DrawRay(stepcheck, Vector3.down * maxStepHeight, Color.cyan, 5);
 
         if(!Physics.Raycast(ray, stepCheckDistance)){
@@ -195,7 +192,7 @@ public class PlayerMovement : MonoBehaviour
             if(Physics.Raycast(ray2, out RaycastHit hit, maxStepHeight)){
                 if(hit.normal == Vector3.up){
                     print("stair");
-                    stepUp = new Vector3(0, hit.point.y - _rigidbody.position.y, 0);
+                    stepUp = new Vector3(0, hit.point.y - _componentManager.Rigidbody.position.y, 0);
                 }
             }
         }
@@ -316,9 +313,9 @@ public class PlayerMovement : MonoBehaviour
 
     private CapsuleInfo CapsuleCastInfo(Vector3 playerPosition)
     {
-        float radius = _collider.radius;
-        Vector3 center = playerPosition + _collider.center;
-        float halfHeight = Mathf.Max(_collider.height / 2 - _collider.radius, 0);// 캡슐 높이에서 반지름 제외
+        float radius = _componentManager.CapsuleCollider.radius;
+        Vector3 center = playerPosition + _componentManager.CapsuleCollider.center;
+        float halfHeight = Mathf.Max(_componentManager.CapsuleCollider.height / 2 - _componentManager.CapsuleCollider.radius, 0);// 캡슐 높이에서 반지름 제외
         Vector3 point1 = center + Vector3.up * halfHeight;
         Vector3 point2 = center + Vector3.down * halfHeight;
 
@@ -390,12 +387,12 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void SetAnimMove(){
-        _animator.SetBool("IsMove", IsMove);
+        _componentManager.Animator.SetBool("IsMove", IsMove);
       //  print("IsMove : " + IsMove);
     }
 
     private void SetAnimClick(){
-        _animator.SetBool("IsClicked", IsClicked);
+        _componentManager.Animator.SetBool("IsClicked", IsClicked);
        // print("IsClicked : " + IsClicked);
     }
 
@@ -405,7 +402,7 @@ public class PlayerMovement : MonoBehaviour
 
     void forDebug()
     {
-        if (lineRenderer == null) return;
+        if (_componentManager.LineRenderer == null) return;
         Vector3 direction = _lookPosition - transform.position;
         Vector3 dir = Quaternion.AngleAxis(30, Vector3.up) * direction;
         Vector3 dir2 = Quaternion.AngleAxis(-30, Vector3.up) * direction;
@@ -413,10 +410,10 @@ public class PlayerMovement : MonoBehaviour
         dir2.y = 0;
         dir = dir.normalized * 6;
         dir2 = dir2.normalized * 6;
-        lineRenderer.SetPosition(0, transform.position);
-        lineRenderer.SetPosition(1, transform.position + dir);
-        lineRenderer.SetPosition(2, transform.position);
-        lineRenderer.SetPosition(3, transform.position + dir2);
+        _componentManager.LineRenderer.SetPosition(0, transform.position);
+        _componentManager.LineRenderer.SetPosition(1, transform.position + dir);
+        _componentManager.LineRenderer.SetPosition(2, transform.position);
+        _componentManager.LineRenderer.SetPosition(3, transform.position + dir2);
     }
 
     private void OnDrawGizmos()
