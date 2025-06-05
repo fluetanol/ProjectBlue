@@ -18,8 +18,6 @@ public class PlayerMaterialControler : MonoBehaviour
                 fadeMaterial.SetVector("_PlayerPosition", PlayerMovement.PlayerPosition);
             }
         }
-
-
     }
 
 }

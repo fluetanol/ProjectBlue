@@ -15,6 +15,7 @@ public class EnemyMovement2 : Enemy, IDamageable, IForceable, IAttackable
 
     [Header("Setting Enemy Move Stats Scriptable Object")]
     [SerializeField] private EnemyStats _enemyStats;
+    EnemyCurrentDataManager enemyCurrentDataManager;
     WeaponStats.WeaponInfo weaponStats;
     
     private Vector3 _targetPosition, _nextPosition;
@@ -24,7 +25,7 @@ public class EnemyMovement2 : Enemy, IDamageable, IForceable, IAttackable
 
 
     void Start(){
-         WeaponStats.WeaponInfo weaponStats = EnemyCurrentDataManager.WeaponStats[_weaponCode];
+         WeaponStats.WeaponInfo weaponStats = enemyCurrentDataManager.WeaponStats[_weaponCode];
          weaponStats.AddMask(LayerMask.GetMask("Player"));
          GameObject createWeapon = Instantiate(weaponStats.WeaponPrefab, ShotPoint.position, Quaternion.identity, this.transform);
          _weapon = createWeapon.GetComponent<Weapon>();

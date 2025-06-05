@@ -8949,10 +8949,10 @@ GameObject:
   - component: {fileID: 1356633998654775462}
   - component: {fileID: 6296004203446327975}
   - component: {fileID: 5342096378890131313}
-  - component: {fileID: 856506845}
-  - component: {fileID: 856506851}
   - component: {fileID: 6296004203446327976}
   - component: {fileID: 6296004203446327977}
+  - component: {fileID: 856506845}
+  - component: {fileID: 856506851}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -11671,9 +11671,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33190d7fed8c4664fa216f1bc93adf52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lineRenderer: {fileID: 2526960151724148893}
+  _componentManager: {fileID: 0}
+  _inputManager: {fileID: 0}
   _playerMoveAxisType: 1
-  _animator: {fileID: 2180753385012589116}
   HorizontalCollideRecursion: 3
   VerticalCollideRecursion: 3
   skinWidth: 0.01
@@ -11697,12 +11697,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2dca1a98e359784abe4330c6aaae69f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectComponents:
+  BasicComponents:
     Transform: {fileID: 3019291862444770695}
     Rigidbody: {fileID: 1356633998654775462}
     CapsuleCollider: {fileID: 2546723624073350106}
     BoxCollider: {fileID: 0}
     Animator: {fileID: 2180753385012589116}
+  LineRenderer: {fileID: 2526960151724148893}
 --- !u!114 &6296004203446327977
 MonoBehaviour:
   m_ObjectHideFlags: 0

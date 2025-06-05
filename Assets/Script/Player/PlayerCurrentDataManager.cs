@@ -1,7 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.Profiling;
-using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -14,23 +11,24 @@ public class PlayerDataManager : DataManager, IDamageable, IHealable
         public ushort WeaponLevel;
     }
 
-    public static PlayerDataManager Instance { get; private set; }
-
     [SerializeField] private PlayerStats _playerStats;
-    public static PlayerStats PlayerStats;
+    public PlayerStats PlayerStats
+    {
+        get => _playerStats;
+        private set { }
+    }
 
     public Transform ShootPoint;
-    public static Weapon weapon;
-
+    public Weapon weapon;
     public WeaponStats.WeaponInfo wponInfo;
 
-    public float                         currentHP;
-    public static float                  currentDEF;
-    public static float                  currentAtk;       //플레이어 자체 공격력
-    public static float                  currentMoveSpeed;
-    public static float                  currentAttackSpeed;
-    public static float                  DmgTick;
-    private bool                         isWaitDmgTick = false; //데미지 틱을 기다리는 중인지 확인
+    public float                  currentHP;
+    public float                  currentDEF;
+    public float                  currentAtk;       //플레이어 자체 공격력
+    public float                  currentMoveSpeed;
+    public float                  currentAttackSpeed;
+    public float                  DmgTick;
+    private bool                  isWaitDmgTick = false; //데미지 틱을 기다리는 중인지 확인
     
     
     private float damageRate =1;
@@ -44,7 +42,6 @@ public class PlayerDataManager : DataManager, IDamageable, IHealable
 
 
     void Awake(){
-        if(Instance == null) Instance = this;
         PlayerStats = _playerStats;
         WeaponStats = _weaponStats;
         InitializeCurrentStats();

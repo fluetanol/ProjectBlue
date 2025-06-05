@@ -41,7 +41,7 @@ public class EnemyController : MonoBehaviour
     {
         var moveJob = new MoveJob
         {
-            targetPosition = PlayerDataManager.Instance.transform.position,
+            //targetPosition = PlayerDataManager.Instance.transform.position,
             deltaTime = Time.fixedDeltaTime,
             speed = speed,
             positions = positions,

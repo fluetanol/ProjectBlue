@@ -4,5 +4,5 @@ using UnityEngine;
 public class DataManager : MonoBehaviour
 {
     [SerializeField] protected WeaponStats _weaponStats;
-    public static WeaponStats WeaponStats;
+    public WeaponStats WeaponStats;
 }

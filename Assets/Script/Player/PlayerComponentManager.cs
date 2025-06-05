@@ -23,7 +23,7 @@ public class BasicComponents
     }
 }
 
-public class ComponentManager : MonoBehaviour
+public class PlayerComponentManager : MonoBehaviour
 {
     public BasicComponents BasicComponents;
     public LineRenderer LineRenderer;

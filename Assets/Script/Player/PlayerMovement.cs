@@ -8,8 +8,9 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {   
     [Header("Injection")]
-    [SerializeField] private ComponentManager   _componentManager;
+    [SerializeField] private PlayerComponentManager   _componentManager;
     [SerializeField] private PlayerInputManager _inputManager;
+    [SerializeField] private PlayerDataManager _playerDataManager;
 
 
     public static Vector3 PlayerPosition;
@@ -105,8 +106,9 @@ public class PlayerMovement : MonoBehaviour
 
     void Awake()
     {
-        _componentManager = GetComponent<ComponentManager>();
+        _componentManager = GetComponent<PlayerComponentManager>();
         _inputManager = GetComponent<PlayerInputManager>();
+        _playerDataManager = GetComponent<PlayerDataManager>();
         
     }
 
@@ -125,7 +127,8 @@ public class PlayerMovement : MonoBehaviour
     
     void FixedUpdate()
     {
-        xdelta =  _moveTypeList[(int)_playerMoveAxisType] * PlayerDataManager.currentMoveSpeed * Time.fixedDeltaTime;
+
+        xdelta =  _moveTypeList[(int)_playerMoveAxisType] * _playerDataManager.currentMoveSpeed * Time.fixedDeltaTime;
         if(isGrounded) ydelta = Vector3.zero;
         ydelta += Physics.gravity * Time.fixedDeltaTime * Time.fixedDeltaTime * GravityMultiplier;
 
@@ -374,7 +377,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private IEnumerator Coroutine_Attacking(){
-        float attackSpeed = PlayerDataManager.WeaponStats[PlayerDataManager.PlayerStats.WeaponID].AttackSpeed;
+        float attackSpeed = _playerDataManager.WeaponStats[_playerDataManager.PlayerStats.WeaponID].AttackSpeed;
         while(true){
             AttackShooting();
             yield return new WaitForSeconds(attackSpeed);
@@ -383,7 +386,7 @@ public class PlayerMovement : MonoBehaviour
 
 
     private void AttackShooting(){
-        PlayerDataManager.weapon.Attack();
+        _playerDataManager.weapon.Attack();
     }
 
     private void SetAnimMove(){
