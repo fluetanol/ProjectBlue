@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 // 플레이어 기본 데이터를 받아온 뒤, 여기에서 실시간 수정을 합니다.
-public class PlayerDataManager : DataManager, IDamageable, IHealable
+public class PlayerDataManager : DataManager
 {
     public struct WeaponCondition{
         public ushort WeaponCode;
@@ -21,14 +21,11 @@ public class PlayerDataManager : DataManager, IDamageable, IHealable
     public Transform ShootPoint;
     public Weapon weapon;
     public WeaponStats.WeaponInfo wponInfo;
-
     public float                  currentHP;
     public float                  currentDEF;
     public float                  currentAtk;       //플레이어 자체 공격력
     public float                  currentMoveSpeed;
     public float                  currentAttackSpeed;
-    public float                  DmgTick;
-    private bool                  isWaitDmgTick = false; //데미지 틱을 기다리는 중인지 확인
     
     
     private float damageRate =1;
@@ -53,11 +50,9 @@ public class PlayerDataManager : DataManager, IDamageable, IHealable
         wponInfo = _weaponStats[weaponCode];
         wponInfo.AddMask(LayerMask.GetMask("Enemy"));
 
-        currentHP        =  PlayerStats.Health;
+        currentHP        = PlayerStats.Health;
         currentMoveSpeed = PlayerStats.MoveSpeed;
         currentAttackSpeed = wponInfo.AttackSpeed;
-        DmgTick = PlayerStats.DMGTick;
-        
     }
 
     private void CreateWeapon(ref WeaponStats.WeaponInfo wponinfo){
@@ -93,27 +88,4 @@ public class PlayerDataManager : DataManager, IDamageable, IHealable
         else currentMoveSpeed -= currentMoveSpeed * rate;
     }
 
-    void IDamageable.TakeDamage(float damage){
-        if(!isWaitDmgTick){
-            currentHP -= damage;
-            StartCoroutine(DmgTickTimer());
-        }
-
-        if(currentHP <= 0){
-            // Game Over
-        }
-    }
-
-    void IHealable.TakeHeal(float heal){
-        currentHP += heal;
-        if(currentHP > PlayerStats.Health){
-            currentHP = PlayerStats.Health;
-        }
-    }
-    
-    public IEnumerator DmgTickTimer(){
-        isWaitDmgTick = true;
-        yield return new WaitForSeconds(DmgTick);
-        isWaitDmgTick = false;
-    }
 }

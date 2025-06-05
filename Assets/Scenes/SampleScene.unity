@@ -982,6 +982,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _weaponStats: {fileID: 11400000, guid: 9bb14c387f983984ba9f8efba8caf9e6, type: 2}
+  WeaponStats: {fileID: 0}
 --- !u!1001 &330195670
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8953,6 +8954,7 @@ GameObject:
   - component: {fileID: 6296004203446327977}
   - component: {fileID: 856506845}
   - component: {fileID: 856506851}
+  - component: {fileID: 6296004203446327978}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -11077,8 +11079,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _weaponStats: {fileID: 11400000, guid: 9bb14c387f983984ba9f8efba8caf9e6, type: 2}
+  WeaponStats: {fileID: 0}
   _playerStats: {fileID: 11400000, guid: 385b8705e86a5884f9b42204193c03b1, type: 2}
   ShootPoint: {fileID: 8719710633935628174}
+  weapon: {fileID: 0}
   wponInfo:
     WeaponCode: 0
     WeaponName: 
@@ -11097,6 +11101,10 @@ MonoBehaviour:
     AttackAngle: 0
     AttackDistance: 0
   currentHP: 0
+  currentDEF: 0
+  currentAtk: 0
+  currentMoveSpeed: 0
+  currentAttackSpeed: 0
 --- !u!4 &5362683433834960795
 Transform:
   m_ObjectHideFlags: 0
@@ -11673,6 +11681,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _componentManager: {fileID: 0}
   _inputManager: {fileID: 0}
+  _playerDataManager: {fileID: 0}
   _playerMoveAxisType: 1
   HorizontalCollideRecursion: 3
   VerticalCollideRecursion: 3
@@ -11716,6 +11725,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58ff2ab90d81ffb42abcfb82d5a73e88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6296004203446327978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1390981173011460524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d665b4b1787c43a46a454e6df1d1adb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DmgTick: 0
 --- !u!1 &6378475332831369551
 GameObject:
   m_ObjectHideFlags: 0
