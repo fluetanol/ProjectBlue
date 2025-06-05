@@ -127,6 +127,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void OnEnable() {
+    
         _inputActions.Player.Move.performed += OnMoveStart;
         _inputActions.Player.Move.canceled += OnMoveCancel;
         _inputActions.Player.Attack.started += OnClickStart;
@@ -343,7 +344,7 @@ public class PlayerMovement : MonoBehaviour
 
     void OnMoveStart(InputAction.CallbackContext context)
     {
-        //Debug.Log(context.ReadValue<Vector2>());
+        Debug.Log("move " + context.ReadValue<Vector2>());
         MoveDirction = context.ReadValue<Vector2>();
         IsMove = true;
         SetAnimMove();

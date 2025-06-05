@@ -94,7 +94,7 @@ public class LaserBullet : Bullet
             }
             if (_time >= _bulletLifeTime){
                 _lineRenderer.enabled = false;
-                cmdray();
+                //cmdray();
 
             }
             yield return null;
