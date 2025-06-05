@@ -18,21 +18,6 @@ public class PlayerMovement : MonoBehaviour
     }
     [SerializeField] private EPlayerMoveAxis _playerMoveAxisType;
 
-    // Player Input Actions
-    public static InputSystem_Actions InputActions
-    {
-        get
-        {
-            if (_inputActions == null)
-            {
-                _inputActions = new InputSystem_Actions();
-            }
-
-            return _inputActions;
-        }
-        private set { }
-    }
-
     public static Vector3 LookDirection{
         get;
         private set;
@@ -71,10 +56,9 @@ public class PlayerMovement : MonoBehaviour
 
 
     [SerializeField] private Animator _animator;
-    private static InputSystem_Actions _inputActions;
     private        CapsuleCollider     _collider;
     private        Rigidbody           _rigidbody;
-
+    private        PlayerInputManager _inputManager;
 
     private        Vector3[]           _moveTypeList{
         get{
@@ -120,20 +104,24 @@ public class PlayerMovement : MonoBehaviour
     [Header("For Wall Movement")]
     [Range(0,2)] public float wallFriction = 1f;  //벽 마찰, 낮을 수록 강해짐
 
-    void Awake() {
+
+
+    void Awake()
+    {
         _rigidbody = GetComponent<Rigidbody>();
         _collider = GetComponent<CapsuleCollider>();
-        _inputActions = new();
+        _inputManager = GetComponent<PlayerInputManager>();
+        
     }
 
     void OnEnable() {
     
-        _inputActions.Player.Move.performed += OnMoveStart;
-        _inputActions.Player.Move.canceled += OnMoveCancel;
-        _inputActions.Player.Attack.started += OnClickStart;
-        _inputActions.Player.Attack.canceled += OnClickCancel;
-        _inputActions.Player.Look2.performed += OnLook;
-        _inputActions.Enable();   
+        _inputManager.InputActions.Player.Move.performed += OnMoveStart;
+        _inputManager.InputActions.Player.Move.canceled += OnMoveCancel;
+        _inputManager.InputActions.Player.Attack.started += OnClickStart;
+        _inputManager.InputActions.Player.Attack.canceled += OnClickCancel;
+        _inputManager.InputActions.Player.Look2.performed += OnLook;
+        _inputManager.InputActions.Enable();   
     }
 
 
