@@ -5,6 +5,8 @@ public class PlayerStateManager : MonoBehaviour, IDamageable, IHealable
 {
     private PlayerDataManager _playerDataManager;
 
+
+    
     public float DmgTick;
     private bool isWaitDmgTick = false; //데미지 틱을 기다리는 중인지 확인
 

@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
 {   
     [Header("Injection")]
     [SerializeField] private PlayerComponentManager   _componentManager;
-    [SerializeField] private PlayerInputManager _inputManager;
+    [SerializeField] private IInputAction _inputManager;
     [SerializeField] private PlayerDataManager _playerDataManager;
 
 
@@ -33,18 +33,18 @@ public class PlayerMovement : MonoBehaviour
         private set;
     }
 
-    // Player Click Time
-    public static float ClickTime
-    {
-        get;
-        private set;
-    }
+    // // Player Click Time
+    // public static float ClickTime
+    // {
+    //     get;
+    //     private set;
+    // }
 
-    public static bool IsClicked
-    {
-        get;
-        private set;
-    }
+    // public static bool IsClicked
+    // {
+    //     get;
+    //     private set;
+    // }
 
     public static bool IsMove
     {
@@ -113,13 +113,16 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void OnEnable() {
-    
-        _inputManager.InputActions.Player.Move.performed += OnMoveStart;
-        _inputManager.InputActions.Player.Move.canceled += OnMoveCancel;
-        _inputManager.InputActions.Player.Attack.started += OnClickStart;
-        _inputManager.InputActions.Player.Attack.canceled += OnClickCancel;
-        _inputManager.InputActions.Player.Look2.performed += OnLook;
-        _inputManager.InputActions.Enable();   
+        _inputManager.OnAttack(OnClickStart, OnClickCancel);
+        _inputManager.OnMove(OnMoveStart, OnMoveCancel);
+        _inputManager.OnLook(OnLook, null);
+        _inputManager.InputActions.Enable();
+       // _inputManager.InputActions.Player.Move.performed += OnMoveStart;
+        // _inputManager.InputActions.Player.Move.canceled += OnMoveCancel;
+        // _inputManager.InputActions.Player.Attack.started += OnClickStart;
+        // _inputManager.InputActions.Player.Attack.canceled += OnClickCancel;
+        //_inputManager.InputActions.Player.Look2.performed += OnLook;
+        //_inputManager.InputActions.Enable();   
     }
 
 
@@ -143,15 +146,15 @@ public class PlayerMovement : MonoBehaviour
 
     // Update is called once per frame
     void Update(){ 
-        CheckClickTime();
+       // CheckClickTime();
         forDebug();
     }
 
-    private void CheckClickTime(){
-        if (IsClicked){
-            ClickTime += Time.deltaTime;
-        }
-    }
+    // private void CheckClickTime(){
+    //     if (IsClicked){
+    //         ClickTime += Time.deltaTime;
+    //     }
+    // }
 
 
     /// <summary>
@@ -348,7 +351,7 @@ public class PlayerMovement : MonoBehaviour
     
     void OnClickStart(InputAction.CallbackContext context)
     {
-        IsClicked = true;
+        //IsClicked = true;
         StartCoroutine(Coroutine_Attacking());
        // Debug.Log("ClickedStart");
        SetAnimClick();
@@ -356,8 +359,8 @@ public class PlayerMovement : MonoBehaviour
 
     void OnClickCancel(InputAction.CallbackContext context)
     {
-        IsClicked = false;
-        ClickTime = 0;
+        //IsClicked = false;
+       // ClickTime = 0;
         SetAnimClick();
         StopAllCoroutines();
     }
@@ -395,7 +398,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void SetAnimClick(){
-        _componentManager.Animator.SetBool("IsClicked", IsClicked);
+        _componentManager.Animator.SetBool("IsClicked", _inputManager.IsClicked);
        // print("IsClicked : " + IsClicked);
     }
 

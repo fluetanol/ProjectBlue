@@ -18,7 +18,7 @@ public class Test : MonoBehaviour
             print("A == E");
         }
         else{
-            print("A != E");
+            //print("A != E");
         }   
     }
 
