@@ -36,19 +36,6 @@ public class PlayerMovement : MonoBehaviour
         private set;
     }
 
-    // // Player Click Time
-    // public static float ClickTime
-    // {
-    //     get;
-    //     private set;
-    // }
-
-    // public static bool IsClicked
-    // {
-    //     get;
-    //     private set;
-    // }
-
     public static bool IsMove
     {
         get;
@@ -113,6 +100,7 @@ public class PlayerMovement : MonoBehaviour
     private static readonly Collider[] buffer = new Collider[3];
     public bool isStepUp = false;
     public CapsuleCollider probeCollider;
+    private Vector3 debugRayhit = Vector3.zero;
 
     void Awake()
     {
@@ -138,8 +126,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    private Vector3 groundNormal, groundPoint;
-    
+
 
     void FixedUpdate()
     {
@@ -156,7 +143,6 @@ public class PlayerMovement : MonoBehaviour
         // print("correctVector " + correctVector);
         // // 침투 보정
         // nextDelta += correctVector;
-  
         _componentManager.Rigidbody.MovePosition(_componentManager.Rigidbody.position + nextDelta);
         PlayerPosition = _componentManager.Rigidbody.position;
 
@@ -186,6 +172,12 @@ public class PlayerMovement : MonoBehaviour
         LayerMask.GetMask("Ground"),
         QueryTriggerInteraction.Ignore);
 
+
+        if (size > 0)
+        {
+            print("overlap ");
+        }
+
         for (int i = 0; i < size; i++)
         {
             bool isOverlapping = Physics.ComputePenetration(
@@ -200,7 +192,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (isOverlapping)
             {
-                print(Time.fixedTime +  "overlapping with " + buffer[i].name + " "
+                print(Time.fixedTime + "overlapping with " + buffer[i].name + " "
                 + penetrationDirection + " " + penetrationDistance + " " + "move " + xdelta);
                 print(xdelta);
                 Vector3 correction = penetrationDirection * penetrationDistance;
@@ -264,27 +256,10 @@ public class PlayerMovement : MonoBehaviour
                     print("stair");
                     debugRayhit = hit.point;
                     Debug.DrawRay(stepcheck, Vector3.down * maxStepHeight, Color.cyan, 5);
+
                     stepUp = new Vector3(0, hit.point.y - _componentManager.Rigidbody.position.y, 0);
-
                     Vector3 sideVector = Vector3.Cross(Vector3.up, direction).normalized;
-                    Ray ray3 = new Ray(hit.point + Vector3.up * skinWidth, sideVector);
-                    Debug.DrawRay(hit.point, sideVector * 0.25f, Color.purple, 5);
-                    if (Physics.Raycast(ray3, out RaycastHit hit2, 0.25f, LayerMask.GetMask("Ground")))
-                    {
-                        float diff = _componentManager.CapsuleCollider.radius - hit2.distance;
-                        stepUp -= sideVector * diff;
-                        print("hit! v1" + hit2.distance + " " + _componentManager.CapsuleCollider.radius);
-                    }
-
-
-                    ray3.direction = -sideVector;
-                    Debug.DrawRay(hit.point, -sideVector * 0.25f, Color.purple, 5);
-                    if (Physics.Raycast(ray3, out RaycastHit hit3, 0.25f, LayerMask.GetMask("Ground")))
-                    {
-                        float diff = _componentManager.CapsuleCollider.radius - hit3.distance;
-                        stepUp += sideVector * diff;
-                        print("hit! v2" + hit3.distance + " " + _componentManager.CapsuleCollider.radius);
-                    }
+                    StepUpPositionControl(sideVector, ref hit, ref stepUp);
                 }
                 else
                 {
@@ -294,8 +269,6 @@ public class PlayerMovement : MonoBehaviour
         }
         return stepUp;
     }
-
-    private Vector3 debugRayhit = Vector3.zero;
 
     /// <summary>
     /// 수평방향 충돌 및 슬라이드
@@ -345,7 +318,7 @@ public class PlayerMovement : MonoBehaviour
                 else
                 {
                     return delta + stepup + Vector3.up * skinWidth;//skin width는 계단을 오른 후의 위치 보정용입니다.
-        
+
                 }
             }
 
@@ -434,6 +407,31 @@ public class PlayerMovement : MonoBehaviour
 
         };
     }
+
+
+    private void StepUpPositionControl(Vector3 sideVector, ref RaycastHit hit, ref Vector3 stepUp)
+    {
+        Ray ray3 = new Ray(hit.point + Vector3.up * skinWidth, sideVector);
+        Debug.DrawRay(hit.point, sideVector * 0.25f, Color.purple, 5);
+        if (Physics.Raycast(ray3, out RaycastHit hit2, 0.25f, LayerMask.GetMask("Ground")))
+        {
+            float diff = _componentManager.CapsuleCollider.radius - hit2.distance;
+            stepUp -= sideVector * diff;
+            print("hit! v1" + hit2.distance + " " + _componentManager.CapsuleCollider.radius);
+        }
+
+
+        ray3.direction = -sideVector;
+        Debug.DrawRay(hit.point, -sideVector * 0.25f, Color.purple, 5);
+        if (Physics.Raycast(ray3, out RaycastHit hit3, 0.25f, LayerMask.GetMask("Ground")))
+        {
+            float diff = _componentManager.CapsuleCollider.radius - hit3.distance;
+            stepUp += sideVector * diff;
+            print("hit! v2" + hit3.distance + " " + _componentManager.CapsuleCollider.radius);
+        }
+    }
+
+
 
     void OnMoveStart(InputAction.CallbackContext context)
     {
