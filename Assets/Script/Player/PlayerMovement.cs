@@ -1,27 +1,30 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Assertions.Comparers;
 using UnityEngine.InputSystem;
 
 //[ExecuteInEditMode]
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerMovement : MonoBehaviour
-{   
+{
     [Header("Injection")]
-    [SerializeField] private PlayerComponentManager   _componentManager;
+    [SerializeField] private PlayerComponentManager _componentManager;
     [SerializeField] private IInputAction _inputManager;
     [SerializeField] private PlayerDataManager _playerDataManager;
 
 
     public static Vector3 PlayerPosition;
 
-    enum EPlayerMoveAxis{
+    enum EPlayerMoveAxis
+    {
         XY = 0,
         XZ = 1
     }
     [SerializeField] private EPlayerMoveAxis _playerMoveAxisType;
 
-    public static Vector3 LookDirection{
+    public static Vector3 LookDirection
+    {
         get;
         private set;
     }
@@ -52,14 +55,17 @@ public class PlayerMovement : MonoBehaviour
         private set;
     }
 
-    public static Vector3 _lookPosition{
+    public static Vector3 _lookPosition
+    {
         get;
         private set;
     }
 
 
-    private        Vector3[]           _moveTypeList{
-        get{
+    private Vector3[] _moveTypeList
+    {
+        get
+        {
             return new Vector3[]
             {
                 new Vector3(MoveDirction.x,  MoveDirction.y),
@@ -72,6 +78,7 @@ public class PlayerMovement : MonoBehaviour
     struct CapsuleInfo
     {
         public float radius;
+        public float height;
         public Vector3 point1;
         public Vector3 point2;
     }
@@ -100,39 +107,44 @@ public class PlayerMovement : MonoBehaviour
 
     [Space]
     [Header("For Wall Movement")]
-    [Range(0,2)] public float wallFriction = 1f;  //벽 마찰, 낮을 수록 강해짐
+    [Range(0, 2)] public float wallFriction = 1f;  //벽 마찰, 낮을 수록 강해짐
 
 
+    private static readonly Collider[] buffer = new Collider[3];
+    public bool isStepUp = false;
+    public CapsuleCollider probeCollider;
 
     void Awake()
     {
         _componentManager = GetComponent<PlayerComponentManager>();
         _inputManager = GetComponent<PlayerInputManager>();
         _playerDataManager = GetComponent<PlayerDataManager>();
-        
+
     }
 
-    void OnEnable() {
+    void OnEnable()
+    {
         _inputManager.OnAttack(OnClickStart, OnClickCancel);
         _inputManager.OnMove(OnMoveStart, OnMoveCancel);
         _inputManager.OnLook(OnLook, null);
         _inputManager.InputActions.Enable();
-       // _inputManager.InputActions.Player.Move.performed += OnMoveStart;
+        // _inputManager.InputActions.Player.Move.performed += OnMoveStart;
         // _inputManager.InputActions.Player.Move.canceled += OnMoveCancel;
         // _inputManager.InputActions.Player.Attack.started += OnClickStart;
         // _inputManager.InputActions.Player.Attack.canceled += OnClickCancel;
         //_inputManager.InputActions.Player.Look2.performed += OnLook;
         //_inputManager.InputActions.Enable();   
+       // Time.fixedDeltaTime = 1f; // 50fps
     }
 
 
     private Vector3 groundNormal, groundPoint;
     
+
     void FixedUpdate()
     {
-
-        xdelta =  _moveTypeList[(int)_playerMoveAxisType] * _playerDataManager.currentMoveSpeed * Time.fixedDeltaTime;
-        if(isGrounded) ydelta = Vector3.zero;
+        xdelta = _moveTypeList[(int)_playerMoveAxisType] * _playerDataManager.currentMoveSpeed * Time.fixedDeltaTime;
+        if (isGrounded) ydelta = Vector3.zero;
         ydelta += Physics.gravity * Time.fixedDeltaTime * Time.fixedDeltaTime * GravityMultiplier;
 
 
@@ -140,13 +152,20 @@ public class PlayerMovement : MonoBehaviour
         nextDelta = HorizontalCollideAndSlide(xdelta, _componentManager.Rigidbody.position, 0);
         nextDelta += VerticalCollideAndSlide(ydelta, _componentManager.Rigidbody.position + nextDelta, 0);
 
+        // PenetraionTest(_componentManager.Rigidbody.position + nextDelta, _componentManager.Rigidbody.rotation, out Vector3 correctVector);
+        // print("correctVector " + correctVector);
+        // // 침투 보정
+        // nextDelta += correctVector;
+  
         _componentManager.Rigidbody.MovePosition(_componentManager.Rigidbody.position + nextDelta);
         PlayerPosition = _componentManager.Rigidbody.position;
+
+
     }
 
     // Update is called once per frame
-    void Update(){ 
-       // CheckClickTime();
+    void Update()
+    {
         forDebug();
     }
 
@@ -157,19 +176,60 @@ public class PlayerMovement : MonoBehaviour
     // }
 
 
+    private void PenetraionTest(Vector3 playerPosition, Quaternion playerRotation, out Vector3 correctVector)
+    {
+        CapsuleInfo info = CapsuleCastInfo(playerPosition);
+        correctVector = Vector3.zero;
+
+        int size = Physics.OverlapCapsuleNonAlloc(info.point1, info.point2, info.radius,
+        buffer,
+        LayerMask.GetMask("Ground"),
+        QueryTriggerInteraction.Ignore);
+
+        for (int i = 0; i < size; i++)
+        {
+            bool isOverlapping = Physics.ComputePenetration(
+            _componentManager.CapsuleCollider,
+            playerPosition,
+            playerRotation,
+                buffer[i],
+                buffer[i].transform.position,
+                buffer[i].transform.rotation,
+                 out Vector3 penetrationDirection,
+                  out float penetrationDistance);
+
+            if (isOverlapping)
+            {
+                print(Time.fixedTime +  "overlapping with " + buffer[i].name + " "
+                + penetrationDirection + " " + penetrationDistance + " " + "move " + xdelta);
+                print(xdelta);
+                Vector3 correction = penetrationDirection * penetrationDistance;
+                correctVector += correction;
+                //transform.position += correction; // 침투 보정
+            }
+        }
+        
+        isStepUp = false; // 계단을 올라갔으니 초기화
+        //delta + stepUp;
+    }
+
+
+
+
     /// <summary>
     /// 계단을 올라가는 로직
     /// </summary>
     /// <param name="delta">다음 이동 델타</param>
     /// <returns>다음 계단 위치로 가기 위한 delta벡터를 반환합니다. 계단이 아니라면 영벡터를 반환함.</returns>
-    private Vector3 StairStepUp(Vector3 delta){
+    private Vector3 StairStepUp(Vector3 delta)
+    {
         Vector3 stepUp = Vector3.zero;
         Vector3 direction = delta.normalized;
 
 
         Vector3 stepcheck =
-            _componentManager.Rigidbody.position + delta + 
-            Vector3.up * maxStepHeight + 
+            _componentManager.Rigidbody.position + delta +
+            Vector3.up * maxStepHeight +
             direction * stepCheckDistance;
 
 
@@ -188,23 +248,54 @@ public class PlayerMovement : MonoBehaviour
 
         Ray ray = new Ray(_componentManager.Rigidbody.position + delta + Vector3.up * maxStepHeight, direction);
 
-        
-        Debug.DrawRay(_componentManager.Rigidbody.position + delta + Vector3.up * maxStepHeight, direction * stepCheckDistance, Color.green, 5);
-        Debug.DrawRay(stepcheck, Vector3.down * maxStepHeight, Color.cyan, 5);
 
-        if(!Physics.Raycast(ray, stepCheckDistance)){
+        // Debug.DrawRay(_componentManager.Rigidbody.position + delta + Vector3.up * maxStepHeight, direction * stepCheckDistance, Color.green, 5);
+        // Debug.DrawRay(stepcheck, Vector3.down * maxStepHeight, Color.cyan, 5);
+
+        if (!Physics.Raycast(ray, stepCheckDistance))
+        {
             Ray ray2 = new Ray(stepcheck, Vector3.down);
-            
-            if(Physics.Raycast(ray2, out RaycastHit hit, maxStepHeight)){
-                if(hit.normal == Vector3.up){
+            Debug.DrawRay(_componentManager.Rigidbody.position + delta + Vector3.up * maxStepHeight, direction * stepCheckDistance, Color.green, 5);
+
+            if (Physics.Raycast(ray2, out RaycastHit hit, maxStepHeight))
+            {
+                if (hit.normal == Vector3.up)
+                {
                     print("stair");
+                    debugRayhit = hit.point;
+                    Debug.DrawRay(stepcheck, Vector3.down * maxStepHeight, Color.cyan, 5);
                     stepUp = new Vector3(0, hit.point.y - _componentManager.Rigidbody.position.y, 0);
+
+                    Vector3 sideVector = Vector3.Cross(Vector3.up, direction).normalized;
+                    Ray ray3 = new Ray(hit.point + Vector3.up * skinWidth, sideVector);
+                    Debug.DrawRay(hit.point, sideVector * 0.25f, Color.purple, 5);
+                    if (Physics.Raycast(ray3, out RaycastHit hit2, 0.25f, LayerMask.GetMask("Ground")))
+                    {
+                        float diff = _componentManager.CapsuleCollider.radius - hit2.distance;
+                        stepUp -= sideVector * diff;
+                        print("hit! v1" + hit2.distance + " " + _componentManager.CapsuleCollider.radius);
+                    }
+
+
+                    ray3.direction = -sideVector;
+                    Debug.DrawRay(hit.point, -sideVector * 0.25f, Color.purple, 5);
+                    if (Physics.Raycast(ray3, out RaycastHit hit3, 0.25f, LayerMask.GetMask("Ground")))
+                    {
+                        float diff = _componentManager.CapsuleCollider.radius - hit3.distance;
+                        stepUp += sideVector * diff;
+                        print("hit! v2" + hit3.distance + " " + _componentManager.CapsuleCollider.radius);
+                    }
+                }
+                else
+                {
+                    debugRayhit = Vector3.zero;
                 }
             }
         }
         return stepUp;
     }
 
+    private Vector3 debugRayhit = Vector3.zero;
 
     /// <summary>
     /// 수평방향 충돌 및 슬라이드
@@ -227,33 +318,39 @@ public class PlayerMovement : MonoBehaviour
         //0.01f의 여유분을 두고 충돌 검사를 하고, 다음 위치는 그 skin width만큼 다시 뺀 위치로,
         //즉, "덜 충돌한 듯한" 느낌을 주어야 충돌판정이 boundary 위치에서 잘못된 cast가 일어나 노클립하는 현상을 방지할 수 있습니다.
         //물론 최대한 덜 빼야 속도 손실이 덜하긴 하지만, 아무리 못해도 (skin width / 재귀 횟수) 만큼은 빼서 위치를 보정해주세요.
-        if (Physics.CapsuleCast(info.point1, info.point2, info.radius, direction, out RaycastHit hit, delta.magnitude + skinWidth)){
-            
+        if (Physics.CapsuleCast(info.point1, info.point2, info.radius, direction,
+        out RaycastHit hit, delta.magnitude + skinWidth, LayerMask.GetMask("Ground")))
+        {
+
             //hit하고 남은 거리와 벡터
             float restMagnitude = Math.Abs(delta.magnitude - hit.distance);
 
-            //계단을 올라가거나, 벽에 부딪혔거나 둘 중 하나나
+            //계단을 올라가거나, 벽에 부딪혔거나 둘 중 하나
             if (Vector3.Angle(hit.normal, Vector3.up) > 75)
             {
-                print("slope or wall");
+                //print("slope or wall");
                 Vector3 stepup = StairStepUp(delta);
 
                 // TODO: 계단을 올라가는 경우엔 Y값을 변동시킨 상태로 계산
                 //계단을 올라가는 경우가 아니라면 사영시킨 벡터로 변환
                 //-> 벽과 계단을 구분하는 로직이며 벽에서 비빌 때는 미끄러지듯 부드럽게 움직이도록 하는 코드입니다.
                 // 물론, 마찰을 쎄게 주고 싶다면 restMagnitude에 마찰 가중치를 주면 됩니다.
-                if(Vector3.zero == stepup){
+                if (Vector3.zero == stepup)
+                {
                     Vector3 walldirection = hit.normal;
                     walldirection.y = 0;
                     return Vector3.ProjectOnPlane(delta, walldirection).normalized * restMagnitude * wallFriction;
                 }
-                
-               else{
-                    return  delta + stepup;
+
+                else
+                {
+                    return delta + stepup + Vector3.up * skinWidth;//skin width는 계단을 오른 후의 위치 보정용입니다.
+        
                 }
             }
 
-            if (restMagnitude <= 0.01f) {
+            if (restMagnitude <= 0.01f)
+            {
                 return direction * (hit.distance - 0.003f);
             }
 
@@ -262,20 +359,22 @@ public class PlayerMovement : MonoBehaviour
             //남은 벡터로 충돌 검사
             Vector3 projectDelta = Vector3.ProjectOnPlane(delta, hit.normal).normalized * restMagnitude;
             sumVector += HorizontalCollideAndSlide(projectDelta, playerPosition + movedelta, count + 1) + movedelta;
-            
+
             return sumVector;
         }
-        else{
-            if(count == 0 && _playerMoveAxisType == EPlayerMoveAxis.XZ)
+        else
+        {
+            if (count == 0 && _playerMoveAxisType == EPlayerMoveAxis.XZ)
             {
                 //TODO: 내려가는 slope에서 경사면을 인지 못하는 경우를 대비한 것으로,
                 //만약 이를 조절하고 싶다면 내려갈 때는 붕 떠서 내려가게 하는 별도의 tag를 가진 지형을 만드십시오
-                if (Physics.CapsuleCast(info.point1, info.point2, info.radius, Vector3.down, out RaycastHit hit2, ydelta.magnitude + 0.01f)){
+                if (Physics.CapsuleCast(info.point1, info.point2, info.radius, Vector3.down, out RaycastHit hit2, ydelta.magnitude + 0.01f))
+                {
                     Vector3 projectDelta = Vector3.ProjectOnPlane(xdelta, hit2.normal).normalized;
                     //ydelta = -hit2.normal * ydelta.magnitude;
                     //print(projectDelta + " "+ hit2.normal);
                     //Debug.DrawRay(playerPosition, projectDelta, Color.red, 5);
-                    return sumVector  + HorizontalCollideAndSlide(projectDelta * xdelta.magnitude, playerPosition , count + 1);
+                    return sumVector + HorizontalCollideAndSlide(projectDelta * xdelta.magnitude, playerPosition, count + 1);
                 }
             }
             return delta;
@@ -283,8 +382,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-
-     private Vector3 VerticalCollideAndSlide(Vector3 delta, Vector3 playerPosition, int count, int maxRecursion = 3)
+    private Vector3 VerticalCollideAndSlide(Vector3 delta, Vector3 playerPosition, int count, int maxRecursion = 3)
     {
         if (count >= maxRecursion) return delta;
 
@@ -294,7 +392,8 @@ public class PlayerMovement : MonoBehaviour
 
         if (Physics.CapsuleCast(info.point1, info.point2, info.radius, direction, out RaycastHit hit, delta.magnitude + 0.01f))
         {
-            if(!isGrounded){
+            if (!isGrounded)
+            {
                 isGrounded = true;
             }
 
@@ -311,7 +410,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            if(isGrounded) isGrounded = false;
+            if (isGrounded) isGrounded = false;
             return delta;
         }
     }
@@ -324,18 +423,21 @@ public class PlayerMovement : MonoBehaviour
         float halfHeight = Mathf.Max(_componentManager.CapsuleCollider.height / 2 - _componentManager.CapsuleCollider.radius, 0);// 캡슐 높이에서 반지름 제외
         Vector3 point1 = center + Vector3.up * halfHeight;
         Vector3 point2 = center + Vector3.down * halfHeight;
+        float height = _componentManager.CapsuleCollider.height;
 
         return new CapsuleInfo()
         {
             radius = radius,
+            height = height,
             point1 = point1,
             point2 = point2
+
         };
     }
 
     void OnMoveStart(InputAction.CallbackContext context)
     {
-        Debug.Log("move " + context.ReadValue<Vector2>());
+        // Debug.Log("move " + context.ReadValue<Vector2>());
         MoveDirction = context.ReadValue<Vector2>();
         IsMove = true;
         SetAnimMove();
@@ -343,24 +445,24 @@ public class PlayerMovement : MonoBehaviour
 
     void OnMoveCancel(InputAction.CallbackContext context)
     {
-       // Debug.Log(context.ReadValue<Vector2>());
+        // Debug.Log(context.ReadValue<Vector2>());
         MoveDirction = Vector2.zero;
         IsMove = false;
         SetAnimMove();
     }
-    
+
     void OnClickStart(InputAction.CallbackContext context)
     {
         //IsClicked = true;
         StartCoroutine(Coroutine_Attacking());
-       // Debug.Log("ClickedStart");
-       SetAnimClick();
+        // Debug.Log("ClickedStart");
+        SetAnimClick();
     }
 
     void OnClickCancel(InputAction.CallbackContext context)
     {
         //IsClicked = false;
-       // ClickTime = 0;
+        // ClickTime = 0;
         SetAnimClick();
         StopAllCoroutines();
     }
@@ -368,9 +470,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnLook(InputAction.CallbackContext context)
     {
-       // print("??!");
+        // print("??!");
         Ray ray = Camera.main.ScreenPointToRay(context.ReadValue<Vector2>());
-        if(Physics.Raycast(ray, out RaycastHit hit, 100, LayerMask.GetMask("Ground"))){
+        if (Physics.Raycast(ray, out RaycastHit hit, 100, LayerMask.GetMask("Ground")))
+        {
             Vector3 hitpoint = hit.point;
             hitpoint.y = transform.position.y;
             transform.LookAt(hitpoint);
@@ -379,27 +482,32 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private IEnumerator Coroutine_Attacking(){
+    private IEnumerator Coroutine_Attacking()
+    {
         float attackSpeed = _playerDataManager.WeaponStats[_playerDataManager.PlayerStats.WeaponID].AttackSpeed;
-        while(true){
+        while (true)
+        {
             AttackShooting();
             yield return new WaitForSeconds(attackSpeed);
         }
     }
 
 
-    private void AttackShooting(){
+    private void AttackShooting()
+    {
         _playerDataManager.weapon.Attack();
     }
 
-    private void SetAnimMove(){
+    private void SetAnimMove()
+    {
         _componentManager.Animator.SetBool("IsMove", IsMove);
-      //  print("IsMove : " + IsMove);
+        //  print("IsMove : " + IsMove);
     }
 
-    private void SetAnimClick(){
+    private void SetAnimClick()
+    {
         _componentManager.Animator.SetBool("IsClicked", _inputManager.IsClicked);
-       // print("IsClicked : " + IsClicked);
+        // print("IsClicked : " + IsClicked);
     }
 
 
@@ -427,17 +535,16 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.color = Debugcolor;
 
         Gizmos.DrawWireSphere(transform.position, 0.1f);
-
-
         Vector3 rayStart = transform.position + Vector3.up * maxStepHeight;
-
         Gizmos.DrawLine(transform.position, rayStart);
 
         //Vector3 rayDir = new Vector3(direction.x, -maxStepHeight, direction.z).normalized;
-    
 
+        if(debugRayhit != Vector3.zero)
+            Gizmos.DrawSphere(debugRayhit, 0.1f);
 
     }
+    
 
 
 }

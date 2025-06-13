@@ -71,6 +71,7 @@ public class PlayerInputManager : MonoBehaviour, IInputAction
     }
 
     void OnEnable() {
+    
         _inputActions.Player.Attack.performed += ctx => OnClick();
         _inputActions.Player.Attack.canceled += ctx => OnRelease();
     }
