@@ -23,6 +23,12 @@ public class EnemyMovement2 : Enemy, IDamageable, IForceable, IAttackable
     private bool _isAttacking = false;  
     private bool _moveLock = false;
 
+    private IMoveData _moveData;
+
+    void Awake()
+    {
+        _moveData = FindAnyObjectByType<PlayerMovement>();
+    }
 
     void Start(){
          WeaponStats.WeaponInfo weaponStats = enemyCurrentDataManager.WeaponStats[_weaponCode];
@@ -63,7 +69,7 @@ public class EnemyMovement2 : Enemy, IDamageable, IForceable, IAttackable
 
     private Vector3 enemyMove(){
         //기본 타겟은 항상 플레이어입니다.
-        _targetPosition = _target != null ? _target.position : PlayerMovement.PlayerPosition;
+        _targetPosition = _target != null ? _target.position : _moveData.PlayerPosition;
 
         transform.LookAt(_targetPosition);
         print("enemy look at : " + _targetPosition);
@@ -86,7 +92,7 @@ public class EnemyMovement2 : Enemy, IDamageable, IForceable, IAttackable
         } 
 
         //공격 로직
-        Vector3 substraction = PlayerMovement.PlayerPosition - _rigidbody.position;
+        Vector3 substraction = _moveData.PlayerPosition - _rigidbody.position;
         float distance = substraction.magnitude;
 
        // print("distance : " + distance);

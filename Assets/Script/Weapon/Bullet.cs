@@ -9,13 +9,16 @@ public abstract class Bullet : MonoBehaviour, IDisposable
     [SerializeField] protected float _bulletLifeTime;
     [SerializeField] protected LayerMask _bulletMask;
 
+    protected IMoveData moveData;
+
     public Vector3 bulletDirection
     {
         get;
         set;
     }
 
-    protected virtual void Awake() {
+    protected virtual void Awake()
+    {
         print("Awake !!");
         GetBulletComponent();
     }
@@ -24,20 +27,23 @@ public abstract class Bullet : MonoBehaviour, IDisposable
         StartCoroutine(BulletLifeTime());
     }
 
-
-    
     protected abstract void BulletCollide();
     protected abstract IEnumerator BulletLifeTime();
 
-
-    public virtual void SetBulletStats(WeaponStats.WeaponInfo weaponInfo){
+    public virtual void SetBulletStats(WeaponStats.WeaponInfo weaponInfo)
+    {
         _bulletCode = weaponInfo.WeaponCode;
         _bulletLifeTime = weaponInfo.GetBulletLifeTime();
         _bulletDamage = weaponInfo.Damage;
     }
     
+    public void SetMoveData(IMoveData moveData)
+    {
+        print("SetMoveData !!");
+        this.moveData = moveData;
+    }
 
-    protected virtual void GetBulletComponent(){}
+    protected virtual void GetBulletComponent() { }
 
     public virtual void SetBulletMask(LayerMask mask){
         _bulletMask = mask;

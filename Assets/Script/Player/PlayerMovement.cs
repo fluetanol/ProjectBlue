@@ -1,20 +1,46 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Assertions.Comparers;
 using UnityEngine.InputSystem;
+
+public interface IMoveData
+{
+    public Vector3 PlayerPosition
+    {
+        get;
+    }
+    public Vector3 LookDirection
+    {
+        get;
+    }
+
+    public Vector3 MoveDirction
+    {
+        get;
+    }
+
+    public bool IsMove
+    {
+        get;
+    }
+
+    public Vector3 LookPosition
+    {
+        get;
+    }
+
+}
+
 
 //[ExecuteInEditMode]
 [RequireComponent(typeof(Rigidbody))]
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, IMoveData
 {
     [Header("Injection")]
     [SerializeField] private PlayerComponentManager _componentManager;
-    [SerializeField] private IInputAction _inputManager;
+    [SerializeField] private IInputActionControll _inputManager;
     [SerializeField] private PlayerDataManager _playerDataManager;
 
-
-    public static Vector3 PlayerPosition;
 
     enum EPlayerMoveAxis
     {
@@ -23,31 +49,40 @@ public class PlayerMovement : MonoBehaviour
     }
     [SerializeField] private EPlayerMoveAxis _playerMoveAxisType;
 
-    public static Vector3 LookDirection
+
+    // ******  Move Interface Data ****** // 
+    public Vector3 PlayerPosition
+    {
+        get
+        {
+            return _componentManager.Rigidbody.position;
+        }
+        private set { }
+    }
+
+    public Vector3 LookDirection
     {
         get;
         private set;
     }
 
-    // Player Move Direction
-    public static Vector3 MoveDirction
+    public Vector3 MoveDirction
     {
         get;
         private set;
     }
 
-    public static bool IsMove
+    public bool IsMove
     {
         get;
         private set;
     }
 
-    public static Vector3 _lookPosition
+    public Vector3 LookPosition
     {
         get;
         private set;
     }
-
 
     private Vector3[] _moveTypeList
     {
@@ -139,14 +174,14 @@ public class PlayerMovement : MonoBehaviour
         nextDelta = HorizontalCollideAndSlide(xdelta, _componentManager.Rigidbody.position, 0);
         nextDelta += VerticalCollideAndSlide(ydelta, _componentManager.Rigidbody.position + nextDelta, 0);
 
-        // PenetraionTest(_componentManager.Rigidbody.position + nextDelta, _componentManager.Rigidbody.rotation, out Vector3 correctVector);
-        // print("correctVector " + correctVector);
-        // // 침투 보정
-        // nextDelta += correctVector;
+        // // if (isStepUp)
+        // // {
+        //     PenetraionTest(_componentManager.Rigidbody.position + nextDelta, _componentManager.Rigidbody.rotation, out Vector3 correctVector);
+        //    // print("correctVector " + correctVector);
+        //     // 침투 보정
+        //     nextDelta += correctVector;
+        // // }
         _componentManager.Rigidbody.MovePosition(_componentManager.Rigidbody.position + nextDelta);
-        PlayerPosition = _componentManager.Rigidbody.position;
-
-
     }
 
     // Update is called once per frame
@@ -154,13 +189,6 @@ public class PlayerMovement : MonoBehaviour
     {
         forDebug();
     }
-
-    // private void CheckClickTime(){
-    //     if (IsClicked){
-    //         ClickTime += Time.deltaTime;
-    //     }
-    // }
-
 
     private void PenetraionTest(Vector3 playerPosition, Quaternion playerRotation, out Vector3 correctVector)
     {
@@ -175,7 +203,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (size > 0)
         {
-            print("overlap ");
+           // print("overlap ");
         }
 
         for (int i = 0; i < size; i++)
@@ -192,9 +220,9 @@ public class PlayerMovement : MonoBehaviour
 
             if (isOverlapping)
             {
-                print(Time.fixedTime + "overlapping with " + buffer[i].name + " "
-                + penetrationDirection + " " + penetrationDistance + " " + "move " + xdelta);
-                print(xdelta);
+                //print(Time.fixedTime + "overlapping with " + buffer[i].name + " "
+               // + penetrationDirection + " " + penetrationDistance + " " + "move " + xdelta);
+                //print(xdelta);
                 Vector3 correction = penetrationDirection * penetrationDistance;
                 correctVector += correction;
                 //transform.position += correction; // 침투 보정
@@ -253,13 +281,15 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (hit.normal == Vector3.up)
                 {
-                    print("stair");
+                    //print("stair");
                     debugRayhit = hit.point;
                     Debug.DrawRay(stepcheck, Vector3.down * maxStepHeight, Color.cyan, 5);
 
                     stepUp = new Vector3(0, hit.point.y - _componentManager.Rigidbody.position.y, 0);
                     Vector3 sideVector = Vector3.Cross(Vector3.up, direction).normalized;
                     StepUpPositionControl(sideVector, ref hit, ref stepUp);
+                    
+                    isStepUp = true; // 계단을 올라갔음을 표시
                 }
                 else
                 {
@@ -412,12 +442,12 @@ public class PlayerMovement : MonoBehaviour
     private void StepUpPositionControl(Vector3 sideVector, ref RaycastHit hit, ref Vector3 stepUp)
     {
         Ray ray3 = new Ray(hit.point + Vector3.up * skinWidth, sideVector);
-        Debug.DrawRay(hit.point, sideVector * 0.25f, Color.purple, 5);
+        //Debug.DrawRay(hit.point, sideVector * 0.25f, Color.purple, 5);
         if (Physics.Raycast(ray3, out RaycastHit hit2, 0.25f, LayerMask.GetMask("Ground")))
         {
             float diff = _componentManager.CapsuleCollider.radius - hit2.distance;
             stepUp -= sideVector * diff;
-            print("hit! v1" + hit2.distance + " " + _componentManager.CapsuleCollider.radius);
+            //print("hit! v1" + hit2.distance + " " + _componentManager.CapsuleCollider.radius);
         }
 
 
@@ -427,7 +457,7 @@ public class PlayerMovement : MonoBehaviour
         {
             float diff = _componentManager.CapsuleCollider.radius - hit3.distance;
             stepUp += sideVector * diff;
-            print("hit! v2" + hit3.distance + " " + _componentManager.CapsuleCollider.radius);
+            //print("hit! v2" + hit3.distance + " " + _componentManager.CapsuleCollider.radius);
         }
     }
 
@@ -438,7 +468,6 @@ public class PlayerMovement : MonoBehaviour
         // Debug.Log("move " + context.ReadValue<Vector2>());
         MoveDirction = context.ReadValue<Vector2>();
         IsMove = true;
-        SetAnimMove();
     }
 
     void OnMoveCancel(InputAction.CallbackContext context)
@@ -446,7 +475,6 @@ public class PlayerMovement : MonoBehaviour
         // Debug.Log(context.ReadValue<Vector2>());
         MoveDirction = Vector2.zero;
         IsMove = false;
-        SetAnimMove();
     }
 
     void OnClickStart(InputAction.CallbackContext context)
@@ -454,14 +482,12 @@ public class PlayerMovement : MonoBehaviour
         //IsClicked = true;
         StartCoroutine(Coroutine_Attacking());
         // Debug.Log("ClickedStart");
-        SetAnimClick();
     }
 
     void OnClickCancel(InputAction.CallbackContext context)
     {
         //IsClicked = false;
         // ClickTime = 0;
-        SetAnimClick();
         StopAllCoroutines();
     }
 
@@ -475,8 +501,8 @@ public class PlayerMovement : MonoBehaviour
             Vector3 hitpoint = hit.point;
             hitpoint.y = transform.position.y;
             transform.LookAt(hitpoint);
-            _lookPosition = hitpoint;
-            LookDirection = (_lookPosition - transform.position).normalized;
+            LookPosition = hitpoint;
+            LookDirection = (LookPosition - transform.position).normalized;
         }
     }
 
@@ -496,18 +522,6 @@ public class PlayerMovement : MonoBehaviour
         _playerDataManager.weapon.Attack();
     }
 
-    private void SetAnimMove()
-    {
-        _componentManager.Animator.SetBool("IsMove", IsMove);
-        //  print("IsMove : " + IsMove);
-    }
-
-    private void SetAnimClick()
-    {
-        _componentManager.Animator.SetBool("IsClicked", _inputManager.IsClicked);
-        // print("IsClicked : " + IsClicked);
-    }
-
 
     public static Color Debugcolor = Color.red;
 
@@ -515,7 +529,7 @@ public class PlayerMovement : MonoBehaviour
     void forDebug()
     {
         if (_componentManager.LineRenderer == null) return;
-        Vector3 direction = _lookPosition - transform.position;
+        Vector3 direction = LookPosition - transform.position;
         Vector3 dir = Quaternion.AngleAxis(30, Vector3.up) * direction;
         Vector3 dir2 = Quaternion.AngleAxis(-30, Vector3.up) * direction;
         dir.y = 0;

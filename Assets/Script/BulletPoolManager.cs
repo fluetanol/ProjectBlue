@@ -6,6 +6,9 @@ public class BulletPoolManager : ObjectPoolManager<Bullet, BulletPoolManager>
     public WeaponStats weaponStats;
     public List<ObjectPool<Bullet>> bulletPool;
 
+    //bullet 오브젝트에 전부 공통 주입시켜야 해서 필요로 합니다.
+    private IMoveData moveData;
+
     protected override void Awake()
     {
         base.Awake();
@@ -13,6 +16,12 @@ public class BulletPoolManager : ObjectPoolManager<Bullet, BulletPoolManager>
         for (int i = 0; i < weaponStats.Count; i++)
         {
             bulletPool.Add(null);
+        }
+
+        moveData = FindAnyObjectByType<PlayerMovement>();
+        if (moveData == null)
+        {
+            Debug.LogError("PlayerMovement not found in the scene.");
         }
     }
 
@@ -31,6 +40,7 @@ public class BulletPoolManager : ObjectPoolManager<Bullet, BulletPoolManager>
             for (int i = 0; i < count; i++)
             {
                 objs[i] = Instantiate(prefab, Parent).GetComponent<Bullet>();
+                objs[i].SetMoveData(moveData);
             }
 
             print("create code : " + code);

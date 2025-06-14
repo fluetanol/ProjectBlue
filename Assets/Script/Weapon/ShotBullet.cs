@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(SphereCollider))]
@@ -9,18 +7,17 @@ public class ShotBullet : Bullet
     [SerializeField] private bool _isPenetration;
     [SerializeField] private float _radius;
     [SerializeField] private float _angle;
+    
 
-    override protected void OnEnable() {
+    override protected void OnEnable()
+    {
         base.OnEnable();
-        // _radius = GetComponent<SphereCollider>().radius;
-       // _radius = GetComponent<SphereCollider>().radius;
         BulletCollide();
     }
 
 
     protected override void BulletCollide(){
         Collider[] enimies = Physics.OverlapSphere(transform.position, _radius, LayerMask.GetMask("Enemy"));
-        Vector3 playerPosition = PlayerMovement.PlayerPosition;
         
         for(int i=0; i<enimies.Length; i++){
             bool inRange = false;
@@ -30,7 +27,7 @@ public class ShotBullet : Bullet
 
             //안 밀리는 녀석들도 있을 테니 나눠서 처리하려고 이렇게 해놓음
             if(inRange && enimies[i].TryGetComponent(out IForceable Iforce)){
-                bulletDirection = enimies[i].transform.position - PlayerMovement.PlayerPosition;
+                bulletDirection = enimies[i].transform.position - moveData.PlayerPosition;
                 Iforce.Knockback(bulletDirection, _bulletDamage / 2);
             }
         }
@@ -38,9 +35,9 @@ public class ShotBullet : Bullet
 
     private bool CheckRange(Transform target, IDamageable Idmg)
     {
-        Vector3 lookDirection = PlayerMovement.LookDirection;
+        Vector3 lookDirection = moveData.LookDirection;
         Vector3 targetPosition = target.position;
-        Vector3 originPosition = PlayerMovement.PlayerPosition;
+        Vector3 originPosition = moveData.PlayerPosition;
         Vector3 targetDirection = (targetPosition - originPosition).normalized;
 
 

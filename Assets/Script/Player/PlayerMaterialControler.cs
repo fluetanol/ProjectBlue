@@ -4,7 +4,14 @@ public class PlayerMaterialControler : MonoBehaviour
 {
     //!!!!*********test***********!!!!//
     public Material fadeMaterial; // DistanceFadeMaterial
+    private IMoveData moveData;
     RaycastHit hits;
+
+    private void Awake()
+    {
+        moveData = GetComponent<IMoveData>();
+    }
+
 
     void Update()
     {
@@ -15,7 +22,7 @@ public class PlayerMaterialControler : MonoBehaviour
             Debug.DrawLine(Camera.main.transform.position, hits.point, Color.red);
             if (fadeMaterial != null)
             {
-                fadeMaterial.SetVector("_PlayerPosition", PlayerMovement.PlayerPosition);
+                fadeMaterial.SetVector("_PlayerPosition", moveData.PlayerPosition);
             }
         }
     }

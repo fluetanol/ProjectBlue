@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public interface IInputAction
+public interface IInputActionControll
 {
     public void OnAttack(Action<InputAction.CallbackContext> performedAction, Action<InputAction.CallbackContext> canceledAction);
     public void OnMove(Action<InputAction.CallbackContext> performedAction, Action<InputAction.CallbackContext> canceledAction);
@@ -29,7 +29,7 @@ public interface IInputAction
 
 
 
-public class PlayerInputManager : MonoBehaviour, IInputAction
+public class PlayerInputManager : MonoBehaviour, IInputActionControll
 {
     // Player Input Actions
     private InputSystem_Actions _inputActions;

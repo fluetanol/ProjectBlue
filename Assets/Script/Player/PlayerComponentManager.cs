@@ -26,6 +26,7 @@ public class BasicComponents
 public class PlayerComponentManager : MonoBehaviour
 {
     public BasicComponents BasicComponents;
+    
     public LineRenderer LineRenderer;
 
     public Rigidbody Rigidbody
