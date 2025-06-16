@@ -26101,9 +26101,10 @@ GameObject:
   - component: {fileID: 5342096378890131313}
   - component: {fileID: 6296004203446327976}
   - component: {fileID: 6296004203446327977}
+  - component: {fileID: 6296004203446327978}
   - component: {fileID: 856506845}
   - component: {fileID: 856506851}
-  - component: {fileID: 6296004203446327978}
+  - component: {fileID: 6296004203446327979}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -28890,6 +28891,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DmgTick: 0
+--- !u!114 &6296004203446327979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1390981173011460524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b35a0e638fd9b5c449d6d9fa75482538, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillData: {fileID: 0}
 --- !u!1 &6378475332831369551
 GameObject:
   m_ObjectHideFlags: 0

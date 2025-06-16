@@ -116,6 +116,7 @@ public class PlayerInputManager : MonoBehaviour, IInputActionControll
         if (canceledAction != null) InputActions.Player.Look2.canceled += canceledAction;
     }
 
+
     public void OnClick()
     {
         IsClicked = true;
