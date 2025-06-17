@@ -1,33 +1,5 @@
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-
-public interface IBasicData
-{
-    public float currentHP
-    {
-        get;
-    }
-    public float currentDEF
-    {
-        get;
-    }
-    public float currentAtk   //플레이어 자체 공격력
-    {
-        get;
-    }
-    public float currentMoveSpeed
-    {
-        get;
-    }
-    public float currentAttackSpeed
-    {
-        get;
-    }
-    
-
-}
-
-
 
 // 플레이어 기본 데이터를 받아온 뒤, 여기에서 실시간 수정을 합니다.
 public class PlayerDataManager : DataManager, IBasicData
@@ -37,7 +9,6 @@ public class PlayerDataManager : DataManager, IBasicData
         public ushort WeaponCode;
         public ushort WeaponLevel;
     }
-
     [SerializeField] private PlayerStats _playerStats;
     public PlayerStats PlayerStats
     {
@@ -50,25 +21,48 @@ public class PlayerDataManager : DataManager, IBasicData
     public WeaponStats.WeaponInfo wponInfo;
     public float currentHP
     {
-        get; private set;
+        get;
+        set;
     }
     public float currentDEF
     {
-        get; private set;
+        get;
+        set;
     }
     public float currentAtk
     {
-        get; private set;
+        get;
+        set;
     }     //플레이어 자체 공격력
     public float currentMoveSpeed
     {
-        get; private set;
+        get;
+        set;
     }
     public float currentAttackSpeed
     {
-        get; private set;
+        get;
+        set;
     }
 
+    public List<ShieldCondition> currentShields
+    {
+        get;
+        private set;
+    } = new List<ShieldCondition>(new ShieldCondition[3]);
+
+
+    public int currentShieldHeadIdx
+    {
+        get;
+        set;
+    } = 0;
+
+    public int currentShieldCount
+    {
+        get;
+        set;
+    } = 0;
 
     private float damageRate = 1;
 

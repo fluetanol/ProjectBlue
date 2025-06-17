@@ -151,13 +151,6 @@ public class PlayerMovement : MonoBehaviour, IMoveData
         _inputManager.OnMove(OnMoveStart, OnMoveCancel);
         _inputManager.OnLook(OnLook, null);
         _inputManager.InputActions.Enable();
-        // _inputManager.InputActions.Player.Move.performed += OnMoveStart;
-        // _inputManager.InputActions.Player.Move.canceled += OnMoveCancel;
-        // _inputManager.InputActions.Player.Attack.started += OnClickStart;
-        // _inputManager.InputActions.Player.Attack.canceled += OnClickCancel;
-        //_inputManager.InputActions.Player.Look2.performed += OnLook;
-        //_inputManager.InputActions.Enable();   
-       // Time.fixedDeltaTime = 1f; // 50fps
     }
 
 
@@ -174,13 +167,13 @@ public class PlayerMovement : MonoBehaviour, IMoveData
         nextDelta = HorizontalCollideAndSlide(xdelta, _componentManager.Rigidbody.position, 0);
         nextDelta += VerticalCollideAndSlide(ydelta, _componentManager.Rigidbody.position + nextDelta, 0);
 
-        // // if (isStepUp)
-        // // {
+        // // 
+        // // 
         //     PenetraionTest(_componentManager.Rigidbody.position + nextDelta, _componentManager.Rigidbody.rotation, out Vector3 correctVector);
         //    // print("correctVector " + correctVector);
         //     // 침투 보정
         //     nextDelta += correctVector;
-        // // }
+        // // 
         _componentManager.Rigidbody.MovePosition(_componentManager.Rigidbody.position + nextDelta);
     }
 
