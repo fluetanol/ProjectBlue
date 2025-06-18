@@ -1,12 +1,46 @@
 using System.Collections;
 using UnityEngine;
 
-public class PlayerStateManager : MonoBehaviour, IDamageable, IHealable
+public interface IStateData
+{
+    bool IsWaitDmgTick
+    {
+        get;
+        set;
+    }
+
+    bool CanMove
+    {
+        get;
+        set;
+    }
+
+}
+
+
+
+public class PlayerStateManager : MonoBehaviour, IDamageable, IHealable, IStateData
 {
     private PlayerDataManager _playerDataManager;
 
     public float DmgTick;
+
+
     private bool isWaitDmgTick = false; //데미지 틱을 기다리는 중인지 확인
+    public bool IsWaitDmgTick
+    { 
+        get => isWaitDmgTick;
+        set => isWaitDmgTick = value;
+    }
+
+    private bool _canMove = true; // 플레이어가 이동 가능한지 여부
+    public bool CanMove
+    {
+        get => _canMove;
+        set => _canMove = value;
+    }
+    
+    
 
     void Awake()
     {
@@ -27,8 +61,9 @@ public class PlayerStateManager : MonoBehaviour, IDamageable, IHealable
             {
                 TakeShieldDamage(damage);
             }
-            else { 
-            _playerDataManager.currentHP -= damage;
+            else
+            {
+                _playerDataManager.currentHP -= damage;
             }
             StartCoroutine(DmgTickTimer());
         }

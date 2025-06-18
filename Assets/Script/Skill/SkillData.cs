@@ -49,6 +49,12 @@ public abstract class SkillData : ScriptableObject
         // Default implementation can be empty or overridden in derived classes
     }
 
+    public virtual void UpdateESkill(SkillContext context){}
+    public virtual void UpdateQSkill(SkillContext context){}
+
+    public virtual void FixedUpdateESkill(SkillContext context){ }
+    public virtual void FixedUpdateQSkill(SkillContext context){ }
+
     public float EDuration => EskillDataInfo.Duration;
     public float ECoolTime => EskillDataInfo.CoolTime;
     public float QDuration => QskillDataInfo.Duration;

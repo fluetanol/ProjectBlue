@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -15,11 +16,6 @@ public interface IMoveData
     }
 
     public Vector3 MoveDirction
-    {
-        get;
-    }
-
-    public bool IsMove
     {
         get;
     }
@@ -40,7 +36,7 @@ public class PlayerMovement : MonoBehaviour, IMoveData
     [SerializeField] private PlayerComponentManager _componentManager;
     [SerializeField] private IInputActionControll _inputManager;
     [SerializeField] private PlayerDataManager _playerDataManager;
-
+    private IStateData _stateData;
 
     enum EPlayerMoveAxis
     {
@@ -67,12 +63,6 @@ public class PlayerMovement : MonoBehaviour, IMoveData
     }
 
     public Vector3 MoveDirction
-    {
-        get;
-        private set;
-    }
-
-    public bool IsMove
     {
         get;
         private set;
@@ -142,6 +132,7 @@ public class PlayerMovement : MonoBehaviour, IMoveData
         _componentManager = GetComponent<PlayerComponentManager>();
         _inputManager = GetComponent<PlayerInputManager>();
         _playerDataManager = GetComponent<PlayerDataManager>();
+        _stateData = GetComponent<IStateData>();
 
     }
 
@@ -153,11 +144,10 @@ public class PlayerMovement : MonoBehaviour, IMoveData
         _inputManager.InputActions.Enable();
     }
 
-
-
-
     void FixedUpdate()
     {
+        if(!_stateData.CanMove) return;
+        
         xdelta = _moveTypeList[(int)_playerMoveAxisType] * _playerDataManager.currentMoveSpeed * Time.fixedDeltaTime;
         if (isGrounded) ydelta = Vector3.zero;
         ydelta += Physics.gravity * Time.fixedDeltaTime * Time.fixedDeltaTime * GravityMultiplier;
@@ -460,14 +450,12 @@ public class PlayerMovement : MonoBehaviour, IMoveData
     {
         // Debug.Log("move " + context.ReadValue<Vector2>());
         MoveDirction = context.ReadValue<Vector2>();
-        IsMove = true;
     }
 
     void OnMoveCancel(InputAction.CallbackContext context)
     {
         // Debug.Log(context.ReadValue<Vector2>());
         MoveDirction = Vector2.zero;
-        IsMove = false;
     }
 
     void OnClickStart(InputAction.CallbackContext context)

@@ -100,6 +100,43 @@ public class PlayerSkillSystem : MonoBehaviour, ISkillEvent, ISkillTimeData
         QCoolTimer();
         ESkillTimer();
         QSkillTimer();
+
+        skillData.UpdateESkill(new SkillContext()
+        {
+            Target = null,
+            Caster = gameObject,
+            BasicData = _basicData,
+            EffectObjects = effectObjects,
+            SkillTimeData = this
+        });
+        skillData.UpdateQSkill(new SkillContext()
+        {
+            Target = null,
+            Caster = gameObject,
+            BasicData = _basicData,
+            EffectObjects = effectObjects,
+            SkillTimeData = this
+        });
+    }
+    
+    public void FixedUpdate()
+    {
+        skillData.FixedUpdateESkill(new SkillContext()
+        {
+            Target = null,
+            Caster = gameObject,
+            BasicData = _basicData,
+            EffectObjects = effectObjects,
+            SkillTimeData = this
+        });
+        skillData.FixedUpdateQSkill(new SkillContext()
+        {
+            Target = null,
+            Caster = gameObject,
+            BasicData = _basicData,
+            EffectObjects = effectObjects,
+            SkillTimeData = this
+        });
     }
 
 
@@ -114,7 +151,7 @@ public class PlayerSkillSystem : MonoBehaviour, ISkillEvent, ISkillTimeData
                 _eElapsedTime = 0f; // Reset the elapsed time after finishing the skill
                 _eCoolTimeElapsed = skillData.ECoolTime; // Reset the cooldown after finishing the skill
             }
-       
+
         }
     }
 
