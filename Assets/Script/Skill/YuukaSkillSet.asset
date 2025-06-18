@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bd73fe5a92d89a479788a7ac3d1e1a9, type: 3}
+  m_Name: YuukaSkillSet
+  m_EditorClassIdentifier: 
+  EskillDataInfo:
+    SkillName: "\uC274\uB4DC!"
+    Description: "\uBCF4\uD638\uB9C9\uC744 5\uCD08\uAC04 100 \uB9CC\uD07C \uC0DD\uC131\uD569\uB2C8\uB2E4."
+    Distance: 0
+    Range: 0
+    CoolTime: 3
+    Cost: 5
+    Damage: 0
+    Heal: 0
+    Shield: 50
+    Duration: 10
+    InstantiateObjects: []
+    EffectObjects: []
+  QskillDataInfo:
+    SkillName: "\uC720\uC6B0\uCE74\uC2DD 1\uD1A4 \uBC29\uC544\uCC27\uAE30"
+    Description: "\uC720\uC6B0\uCE74\uAC00 \uB192\uC774 \uB3C4\uC57D\uD55C \uD6C4
+      \uB0B4\uB824 \uCC0D\uC73C\uBA70 \uC8FC\uBCC0 \uC801\uC5D0\uAC8C \uD53C\uD574\uB97C
+      \uC785\uD799\uB2C8\uB2E4."
+    Distance: 1000
+    Range: 300
+    CoolTime: 0
+    Cost: 0
+    Damage: 100
+    Heal: 0
+    Shield: 0
+    Duration: 0
+    InstantiateObjects: []
+    EffectObjects: []

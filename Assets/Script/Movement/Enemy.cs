@@ -20,6 +20,9 @@ public abstract class Enemy : MonoBehaviour, IDisposable
     [SerializeField] protected Animator _animator;
     [SerializeField] protected Rigidbody _target;
 
+    [Header("DI")]
+    public IMoveData MoveData;
+
     protected bool _isDead = false;
 
 

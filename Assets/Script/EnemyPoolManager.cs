@@ -5,12 +5,15 @@ using UnityEngine;
 public class EnemyPoolManager : ObjectPoolManager<Enemy, EnemyPoolManager>
 {
     public EnemyStats enemyStats;
-
+    public IMoveData moveData;                
     public List<ObjectPool<Enemy>> enemyPool;
     
     protected override void Awake()
     {
         base.Awake();
+        moveData = FindAnyObjectByType<PlayerMovement>();
+        print("moveData " + moveData);
+
         enemyPool = new List<ObjectPool<Enemy>>(enemyStats.getSize());
         for (int i = 0; i < enemyStats.getSize(); i++)
         {
@@ -23,13 +26,16 @@ public class EnemyPoolManager : ObjectPoolManager<Enemy, EnemyPoolManager>
         //풀링할 적 오브젝트 코드
         foreach(var code in poolInfo.PoolTypes){
             GameObject prefab = enemyStats[code].EnemyPrefab;
+            prefab.GetComponent<Enemy>().MoveData = moveData;
 
             int count = poolInfo.PoolCount[code];
             //그 적을 생성시킬 갯수
 //            print("create count : " + count);
             Enemy[] objs = new Enemy[count];
-            for (int i=0; i<count; i++){
+            for (int i = 0; i < count; i++)
+            {
                 objs[i] = Instantiate(prefab, Parent).GetComponent<Enemy>();
+                objs[i].MoveData = moveData;
             }
             
 

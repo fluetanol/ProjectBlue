@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,25 +20,62 @@ public class PlayerDataManager : DataManager, IBasicData
     public Transform ShootPoint;
     public Weapon weapon;
     public WeaponStats.WeaponInfo wponInfo;
+
+    [Header("Basic Player Stats")]
+    [SerializeField] private float _currentHP;
     public float currentHP
     {
-        get;
-        set;
+        get
+        {
+            return _currentHP;
+        }
+        set
+        {
+            _currentHP = value;
+            // if (_currentHP < 0)
+            // {
+            //     _currentHP = 0;
+            // }
+        }
     }
     public float currentDEF
     {
         get;
         set;
     }
+
+    [SerializeField] private float _currentAtk;
     public float currentAtk
     {
-        get;
-        set;
+        get
+        {
+            return _currentAtk;
+        }
+        set
+        {
+            _currentAtk = value;
+            // if (_currentAtk < 0)
+            // {
+            //     _currentAtk = 0;
+            // }
+        }
     }     //플레이어 자체 공격력
+
+    [SerializeField] private float _currentMoveSpeed;
     public float currentMoveSpeed
     {
-        get;
-        set;
+        get
+        {
+            return _currentMoveSpeed;
+        }
+        set
+        {
+            _currentMoveSpeed = value;
+            // if (_currentMoveSpeed < 0)
+            // {
+            //     _currentMoveSpeed = 0;
+            // }
+        }
     }
     public float currentAttackSpeed
     {
@@ -45,24 +83,41 @@ public class PlayerDataManager : DataManager, IBasicData
         set;
     }
 
-    public List<ShieldCondition> currentShields
-    {
-        get;
-        private set;
-    } = new List<ShieldCondition>(new ShieldCondition[3]);
-
-
+    [Header("Shield Data")]
+    [SerializeField] private int _currentShieldHeadIdx = 0;
     public int currentShieldHeadIdx
     {
-        get;
-        set;
-    } = 0;
-
+        get
+        {
+            return _currentShieldHeadIdx;
+        }
+        set
+        {
+            _currentShieldHeadIdx = value;
+        }
+    }
+    [SerializeField] private int _currentShieldCount = 0;
     public int currentShieldCount
     {
-        get;
-        set;
-    } = 0;
+        get
+        {
+            return _currentShieldCount;
+        }
+        set
+        {
+            _currentShieldCount = value;
+        }
+    }
+
+    [SerializeField] private List<ShieldCondition> _currentShields  = new List<ShieldCondition>(new ShieldCondition[3]);
+    public List<ShieldCondition> currentShields
+    {
+        get
+        {
+            return _currentShields;
+        }
+        private set { }
+    }
 
     private float damageRate = 1;
 

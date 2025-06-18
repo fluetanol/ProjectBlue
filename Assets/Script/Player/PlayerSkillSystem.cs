@@ -10,37 +10,94 @@ public interface ISkillEvent
     void OnFinishQSkill();
 }
 
-
-
-public class PlayerSkillSystem : MonoBehaviour, ISkillEvent
+public interface ISkillTimeData
 {
-    private IInputActionControll inputActionControll;
-    private IBasicData basicData;
-    private IMoveData moveData;
+    float ECoolTimeElapsed
+    {
+        get;
+        set;
+    }
+    float QCoolTimeElapsed
+    {
+        get;
+        set;
+    }
+
+    float EElapsedTime
+    {
+        get;
+        set;
+    }
+   float QElapsedTime
+    {
+        get;
+        set;
+    }
+
+}
+
+public class PlayerSkillSystem : MonoBehaviour, ISkillEvent, ISkillTimeData
+{
+    private IInputActionControll _inputActionControll;
+    private IBasicData _basicData;
+    private IMoveData _moveData;
 
     [SerializeField] private List<GameObject> effectObjects;
     [SerializeField] private SkillData skillData;
 
-    private float eElapsedTime = 0f;
-    private float qElapsedTime = 0f;
+
+    [SerializeField] private float _eCoolTimeElapsed;
+    public float ECoolTimeElapsed
+    {
+        get { return _eCoolTimeElapsed; }
+        set { _eCoolTimeElapsed = value; }
+    }
+
+    [SerializeField] private float _qCoolTimeElapsed;
+    public float QCoolTimeElapsed
+    {
+        get { return _qCoolTimeElapsed; }
+        set { _qCoolTimeElapsed = value; }
+    }
+
+    private float _eElapsedTime;
+    public float EElapsedTime
+    {
+        get { return _eElapsedTime; }
+        set { _eElapsedTime = value; }
+    }
+
+    private float _qElapsedTime;
+    public float QElapsedTime
+    {
+        get { return _qElapsedTime; }
+        set { _qElapsedTime = value; }
+    }
 
 
     void Awake()
     {
-        inputActionControll = GetComponent<IInputActionControll>();
-        basicData = GetComponent<PlayerDataManager>();
-        moveData = GetComponent<IMoveData>();
+        _inputActionControll = GetComponent<IInputActionControll>();
+        _basicData = GetComponent<PlayerDataManager>();
+        _moveData = GetComponent<PlayerMovement>();
+
+        _eCoolTimeElapsed = skillData.ECoolTime;
+        _qCoolTimeElapsed = skillData.QCoolTime;
+        skillData.IsEContinue = false;
+        skillData.IsQContinue = false;
     }
 
     private void OnEnable()
     {
-        inputActionControll.InputActions.Player.ESkill.performed += OnESkill;
-        inputActionControll.InputActions.Player.QSkill.performed += OnQSkill;
+        _inputActionControll.InputActions.Player.ESkill.performed += OnESkill;
+        _inputActionControll.InputActions.Player.QSkill.performed += OnQSkill;
     }
 
 
     public void Update()
     {
+        ECoolTimer();
+        QCoolTimer();
         ESkillTimer();
         QSkillTimer();
     }
@@ -50,11 +107,14 @@ public class PlayerSkillSystem : MonoBehaviour, ISkillEvent
     {
         if (skillData.IsEContinue)
         {
-            eElapsedTime += Time.deltaTime;
-            if (eElapsedTime >= skillData.EDuration)
+            _eElapsedTime += Time.deltaTime;
+            if (_eElapsedTime >= skillData.EDuration)
             {
                 OnFinishESkill();
+                _eElapsedTime = 0f; // Reset the elapsed time after finishing the skill
+                _eCoolTimeElapsed = skillData.ECoolTime; // Reset the cooldown after finishing the skill
             }
+       
         }
     }
 
@@ -62,13 +122,63 @@ public class PlayerSkillSystem : MonoBehaviour, ISkillEvent
     {
         if (skillData.IsQContinue)
         {
-            qElapsedTime += Time.deltaTime;
-            if (qElapsedTime >= skillData.QDuration)
+            _qElapsedTime += Time.deltaTime;
+            if (_qElapsedTime >= skillData.QDuration)
             {
                 OnFinishQSkill();
+                _qElapsedTime = 0f; // Reset the elapsed time after finishing the skill
+                _qCoolTimeElapsed = skillData.QCoolTime; // Reset the cooldown after finishing the skill
             }
+            // Ensure _qElapsedTime does not exceed CoolTime
         }
-    }   
+    }
+
+    private void ECoolTimer()
+    {
+        _eCoolTimeElapsed =  Mathf.Clamp(_eCoolTimeElapsed - Time.deltaTime, 0f, skillData.ECoolTime);
+    }
+
+    private void QCoolTimer()
+    {
+        _qCoolTimeElapsed = Mathf.Clamp(_qCoolTimeElapsed - Time.deltaTime, 0f, skillData.QCoolTime);
+    }
+
+
+    public void OnESkill(InputAction.CallbackContext context)
+    {
+        if (_eCoolTimeElapsed > 0f || skillData.IsEContinue)
+        {
+            print("E Skill is on cooldown");
+            return; // Exit if the skill is on cooldown
+        }
+
+        print("OnESkill called");
+        skillData.ExecuteESkill(new SkillContext()
+        {
+            Target = null,
+            Caster = gameObject,
+            BasicData = _basicData,
+            EffectObjects = effectObjects,
+            SkillTimeData = this
+        }, ref context);
+
+
+        print(_basicData.currentShieldCount);
+        print(_basicData.currentShields[0].ShieldEffectObject.Count);
+    }
+
+    public void OnQSkill(InputAction.CallbackContext context)
+    {
+        if (_qCoolTimeElapsed > 0f || skillData.IsQContinue)
+        {
+            print("Q Skill is on cooldown");
+            return; // Exit if the skill is on cooldown
+        }
+        skillData.ExecuteQSkill(new SkillContext()
+        {
+
+        }, ref context);
+    }
 
     public void OnFinishESkill()
     {
@@ -76,11 +186,12 @@ public class PlayerSkillSystem : MonoBehaviour, ISkillEvent
         {
             Target = null,
             Caster = gameObject,
-            BasicData = basicData,
-            EffectObjects = effectObjects
+            BasicData = _basicData,
+            EffectObjects = effectObjects,
+            SkillTimeData = this
         };
         skillData.FinishESkill(finishSkillContext);
-        eElapsedTime = 0f; // Reset the elapsed time after finishing the skill
+        _eElapsedTime = 0f; // Reset the elapsed time after finishing the skill
     }
 
     public void OnFinishQSkill()
@@ -89,36 +200,18 @@ public class PlayerSkillSystem : MonoBehaviour, ISkillEvent
         {
             Target = null,
             Caster = gameObject,
-            BasicData = basicData,
+            BasicData = _basicData,
             EffectObjects = effectObjects
         };
         skillData.FinishQSkill(finishSkillContext);
         skillData.IsEContinue = false;
-        qElapsedTime = 0f; // Reset the elapsed time after finishing the skill
+        _qElapsedTime = 0f; // Reset the elapsed time after finishing the skill
     }
 
 
 
 
-    public void OnESkill(InputAction.CallbackContext context)
-    {
-        print("OnESkill called");
-        skillData.ExecuteESkill(new SkillContext()
-        {
-            Target = null,
-            Caster = gameObject,
-            BasicData = basicData,
-            EffectObjects = effectObjects
-        }, ref context);
-    }
-
-    public void OnQSkill(InputAction.CallbackContext context)
-    {
-        skillData.ExecuteQSkill(new SkillContext()
-        {
-
-        }, ref context);
-    }
+   
 
 
 }

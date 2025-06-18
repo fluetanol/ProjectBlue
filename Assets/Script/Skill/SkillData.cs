@@ -9,6 +9,7 @@ public struct SkillContext
     public GameObject Caster;
     public IBasicData BasicData;
     public IMoveData MoveData;
+    public ISkillTimeData SkillTimeData;
     public List<GameObject> EffectObjects;
 }
 

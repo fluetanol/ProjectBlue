@@ -23,10 +23,12 @@ public class PlayerStateManager : MonoBehaviour, IDamageable, IHealable
     {
         if (!isWaitDmgTick)
         {
-            _playerDataManager.currentHP -= damage;
             if (_playerDataManager.currentShieldCount > 0)
             {
                 TakeShieldDamage(damage);
+            }
+            else { 
+            _playerDataManager.currentHP -= damage;
             }
             StartCoroutine(DmgTickTimer());
         }
@@ -46,19 +48,20 @@ public class PlayerStateManager : MonoBehaviour, IDamageable, IHealable
 
         if (shieldCondition.ShieldValue <= 0)
         {
+            print("broke + " + idx);
             shieldCondition.ShieldValue = 0;
-            
-            for (int i = 0; i < shieldCondition.ShieldEffectObject.Count; i++)
-            {
-                shieldCondition.ShieldEffectObject[i].SetActive(false);
-            }
-            
-            shieldCondition.ShieldEffectObject.ForEach(effect => effect.SetActive(false));
-            _playerDataManager.currentShieldHeadIdx = ShieldCondition.MaxShieldIdx(_playerDataManager.currentShields);
-            _playerDataManager.currentShieldCount--;
-        }
 
-        _playerDataManager.currentShields[idx] = shieldCondition;
+            ShieldCondition.RemoveShield(_playerDataManager.currentShields, idx);
+            if (_playerDataManager.currentShieldHeadIdx < 0)
+            {
+                // 모든 쉴드가 파괴된 경우
+                _playerDataManager.currentShieldCount = 0;
+            }
+        }
+        else
+        {
+            _playerDataManager.currentShields[idx] = shieldCondition;
+        }
     }
 
     void IHealable.TakeHeal(float heal)

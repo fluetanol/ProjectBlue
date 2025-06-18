@@ -16,11 +16,10 @@ public class EnemyMovement :Enemy, IDamageable, IForceable, IAttackable
 
     private Vector3 _targetPosition, _nextPosition;
     private bool _isAttacking = false;  
-    private IMoveData _moveData;
 
     void Awake()
     {
-        _moveData = FindAnyObjectByType<PlayerMovement>();
+       // _moveData = FindAnyObjectByType<PlayerMovement>();
     }
 
     void OnEnable(){
@@ -63,7 +62,7 @@ public class EnemyMovement :Enemy, IDamageable, IForceable, IAttackable
 
     private Vector3 enemyMove(){
         //기본 타겟은 항상 플레이어입니다.
-        _targetPosition = _target != null ? _target.position : _moveData.PlayerPosition;
+        _targetPosition = _target != null ? _target.position : MoveData.PlayerPosition;
 
         transform.LookAt(_targetPosition);
         if(_enemyStats[0].EnemyMoveType == EenemyMoveType.linearInterpolation)
