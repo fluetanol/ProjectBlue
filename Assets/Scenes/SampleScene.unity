@@ -21633,7 +21633,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1435725977}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 256.79578, z: 0}
 --- !u!135 &847006622
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -21708,28 +21708,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 847006620}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!95 &847006625
-Animator:
-  serializedVersion: 7
+--- !u!111 &847006625
+Animation:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 847006620}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Animation: {fileID: 7400000, guid: 133c0982f3b7be345890a1d222b1ceb4, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 133c0982f3b7be345890a1d222b1ceb4, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
   m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
 --- !u!114 &856506845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24071,7 +24066,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1568688491
 Transform:
   m_ObjectHideFlags: 0
@@ -26299,10 +26294,10 @@ GameObject:
   - component: {fileID: 1356633998654775462}
   - component: {fileID: 6296004203446327975}
   - component: {fileID: 5342096378890131313}
+  - component: {fileID: 6296004203446327979}
   - component: {fileID: 6296004203446327976}
   - component: {fileID: 6296004203446327977}
   - component: {fileID: 6296004203446327978}
-  - component: {fileID: 6296004203446327979}
   - component: {fileID: 856506845}
   - component: {fileID: 856506851}
   m_Layer: 3
@@ -28451,6 +28446,10 @@ MonoBehaviour:
     AttackAngle: 0
     AttackDistance: 0
   _currentHP: 0
+  _currentAtk: 0
+  _currentMoveSpeed: 0
+  _currentShieldHeadIdx: 0
+  _currentShieldCount: 0
   _currentShields:
   - ShieldValue: 0
     ShieldDuration: 0
@@ -28461,8 +28460,6 @@ MonoBehaviour:
   - ShieldValue: 0
     ShieldDuration: 0
     ShieldEffectObject: []
-  _currentShieldHeadIdx: 0
-  _currentShieldCount: 0
 --- !u!4 &5362683433834960795
 Transform:
   m_ObjectHideFlags: 0

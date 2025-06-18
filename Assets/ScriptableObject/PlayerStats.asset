@@ -15,5 +15,5 @@ MonoBehaviour:
   Health: 100
   Defense: 1
   MoveSpeed: 8
-  WeaponID: 2
+  WeaponID: 1
   DMGTick: 0.5
