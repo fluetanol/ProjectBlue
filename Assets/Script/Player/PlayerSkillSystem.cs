@@ -42,10 +42,12 @@ public class PlayerSkillSystem : MonoBehaviour, ISkillEvent, ISkillTimeData
     private IBasicData _basicData;
     private IMoveData _moveData;
 
+    private ISkillIndicator _skillIndicator;
+
     [SerializeField] private List<GameObject> effectObjects;
     [SerializeField] private SkillData skillData;
 
-
+    
     [SerializeField] private float _eCoolTimeElapsed;
     public float ECoolTimeElapsed
     {
@@ -80,6 +82,7 @@ public class PlayerSkillSystem : MonoBehaviour, ISkillEvent, ISkillTimeData
         _inputActionControll = GetComponent<IInputActionControll>();
         _basicData = GetComponent<PlayerDataManager>();
         _moveData = GetComponent<PlayerMovement>();
+        _skillIndicator = GetComponentInChildren<SkillIndicator>(true);
 
         _eCoolTimeElapsed = skillData.ECoolTime;
         _qCoolTimeElapsed = skillData.QCoolTime;
@@ -197,7 +200,7 @@ public class PlayerSkillSystem : MonoBehaviour, ISkillEvent, ISkillTimeData
             BasicData = _basicData,
             EffectObjects = effectObjects,
             SkillTimeData = this
-        }, ref context);
+        },  context);
 
 
         print(_basicData.currentShieldCount);
@@ -211,10 +214,7 @@ public class PlayerSkillSystem : MonoBehaviour, ISkillEvent, ISkillTimeData
             print("Q Skill is on cooldown");
             return; // Exit if the skill is on cooldown
         }
-        skillData.ExecuteQSkill(new SkillContext()
-        {
-
-        }, ref context);
+        OnShowSkillRange(context);
     }
 
     public void OnFinishESkill()
@@ -246,7 +246,34 @@ public class PlayerSkillSystem : MonoBehaviour, ISkillEvent, ISkillTimeData
     }
 
 
+    public void OnShowSkillRange(InputAction.CallbackContext context)
+    {
+        string actionName = context.action.name;
 
+        switch (actionName)
+        {
+            case "QSkill":
+                _skillIndicator.OnSkillRangeIndicator(skillData.QSkillRangeIndicator,
+                skillData.ExecuteQSkill,
+                 new SkillContext()
+                 {
+                     Target = null,
+                     Caster = gameObject,
+                     BasicData = _basicData,
+                     EffectObjects = effectObjects,
+                     SkillTimeData = this
+                 }, context);
+                break;
+
+            case "ESkill":
+
+                break;
+            default:
+                Debug.LogError("Unknown action name for skill range display: " + actionName);
+                return;
+        }       
+
+    }
 
    
 

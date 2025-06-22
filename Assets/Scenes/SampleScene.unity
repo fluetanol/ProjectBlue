@@ -20628,13 +20628,14 @@ GameObject:
   m_Component:
   - component: {fileID: 622977982}
   - component: {fileID: 622977981}
+  - component: {fileID: 622977983}
   m_Layer: 9
-  m_Name: SkillProjector
+  m_Name: SkillIndicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &622977981
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20647,7 +20648,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0777d029ed3dffa4692f417d4aba19ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: be2aae2412376c549892e30b9edaf000, type: 2}
+  m_Material: {fileID: 2100000, guid: 31d0dcc6f2dd4e4408d18036a2c93862, type: 2}
   m_DrawDistance: 1000
   m_FadeScale: 1
   m_StartAngleFade: 180
@@ -20668,12 +20669,25 @@ Transform:
   m_GameObject: {fileID: 622977980}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 3.289999, y: -0.063, z: 1.71}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3019291862444770695}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!114 &622977983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 622977980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cba37fc3d768064d88720888e16c963, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  decalPojector: {fileID: 0}
 --- !u!1001 &642066492
 PrefabInstance:
   m_ObjectHideFlags: 0

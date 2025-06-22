@@ -23,6 +23,7 @@ MonoBehaviour:
     Heal: 0
     Shield: 50
     Duration: 10
+    indicatorMaterial: {fileID: 0}
     InstantiateObjects: []
     EffectObjects: []
   QskillDataInfo:
@@ -38,5 +39,6 @@ MonoBehaviour:
     Heal: 0
     Shield: 0
     Duration: 0
+    indicatorMaterial: {fileID: 2100000, guid: be2aae2412376c549892e30b9edaf000, type: 2}
     InstantiateObjects: []
     EffectObjects: []

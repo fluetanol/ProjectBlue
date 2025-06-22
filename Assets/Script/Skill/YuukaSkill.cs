@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 public class YuukaSkill : SkillData
 {
     int shieldIdx = 0;
-    public override void ExecuteESkill(SkillContext context, ref InputAction.CallbackContext inputContext)
+    public override void ExecuteESkill(SkillContext context, InputAction.CallbackContext inputContext)
     {
         shieldIdx = ShieldCondition.AddShield(context.BasicData.currentShields, new ShieldCondition()
         {
@@ -41,9 +41,10 @@ public class YuukaSkill : SkillData
         ShieldCondition.RemoveShield(context.BasicData.currentShields, shieldIdx);
     }
 
-    public override void ExecuteQSkill(SkillContext context, ref InputAction.CallbackContext inputContext)
+    public override void ExecuteQSkill(SkillContext context, InputAction.CallbackContext inputContext)
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
+        Debug.Log("Q Skill Executed : " + context.TargetPosition);
     }
 
     private void ShieldRemove(SkillContext context)

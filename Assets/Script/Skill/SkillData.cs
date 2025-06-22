@@ -7,6 +7,7 @@ public struct SkillContext
 {
     public GameObject Target;
     public GameObject Caster;
+    public Vector3 TargetPosition;
     public IBasicData BasicData;
     public IMoveData MoveData;
     public ISkillTimeData SkillTimeData;
@@ -26,19 +27,20 @@ public struct SkillDataInfo
     public int Heal;
     public int Shield;
     public float Duration;
-    
+
+    public Material indicatorMaterial;
     public List<GameObject> InstantiateObjects;
     public List<GameObject> EffectObjects;
 }
 
 public abstract class SkillData : ScriptableObject
 {
-
     [SerializeField] protected SkillDataInfo EskillDataInfo;
     [SerializeField] protected SkillDataInfo QskillDataInfo;
+    
 
-    public abstract void ExecuteESkill(SkillContext context, ref InputAction.CallbackContext inputContext);
-    public abstract void ExecuteQSkill(SkillContext context, ref InputAction.CallbackContext inputContext);
+    public abstract void ExecuteESkill(SkillContext context, InputAction.CallbackContext inputContext);
+    public abstract void ExecuteQSkill(SkillContext context, InputAction.CallbackContext inputContext);
 
     public virtual void FinishESkill(SkillContext context)
     {
@@ -55,6 +57,8 @@ public abstract class SkillData : ScriptableObject
     public virtual void FixedUpdateESkill(SkillContext context){ }
     public virtual void FixedUpdateQSkill(SkillContext context){ }
 
+    public Material ESkillRangeIndicator => EskillDataInfo.indicatorMaterial;
+    public Material QSkillRangeIndicator => QskillDataInfo.indicatorMaterial;
     public float EDuration => EskillDataInfo.Duration;
     public float ECoolTime => EskillDataInfo.CoolTime;
     public float QDuration => QskillDataInfo.Duration;
