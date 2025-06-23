@@ -39,6 +39,7 @@ public interface ISkillTimeData
 public class PlayerSkillSystem : MonoBehaviour, ISkillEvent, ISkillTimeData
 {
     private IInputActionControll _inputActionControll;
+    private IStateData _stateData;
     private IBasicData _basicData;
     private IMoveData _moveData;
 
@@ -46,6 +47,7 @@ public class PlayerSkillSystem : MonoBehaviour, ISkillEvent, ISkillTimeData
 
     [SerializeField] private List<GameObject> effectObjects;
     [SerializeField] private SkillData skillData;
+    [SerializeField] private SkillStrategy skillStrategy;
 
     
     [SerializeField] private float _eCoolTimeElapsed;
@@ -82,6 +84,7 @@ public class PlayerSkillSystem : MonoBehaviour, ISkillEvent, ISkillTimeData
         _inputActionControll = GetComponent<IInputActionControll>();
         _basicData = GetComponent<PlayerDataManager>();
         _moveData = GetComponent<PlayerMovement>();
+        _stateData = GetComponent<PlayerStateManager>();
         _skillIndicator = GetComponentInChildren<SkillIndicator>(true);
 
         _eCoolTimeElapsed = skillData.ECoolTime;
@@ -129,7 +132,9 @@ public class PlayerSkillSystem : MonoBehaviour, ISkillEvent, ISkillTimeData
             Target = null,
             Caster = gameObject,
             BasicData = _basicData,
+            MoveData = _moveData,
             EffectObjects = effectObjects,
+            StateData = _stateData,
             SkillTimeData = this
         });
         skillData.FixedUpdateQSkill(new SkillContext()
@@ -137,6 +142,8 @@ public class PlayerSkillSystem : MonoBehaviour, ISkillEvent, ISkillTimeData
             Target = null,
             Caster = gameObject,
             BasicData = _basicData,
+            MoveData = _moveData,
+            StateData = _stateData,
             EffectObjects = effectObjects,
             SkillTimeData = this
         });
@@ -199,6 +206,8 @@ public class PlayerSkillSystem : MonoBehaviour, ISkillEvent, ISkillTimeData
             Caster = gameObject,
             BasicData = _basicData,
             EffectObjects = effectObjects,
+            MoveData = _moveData,
+            StateData = _stateData,
             SkillTimeData = this
         },  context);
 
@@ -260,9 +269,13 @@ public class PlayerSkillSystem : MonoBehaviour, ISkillEvent, ISkillTimeData
                      Target = null,
                      Caster = gameObject,
                      BasicData = _basicData,
+                    MoveData = _moveData,
+                    StateData = _stateData,
                      EffectObjects = effectObjects,
                      SkillTimeData = this
-                 }, context);
+                 }, context
+                 , skillData.QAttackRange
+                 , skillData.QRange);
                 break;
 
             case "ESkill":

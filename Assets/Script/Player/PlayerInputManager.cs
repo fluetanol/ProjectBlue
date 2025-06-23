@@ -115,7 +115,7 @@ public class PlayerInputManager : MonoBehaviour, IInputActionControll, IInputDat
             Ray ray = Camera.main.ScreenPointToRay(InputActions.Player.Look2.ReadValue<Vector2>());
             if (Physics.Raycast(ray, out RaycastHit hitInfo, float.PositiveInfinity, LayerMask.GetMask("Ground")))
             {
-                print("레이캐스팅 정보 " + hitInfo.point + " " + hitInfo.collider.name + " " + hitInfo.collider.gameObject.layer);
+               // print("레이캐스팅 정보 " + hitInfo.point + " " + hitInfo.collider.name + " " + hitInfo.collider.gameObject.layer);
                 return hitInfo.point;
             }
             else

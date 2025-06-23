@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
@@ -8,17 +9,20 @@ public interface ISkillIndicator
     public void OnSkillRangeIndicator(Material indicator,
     Action<SkillContext, InputAction.CallbackContext> activeSkill,
     SkillContext context,
-    InputAction.CallbackContext inputActionContext);
+    InputAction.CallbackContext inputActionContext, float range, float skillRange);
 }
 
 [RequireComponent(typeof(DecalProjector))]
 public class SkillIndicator : MonoBehaviour, ISkillIndicator
 {
     [SerializeField] private DecalProjector decalPojector;
+    [SerializeField] private DecalProjector _rangeDecalProjector;
     [SerializeField] private float _timeScale = 0.3f;
+    [SerializeField] private Ease ease;
     private IInputActionControll _inputActionControll;
     private IInputData _inputData;
     private IMoveData _moveData;
+
 
     private event Action<SkillContext, InputAction.CallbackContext> _activeSkillCallback;
     private SkillContext _skillContext;
@@ -65,18 +69,26 @@ public class SkillIndicator : MonoBehaviour, ISkillIndicator
     // Update is called once per frame
     void Update()
     {
-        this.transform.position = _inputData.CursorRaycastingPosition;
+        
+        float distance = Vector3.Distance(_inputData.CursorRaycastingPosition, _moveData.PlayerPosition);
+        print(distance);
+        if (distance < _rangeDecalProjector.size.x /2f)
+        {
+            this.transform.position = _inputData.CursorRaycastingPosition;
+        }
+
         if (_inputActionControll.IsClicked)
         {
+            gameObject.SetActive(false); // Disable the GameObject after invoking the skill
             _skillContext.TargetPosition = _inputData.CursorRaycastingPosition;
             _activeSkillCallback?.Invoke(_skillContext, _inputActionContext);
-            gameObject.SetActive(false); // Disable the GameObject after invoking the skill
+            _rangeDecalProjector.enabled = false; // Disable the range decal projector
         }
     }
 
 
     public void OnSkillRangeIndicator(Material indicator, Action<SkillContext, InputAction.CallbackContext> activeSkill, SkillContext context,
-    InputAction.CallbackContext inputActionContext)
+    InputAction.CallbackContext inputActionContext, float range, float skillRange)
     {
         _activeSkillCallback = activeSkill;
         _skillContext = context;
@@ -84,6 +96,10 @@ public class SkillIndicator : MonoBehaviour, ISkillIndicator
 
         gameObject.SetActive(true); // Enable the GameObject when setting the material
         decalPojector.material = indicator;
+        decalPojector.size = new Vector3(range, range, 5f);
+        _rangeDecalProjector.enabled = true;
+        _rangeDecalProjector.size = new Vector3(skillRange, skillRange, 5f);
+
 
     }
 

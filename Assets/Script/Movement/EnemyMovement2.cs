@@ -28,6 +28,7 @@ public class EnemyMovement2 : Enemy, IDamageable, IForceable, IAttackable
     void Awake()
     {
         _moveData = FindAnyObjectByType<PlayerMovement>();
+        enemyCurrentDataManager = FindAnyObjectByType<EnemyCurrentDataManager>();
     }
 
     void Start(){
@@ -72,7 +73,7 @@ public class EnemyMovement2 : Enemy, IDamageable, IForceable, IAttackable
         _targetPosition = _target != null ? _target.position : _moveData.PlayerPosition;
 
         transform.LookAt(_targetPosition);
-        print("enemy look at : " + _targetPosition);
+//        print("enemy look at : " + _targetPosition);
         
         if(_enemyStats[0].EnemyMoveType == EenemyMoveType.linearInterpolation)
             return Vector3.Lerp(_rigidbody.position, _targetPosition, 
@@ -126,18 +127,23 @@ public class EnemyMovement2 : Enemy, IDamageable, IForceable, IAttackable
         _animator.SetBool("isAttack", _isAttacking);
     }
 
-    public override void Dispose()
-    {
-        _moveLock = false;
-        _isAttacking = false;
-        _isDead = false;
-        StopCoroutine(AttackTimer());
-        base.Dispose();
-    }
+    // public override void Dispose()
+    // {
+    //     _moveLock = false;
+    //     _isAttacking = false;
+    //     _isDead = false;
+    //     StopCoroutine(AttackTimer());
+    //     base.Dispose();
+    // }
 
     void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(transform.position, range);
     }
 
+    public void Airborne(float force)
+    {
+        print("airborne force : " + force);
+        _rigidbody.AddForce(Vector3.up * force, ForceMode.Impulse);
+    }
 }

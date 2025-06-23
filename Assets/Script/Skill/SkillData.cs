@@ -10,6 +10,7 @@ public struct SkillContext
     public Vector3 TargetPosition;
     public IBasicData BasicData;
     public IMoveData MoveData;
+    public IStateData StateData;
     public ISkillTimeData SkillTimeData;
     public List<GameObject> EffectObjects;
 }
@@ -20,7 +21,8 @@ public struct SkillDataInfo
     public string SkillName;
     public string Description;
     public float Distance;
-    public float Range;
+    public float AttackRange;
+    public float SkillRange;
     public int CoolTime;
     public int Cost;
     public int Damage;
@@ -63,6 +65,10 @@ public abstract class SkillData : ScriptableObject
     public float ECoolTime => EskillDataInfo.CoolTime;
     public float QDuration => QskillDataInfo.Duration;
     public float QCoolTime => QskillDataInfo.CoolTime;
+    public float QRange => QskillDataInfo.SkillRange;
+    public float ERange => EskillDataInfo.SkillRange;
+    public float QAttackRange => QskillDataInfo.AttackRange;
+    public float EAttackRange => EskillDataInfo.AttackRange;
 
     public bool IsEContinue
     {

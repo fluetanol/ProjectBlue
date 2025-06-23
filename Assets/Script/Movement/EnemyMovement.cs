@@ -115,4 +115,10 @@ public class EnemyMovement :Enemy, IDamageable, IForceable, IAttackable
         gameObject.SetActive(true);
         InitializeStats();
     }
+
+    public void Airborne(float force)
+    {
+        print("airborne force : " + force);
+        _rigidbody.AddForce(Vector3.up * force, ForceMode.Impulse);
+    }
 }

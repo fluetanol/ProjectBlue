@@ -22,7 +22,9 @@ public class Dead : StateMachineBehaviour
         //if(animator.transform.parent.TryGetComponent<EnemyMovement>(out EnemyMovement enemyMovement)){
         //    ObjectPoolManager.Instance.EnemyPool.Return(enemyMovement);
         //}
-        EnemyPoolManager.Instance.Return(animator.transform.parent.gameObject.GetComponent<Enemy>().EnemyCode, animator.transform.parent.gameObject.GetComponent<EnemyMovement>());
+        EnemyPoolManager.Instance.Return
+        (animator.transform.parent.gameObject.GetComponent<Enemy>().EnemyCode,
+        animator.transform.parent.gameObject.GetComponent<Enemy>());
         //animator.transform.parent.gameObject.SetActive(false);
     }
 

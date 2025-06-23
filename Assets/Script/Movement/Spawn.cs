@@ -22,8 +22,9 @@ public class Spawn : MonoBehaviour
             yield return new WaitForSeconds(_spawnCycle);
 
             for(int i = 0; i < _spawnCount; i++){
-                int randomIndex = Random.Range(0, _enemyObject.Count);
-                Enemy em = EnemyPoolManager.Instance.Get(0, transform.position, Quaternion.identity, true);
+                int randomIndex = Random.Range(0, 2);
+                print("randomIndex : " + randomIndex  + " " + _enemyObject.Count);
+                Enemy em = EnemyPoolManager.Instance.Get(randomIndex, transform.position, Quaternion.identity, true);
                 if(em == null) {
                     Debug.LogWarning("no enemy in pool");
                     continue;

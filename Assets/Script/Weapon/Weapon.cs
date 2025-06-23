@@ -22,7 +22,7 @@ public class Weapon : MonoBehaviour
         b.transform.parent = null;
         b.SetBulletPosition(transform.position, transform.rotation);
         b.SetBulletStats(weaponInfo);
-       b.bulletDirection = transform.forward;
+        b.bulletDirection = transform.forward;
         b.SetBulletMask(attackMask);
         b.gameObject.SetActive(true); // 여기서 마지막에 활성화
        // print("bullet create " + b.transform.position + " " + transform.position);

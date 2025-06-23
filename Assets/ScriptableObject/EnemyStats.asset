@@ -31,5 +31,5 @@ MonoBehaviour:
     EnemyMoveType: 0
     _linearMoveSpeed: 4.73
     _linearInterpolationMoveSpeed: 1
-    EnemyAttackType: 0
+    EnemyAttackType: 1
     EnemyPrefab: {fileID: 656918725280790176, guid: a88acf2f6a573ee4d809fe1a969ca3ec, type: 3}

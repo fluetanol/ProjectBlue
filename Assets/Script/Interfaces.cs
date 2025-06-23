@@ -22,15 +22,15 @@ public interface IHealable
 interface IForceable
 {
     void Knockback(Vector3 direction, float force);
+    void Airborne(float force);
 }
-
 /// <summary>
-/// 공격 가능한 객체에 대한 인터페이스
-/// </summary>
-interface IAttackable
-{
-    void Attack();
-}
+    /// 공격 가능한 객체에 대한 인터페이스
+    /// </summary>
+    interface IAttackable
+    {
+        void Attack();
+    }
 
 
 public interface IPoolable { }
