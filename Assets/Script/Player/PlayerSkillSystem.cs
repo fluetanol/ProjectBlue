@@ -28,10 +28,20 @@ public interface ISkillTimeData
         get;
         set;
     }
-   float QElapsedTime
+    float QElapsedTime
     {
         get;
         set;
+    }
+
+    float QCoolTime
+    {
+        get;
+    }
+
+    float ECoolTime
+    {
+        get;
     }
 
 }
@@ -78,6 +88,8 @@ public class PlayerSkillSystem : MonoBehaviour, ISkillEvent, ISkillTimeData
         set { _qElapsedTime = value; }
     }
 
+    public float QCoolTime => skillData.QCoolTime;
+    public float ECoolTime => skillData.ECoolTime;
 
     void Awake()
     {

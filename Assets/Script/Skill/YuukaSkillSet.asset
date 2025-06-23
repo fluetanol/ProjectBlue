@@ -35,7 +35,7 @@ MonoBehaviour:
     Distance: 1000
     AttackRange: 8
     SkillRange: 32
-    CoolTime: 0
+    CoolTime: 8
     Cost: 0
     Damage: 100
     Heal: 0

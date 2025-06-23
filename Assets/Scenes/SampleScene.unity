@@ -23738,7 +23738,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 465a087311fd3de43a93f593b5ef2277, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableCreateNew: 0
+  enableCreateNew: 1
   Parent: {fileID: 1379510377}
   weaponStats: {fileID: 11400000, guid: 9bb14c387f983984ba9f8efba8caf9e6, type: 2}
   bulletPool: []
