@@ -1,0 +1,13 @@
+{
+    "asset": "ec5b188f05807b04b89c9f85c3958b1c",
+    "fileName": "0197b0c9-5816-7249-abdd-bf8f48b8a97b.wav",
+    "prompt": "\"Create a stylized gunshot sound effect for a game.\nIt should sound punchy and impactful, but not too realistic.\nMore arcade or sci-fi than military.\nAvoid real gun sounds, aim for something fun and game-like.\"",
+    "negativePrompt": "",
+    "model": "0ee39b33-2893-4e0f-8c46-0e0bdd4eda85",
+    "modelName": "Text to Sound",
+    "customSeed": -1,
+    "w3CTraceId": "f610e8a537dfe01193c1db9cdcd0feb4",
+    "duration": 10.0,
+    "autoTrim": false,
+    "hasReference": false
+}

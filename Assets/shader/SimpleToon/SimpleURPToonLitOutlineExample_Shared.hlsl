@@ -360,7 +360,8 @@ half3 ShadeAllLights(ToonSurfaceData surfaceData, ToonLightingData lightingData)
 #ifdef _ADDITIONAL_LIGHTS
     // Returns the amount of lights affecting the object being renderer.
     // These lights are culled per-object in the forward renderer of URP.
-    int additionalLightsCount = GetAdditionalLightsCount();
+    int additionalLightsCount =  max(GetAdditionalLightsCount(), 1);
+    [loop]
     for (int i = 0; i < additionalLightsCount; ++i)
     {
         // Similar to GetMainLight(), but it takes a for-loop index. This figures out the
@@ -502,7 +503,7 @@ void DepthNormalsFragment(
     #endif
 
     #ifdef _WRITE_RENDERING_LAYERS
-        uint renderingLayers = GetMeshRenderingLayer();
-        outRenderingLayers = float4(EncodeMeshRenderingLayer(renderingLayers), 0, 0, 0);
+       // uint renderingLayers = GetMeshRenderingLayer();
+       // outRenderingLayers = float4(EncodeMeshRenderingLayer(renderingLayers), 0, 0, 0);
     #endif
 }

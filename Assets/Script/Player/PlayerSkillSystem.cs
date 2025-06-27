@@ -212,6 +212,7 @@ public class PlayerSkillSystem : MonoBehaviour, ISkillEvent, ISkillTimeData
         }
 
         print("OnESkill called");
+        //skillStrategy.OnESkill(context);
         skillData.ExecuteESkill(new SkillContext()
         {
             Target = null,
