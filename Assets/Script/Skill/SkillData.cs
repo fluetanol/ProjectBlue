@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public struct SkillContext
+public class SkillContext
 {
     public GameObject Target;
     public GameObject Caster;
@@ -13,8 +13,12 @@ public struct SkillContext
     public IStateData StateData;
     public ISkillTimeData SkillTimeData;
     public List<GameObject> EffectObjects;
+
+    
 }
 
+//스킬 데이터와 스킬 실행 시의 동작을 정의합니다.
+// DTO 라고 생각하면 됨.
 [Serializable]
 public struct SkillDataInfo
 {

@@ -1,0 +1,13 @@
+{
+    "asset": "a440a4942104f6b40a93a09fc59a515d",
+    "fileName": "0197ba97-a598-77b6-aba3-1b4d02f37fdb.wav",
+    "prompt": "rifle shotting sound, high quality",
+    "negativePrompt": "noise",
+    "model": "0ee39b33-2893-4e0f-8c46-0e0bdd4eda85",
+    "modelName": "Text to Sound",
+    "customSeed": -1,
+    "w3CTraceId": "55c0cfc61484c5c1bafe087a15c7290d",
+    "duration": 1.5,
+    "autoTrim": true,
+    "hasReference": false
+}

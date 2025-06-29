@@ -1,0 +1,13 @@
+{
+    "asset": "b4684e6c9c1c66048b8c2164e10551c4",
+    "fileName": "0197ba91-8d62-7ae8-9813-2b811b13ad3b.wav",
+    "prompt": "walking sound",
+    "negativePrompt": "",
+    "model": "0ee39b33-2893-4e0f-8c46-0e0bdd4eda85",
+    "modelName": "Text to Sound",
+    "customSeed": -1,
+    "w3CTraceId": "b2064f2d0d57a44c07b1b76ff261193d",
+    "duration": 1.0,
+    "autoTrim": true,
+    "hasReference": false
+}
