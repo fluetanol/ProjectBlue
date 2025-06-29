@@ -20707,7 +20707,6 @@ MonoBehaviour:
   decalPojector: {fileID: 0}
   _rangeDecalProjector: {fileID: 1363019423}
   _timeScale: 0.3
-  ease: 0
 --- !u!1001 &642066492
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24542,6 +24541,69 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8ee657c6800ab849bb30b4375d02323, type: 3}
+--- !u!1 &1567505785 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8543001802663035314, guid: ed62297e3a18e244d8d5b06b16d16093, type: 3}
+  m_PrefabInstance: {fileID: 816792439213856330}
+  m_PrefabAsset: {fileID: 0}
+--- !u!20 &1567505789 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 313867860363532559, guid: ed62297e3a18e244d8d5b06b16d16093, type: 3}
+  m_PrefabInstance: {fileID: 816792439213856330}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1567505790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1567505785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Cinemachine::Cinemachine.CinemachineImpulseSource
+  m_ImpulseDefinition:
+    m_ImpulseChannel: 1
+    m_ImpulseShape: 2
+    m_CustomImpulseShape:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_ImpulseDuration: 0.2
+    m_ImpulseType: 0
+    m_DissipationRate: 0.25
+    m_RawSignal: {fileID: 0}
+    m_AmplitudeGain: 1
+    m_FrequencyGain: 1
+    m_RepeatMode: 0
+    m_Randomize: 1
+    m_TimeEnvelope:
+      m_AttackShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_DecayShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_AttackTime: 0
+      m_SustainTime: 0.2
+      m_DecayTime: 0.7
+      m_ScaleWithImpact: 1
+      m_HoldForever: 0
+    m_ImpactRadius: 100
+    m_DirectionMode: 0
+    m_DissipationMode: 2
+    m_DissipationDistance: 100
+    m_PropagationSpeed: 343
+  m_DefaultVelocity: {x: 0, y: -1, z: 0}
 --- !u!1 &1568688490
 GameObject:
   m_ObjectHideFlags: 0
@@ -24993,7 +25055,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1673320850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25043,15 +25105,15 @@ Canvas:
   m_GameObject: {fileID: 1673320849}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
+  m_RenderMode: 1
+  m_Camera: {fileID: 1567505789}
+  m_PlaneDistance: 0.8
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
+  m_VertexColorAlwaysGammaSpace: 1
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
@@ -25465,7 +25527,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 8b3300d2ba52ecf409c9523f2eff5bbd, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -59.784943
+      value: -60.02
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 8b3300d2ba52ecf409c9523f2eff5bbd, type: 3}
       propertyPath: m_LocalRotation.w
@@ -26854,7 +26916,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6202447634710592141, guid: ed62297e3a18e244d8d5b06b16d16093, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1560288473}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8543001802663035314, guid: ed62297e3a18e244d8d5b06b16d16093, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1567505790}
   m_SourcePrefab: {fileID: 100100000, guid: ed62297e3a18e244d8d5b06b16d16093, type: 3}
 --- !u!4 &827251683002337878
 Transform:
@@ -29881,10 +29946,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effectObjects:
   - {fileID: 847006620}
-  skillData: {fileID: 11400000, guid: 3cc3cb88d3994e24b8b0970703acde69, type: 2}
-  skillStrategy: {fileID: 0}
+  _skillStrategy: {fileID: 11400000, guid: 1d98fc4136303fe48958435bbd131227, type: 2}
   _eCoolTimeElapsed: 0
   _qCoolTimeElapsed: 0
+  _eElapsedTime: 0
+  _qElapsedTime: 0
 --- !u!1 &6378475332831369551
 GameObject:
   m_ObjectHideFlags: 0

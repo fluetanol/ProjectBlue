@@ -68,28 +68,29 @@ public class YuukaSkill : SkillData
 
     private void QSkillAnimation(Transform casterTransform, Vector3 targetPosition, SkillContext context)
     {
+        Debug.Log("Creating new Q Skill Movement Sequence");
 
-            Debug.Log("Creating new Q Skill Movement Sequence");
+        Rigidbody casterRigidbody = casterTransform.GetComponent<Rigidbody>();
+        context.StateData.CanMove = false;
 
-            Rigidbody casterRigidbody = casterTransform.GetComponent<Rigidbody>();
-            context.StateData.CanMove = false;
-            Sequence moveSequence = DOTween.Sequence();
-            
-            moveSequence.Append(casterRigidbody.DOMoveY(casterRigidbody.position.y + 5f, 1f).SetEase(Ease.OutQuad))
-                //.Join(Camera.main.DOFieldOfView(35f, 0.35f)).SetEase(Ease.InQuad)
-                .Append(casterRigidbody.DOMove(targetPosition, 0.2f).SetEase(Ease.InOutFlash))
-                //.Join(Camera.main.DOFieldOfView(45f, 0.1f)).SetEase(Ease.OutQuad)
-                .OnComplete(() =>
+        Sequence moveSequence = DOTween.Sequence();
+        moveSequence.Append(casterRigidbody.DOMoveY(casterRigidbody.position.y + 5f, 1f).SetEase(Ease.OutQuad))
+            .Join(casterTransform.DOScale(Vector3.one * 2.5f, 0.3f)).SetEase(Ease.InQuad)
+            //.Join(Camera.main.DOFieldOfView(35f, 0.35f)).SetEase(Ease.InQuad)
+            .Append(casterRigidbody.DOMove(targetPosition, 0.2f).SetEase(Ease.InOutFlash))
+            //.Join(Camera.main.DOFieldOfView(45f, 0.1f)).SetEase(Ease.OutQuad)
+            .OnComplete(() =>
+            {
+                Debug.Log("Q Skill Movement Completed");
+                context.StateData.CanMove = true;
+                Collider[] colliders = Physics.OverlapSphere(casterTransform.position, QAttackRange/2, LayerMask.GetMask("Enemy"));
+                foreach (var collider in colliders)
                 {
-                    Debug.Log("Q Skill Movement Completed");
-                    context.StateData.CanMove = true;
-                    Collider[] colliders = Physics.OverlapSphere(casterTransform.position, QAttackRange/2, LayerMask.GetMask("Enemy"));
-                    foreach (var collider in colliders)
-                    {
-                        collider.GetComponent<IForceable>()?.Airborne(10f);
-                        collider.GetComponent<IDamageable>()?.TakeDamage(QskillDataInfo.Damage);
-                    }
-                    IsQContinue = false;
-                });
+                    collider.GetComponent<IForceable>()?.Airborne(9f);
+                    collider.GetComponent<IDamageable>()?.TakeDamage(QskillDataInfo.Damage);
+                }
+                casterTransform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutQuad);
+                IsQContinue = false;
+            });
     }
 }

@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 783867de73e3302478ef98aadefb310e, type: 3}
   m_Name: YuukaSkillStrategy
   m_EditorClassIdentifier: Assembly-CSharp::YuukaSkillStrategy
+  _skillData: {fileID: 11400000, guid: 3cc3cb88d3994e24b8b0970703acde69, type: 2}
