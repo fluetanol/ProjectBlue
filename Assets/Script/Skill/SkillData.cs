@@ -13,8 +13,6 @@ public class SkillContext
     public IStateData StateData;
     public ISkillTimeData SkillTimeData;
     public List<GameObject> EffectObjects;
-
-    
 }
 
 //스킬 데이터와 스킬 실행 시의 동작을 정의합니다.

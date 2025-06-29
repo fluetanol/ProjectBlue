@@ -48,22 +48,16 @@ public interface ISkillTimeData
 
 public class PlayerSkillSystem : MonoBehaviour, ISkillEvent, ISkillTimeData
 {
-    private IInputActionControll _inputActionControll;
-    private IStateData _stateData;
-    private IBasicData _basicData;
-    private IMoveData _moveData;
-    private ISkillIndicator _skillIndicator;
+    [SerializeField] private List<GameObject>   _effectObjects;
+    [SerializeField] private SkillStrategy      _skillStrategy;    
 
-    [SerializeField] private List<GameObject> effectObjects;
-    [SerializeField] private SkillStrategy _skillStrategy;
-
-    
     [SerializeField] private float _eCoolTimeElapsed;
     public float ECoolTimeElapsed
     {
         get { return _eCoolTimeElapsed; }
         set { _eCoolTimeElapsed = value; }
     }
+
     [SerializeField] private float _qCoolTimeElapsed;
     public float QCoolTimeElapsed
     {
@@ -71,13 +65,13 @@ public class PlayerSkillSystem : MonoBehaviour, ISkillEvent, ISkillTimeData
         set { _qCoolTimeElapsed = value; }
     }
 
-    
     [SerializeField] private float _eElapsedTime;
     public float EElapsedTime
     {
         get { return _eElapsedTime; }
         set { _eElapsedTime = value; }
     }
+
     [SerializeField]  private float _qElapsedTime;
     public float QElapsedTime
     {
@@ -86,9 +80,14 @@ public class PlayerSkillSystem : MonoBehaviour, ISkillEvent, ISkillTimeData
     }
 
     //Caching
-    private SkillData _skillData => _skillStrategy.SkillData;
-    public float QCoolTime => _skillStrategy.SkillData.QCoolTime;
-    public float ECoolTime => _skillStrategy.SkillData.ECoolTime;
+    private IInputActionControll _inputActionControll;
+    private IStateData _stateData;
+    private IBasicData _basicData;
+    private IMoveData _moveData;
+    private ISkillIndicator _skillIndicator;
+    private SkillData _skillData =>  _skillStrategy.SkillData;
+    public float QCoolTime       =>  _skillStrategy.SkillData.QCoolTime;
+    public float ECoolTime       =>  _skillStrategy.SkillData.ECoolTime;
 
     private SkillContext _skillContext;
 
@@ -114,7 +113,7 @@ public class PlayerSkillSystem : MonoBehaviour, ISkillEvent, ISkillTimeData
             MoveData = _moveData,
             StateData = _stateData,
             SkillTimeData = this,
-            EffectObjects = effectObjects,
+            EffectObjects = _effectObjects,
         };
 
         _skillStrategy.SkillIndicator = _skillIndicator;
