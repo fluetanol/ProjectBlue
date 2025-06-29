@@ -1,0 +1,10 @@
+{
+    "asset": "773dae4b98217444bbab511befe7da04",
+    "fileName": "0197b268-7a8c-77a3-96c1-0a72b9903218.pose.json",
+    "prompt": "Generate a forward-running animation of a character in a panicked, clumsy rush. The character should look like they are hurrying away from danger, stumbling slightly but still running forward with urgency. The motion should be exaggerated and expressive",
+    "negativePrompt": "",
+    "model": "a9c27ca4-3ec9-43e8-96cd-ee891aba64c5",
+    "modelName": "Text to Motion",
+    "customSeed": 1246464504,
+    "w3CTraceId": "67e2ac14fd2e5acde8a255cae78761e8"
+}

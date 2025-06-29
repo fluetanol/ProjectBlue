@@ -1,0 +1,10 @@
+{
+    "asset": "c8bd2352db555e442a56e8c308d6f51f",
+    "fileName": "0197b5c5-f65a-789e-9cef-78f6703d08ee.pose.json",
+    "prompt": "rifle shooting",
+    "negativePrompt": "",
+    "model": "a9c27ca4-3ec9-43e8-96cd-ee891aba64c5",
+    "modelName": "Text to Motion",
+    "customSeed": 1755100562,
+    "w3CTraceId": "aae702e124f05d2419ec632d5b3b53f2"
+}

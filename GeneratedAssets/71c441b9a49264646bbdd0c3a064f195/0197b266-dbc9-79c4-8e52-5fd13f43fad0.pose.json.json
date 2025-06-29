@@ -1,0 +1,10 @@
+{
+    "asset": "773dae4b98217444bbab511befe7da04",
+    "fileName": "0197b266-dbc9-79c4-8e52-5fd13f43fad0.pose.json",
+    "prompt": "허겁지겁 달리는 모션을 만들어줘",
+    "negativePrompt": "",
+    "model": "a9c27ca4-3ec9-43e8-96cd-ee891aba64c5",
+    "modelName": "Text to Motion",
+    "customSeed": 1552343494,
+    "w3CTraceId": "8ca964cf2df71fabce9665b68b02ba66"
+}

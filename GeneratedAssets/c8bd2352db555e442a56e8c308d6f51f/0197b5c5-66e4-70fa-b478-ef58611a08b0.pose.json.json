@@ -1,0 +1,10 @@
+{
+    "asset": "c8bd2352db555e442a56e8c308d6f51f",
+    "fileName": "0197b5c5-66e4-70fa-b478-ef58611a08b0.pose.json",
+    "prompt": "Gun shooting",
+    "negativePrompt": "",
+    "model": "a9c27ca4-3ec9-43e8-96cd-ee891aba64c5",
+    "modelName": "Text to Motion",
+    "customSeed": 1132164071,
+    "w3CTraceId": "373fd0210c0a539562f4df39bc71d029"
+}
