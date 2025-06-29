@@ -21466,13 +21466,14 @@ GameObject:
   - component: {fileID: 770038062}
   - component: {fileID: 770038061}
   - component: {fileID: 770038060}
+  - component: {fileID: 770038064}
   m_Layer: 0
   m_Name: TestCamera
-  m_TagString: EditorOnly
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &770038060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21584,13 +21585,33 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 770038059}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.12758899, y: 0.406402, z: -0.05742761, w: 0.90291786}
-  m_LocalPosition: {x: 13.08, y: 2, z: -3.39}
+  m_LocalRotation: {x: 0.57401675, y: 0, z: 0, w: 0.8188436}
+  m_LocalPosition: {x: 12.43, y: 18.588, z: -5.4000006}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 16.086, y: 48.465, z: 0}
+  m_LocalEulerAnglesHint: {x: 75.506, y: -103.034, z: -108.254}
+--- !u!114 &770038064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 770038059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f9e63721a62bba489ac754de198fa1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraController
+  Target: {fileID: 3019291862444770695}
+  SmoothSpeed: 5
+  TargetBarDirection: {x: 0, y: 2.85, z: -1.6}
+  TargetBarOffset: {x: 0, y: 0, z: 5}
+  TargetBarDistance: 6.5
+  IsFollow: 1
+  IsSky: 1
+  IsLookAt: 0
 --- !u!4 &832446877 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6202447634710592141, guid: ed62297e3a18e244d8d5b06b16d16093, type: 3}
@@ -26877,7 +26898,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8543001802663035314, guid: ed62297e3a18e244d8d5b06b16d16093, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8863307866013024580, guid: ed62297e3a18e244d8d5b06b16d16093, type: 3}
       propertyPath: m_LocalPosition.x
@@ -29944,8 +29965,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b35a0e638fd9b5c449d6d9fa75482538, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effectObjects:
-  - {fileID: 847006620}
+  _effectObjects: []
   _skillStrategy: {fileID: 11400000, guid: 1d98fc4136303fe48958435bbd131227, type: 2}
   _eCoolTimeElapsed: 0
   _qCoolTimeElapsed: 0
