@@ -21,6 +21,7 @@ public class CameraController : MonoBehaviour
     void Awake()
     {
         transform.position = Target.position + TargetBarDirection * TargetBarDistance + TargetBarOffset;
+        transform.LookAt(Target);
     }
 
     public void SetTarget(Transform target)
@@ -35,25 +36,48 @@ public class CameraController : MonoBehaviour
             transform.position = Vector3.Lerp(transform.position,
             Target.position + TargetBarDirection * TargetBarDistance + TargetBarOffset,
             SmoothSpeed * Time.deltaTime);
+
+            Camera.main.transform.forward = -TargetBarDirection;
         }
 
-        if (Time.time > 5 && !test)
-        {
-            print("Camera Shake");
-            Camera.main.DOShakePosition(1f, 2f).SetEase(Ease.InOutSine);
-            test = true;
-        }
+        // if (Time.time > 5 && !test)
+        // {
+        //     print("Camera Shake");
+        //     Camera.main.DOShakePosition(1f, 2f).SetEase(Ease.InOutSine);
+        //     test = true;
+        // }
 
     }
 
     // Update is called once per frame
     void LateUpdate()
     {
+
+        FollowControl();
+        LookTargetControll();
+    }
+
+
+    private void FollowControl()
+    {
+        if (IsFollow)
+        {
+            transform.position = Vector3.Lerp(transform.position,
+            Target.position + TargetBarDirection * TargetBarDistance + TargetBarOffset,
+            SmoothSpeed * Time.deltaTime);
+        }
+    }
+
+    private void LookTargetControll()
+    {
         if (IsLookAt)
         {
             transform.LookAt(Target);
         }
-
+        else
+        {
+            Camera.main.transform.forward = -TargetBarDirection;
+        }
     }
 
 
