@@ -5,54 +5,69 @@ using UnityEngine;
 [ExecuteAlways]
 public class CameraController : MonoBehaviour
 {
-    public Transform Target;
-    public float SmoothSpeed = 0.125f;
+    public static CameraController Instance;
 
+    [SerializeField] private Transform _target;
+    public Transform Target
+    {
+        get { return _target; }
+        set
+        {
+            _target = value;
+        }
+    }
+
+    [SerializeField, Range(1, 10)] private float _targetBarDistance = 2.0f;
+    public float TargetBarDistance
+    {
+        get { return _targetBarDistance; }
+        set
+        {
+            _targetBarDistance = value;
+        }
+    }
+
+
+    [SerializeField] private bool _isFollow = true;
+    public bool IsFollow
+    {
+        get { return _isFollow; }
+        set
+        {
+            _isFollow = value;
+        }
+    }
+
+    [SerializeField] private bool _isLookAt = true;
+    public bool IsLookAt
+    {
+        get { return _isLookAt; }
+        set
+        {
+            _isLookAt = value;
+        }
+    }
+
+    public float SmoothSpeed = 0.125f;
     public Vector3 TargetBarDirection = Vector3.up;
     public Vector3 TargetBarOffset = Vector3.zero;
-    [Range(1, 10)] public float TargetBarDistance = 2.0f;
 
-    public bool IsFollow = true;
-    public bool IsSky = true;
-    public bool IsLookAt = false;
-
-
-    private bool test = false;
     void Awake()
     {
-        transform.position = Target.position + TargetBarDirection * TargetBarDistance + TargetBarOffset;
-        transform.LookAt(Target);
+        Instance = this;
     }
 
-    public void SetTarget(Transform target)
+    void Start()
     {
-        Target = target;
+
+        FollowControl();
+        LookTargetControll();
     }
 
-    void Update()
-    {
-        if (IsFollow)
-        {
-            transform.position = Vector3.Lerp(transform.position,
-            Target.position + TargetBarDirection * TargetBarDistance + TargetBarOffset,
-            SmoothSpeed * Time.deltaTime);
-
-            Camera.main.transform.forward = -TargetBarDirection;
-        }
-
-        // if (Time.time > 5 && !test)
-        // {
-        //     print("Camera Shake");
-        //     Camera.main.DOShakePosition(1f, 2f).SetEase(Ease.InOutSine);
-        //     test = true;
-        // }
-
-    }
 
     // Update is called once per frame
     void LateUpdate()
     {
-
         FollowControl();
         LookTargetControll();
     }
@@ -63,16 +78,16 @@ public class CameraController : MonoBehaviour
         if (IsFollow)
         {
             transform.position = Vector3.Lerp(transform.position,
-            Target.position + TargetBarDirection * TargetBarDistance + TargetBarOffset,
+            _target.position + TargetBarDirection * _targetBarDistance + TargetBarOffset,
             SmoothSpeed * Time.deltaTime);
         }
     }
 
     private void LookTargetControll()
     {
-        if (IsLookAt)
+        if (_isLookAt)
         {
-            transform.LookAt(Target);
+            transform.LookAt(_target);
         }
         else
         {

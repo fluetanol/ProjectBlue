@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -51,28 +52,28 @@ public class PlayerSkillSystem : MonoBehaviour, ISkillEvent, ISkillTimeData
     [SerializeField] private List<GameObject>   _effectObjects;
     [SerializeField] private SkillStrategy      _skillStrategy;    
 
-    [SerializeField] private float _eCoolTimeElapsed;
+    [SerializeField, ReadOnly] private float _eCoolTimeElapsed;
     public float ECoolTimeElapsed
     {
         get { return _eCoolTimeElapsed; }
         set { _eCoolTimeElapsed = value; }
     }
 
-    [SerializeField] private float _qCoolTimeElapsed;
+    [SerializeField, ReadOnly] private float _qCoolTimeElapsed;
     public float QCoolTimeElapsed
     {
         get { return _qCoolTimeElapsed; }
         set { _qCoolTimeElapsed = value; }
     }
 
-    [SerializeField] private float _eElapsedTime;
+    [SerializeField, ReadOnly] private float _eElapsedTime;
     public float EElapsedTime
     {
         get { return _eElapsedTime; }
         set { _eElapsedTime = value; }
     }
 
-    [SerializeField]  private float _qElapsedTime;
+    [SerializeField, ReadOnly]  private float _qElapsedTime;
     public float QElapsedTime
     {
         get { return _qElapsedTime; }

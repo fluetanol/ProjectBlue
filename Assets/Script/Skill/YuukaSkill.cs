@@ -9,7 +9,12 @@ using UnityEngine.InputSystem;
 public class YuukaSkill : SkillData
 {
     private int shieldIdx = 0;
-    private Sequence moveSequence;
+
+    [Header("For Q Skill Animation")]
+    [SerializeField] private float QAnimDelay;
+    [SerializeField] private float QCameraDelay;
+    [SerializeField] private float QCameraFarDistance;
+    [SerializeField] private float QCameraNearDistance;
 
     public override void ExecuteESkill(SkillContext context, InputAction.CallbackContext inputContext)
     {
@@ -73,24 +78,32 @@ public class YuukaSkill : SkillData
         Rigidbody casterRigidbody = casterTransform.GetComponent<Rigidbody>();
         context.StateData.CanMove = false;
 
+        float originalCameraDistance = CameraController.Instance.TargetBarDistance;
         Sequence moveSequence = DOTween.Sequence();
-        moveSequence.Append(casterRigidbody.DOMoveY(casterRigidbody.position.y + 5f, 1f).SetEase(Ease.OutQuad))
-            .Join(casterTransform.DOScale(Vector3.one * 2.5f, 0.3f)).SetEase(Ease.InQuad)
-            //.Join(Camera.main.DOFieldOfView(35f, 0.35f)).SetEase(Ease.InQuad)
+
+        moveSequence
+            //선 딜레이
+            .Append(casterRigidbody.DOMoveY(casterRigidbody.position.y + 5f, 1f).SetEase(Ease.OutQuad))
+            .Join(DOTween.To(() => CameraController.Instance.TargetBarDistance, x => CameraController.Instance.TargetBarDistance = x, QCameraFarDistance, 0.5f)).SetEase(Ease.InFlash)
             .Append(casterRigidbody.DOMove(targetPosition, 0.2f).SetEase(Ease.InOutFlash))
-            //.Join(Camera.main.DOFieldOfView(45f, 0.1f)).SetEase(Ease.OutQuad)
+
+            .Join(DOTween.To(() => CameraController.Instance.TargetBarDistance, x => CameraController.Instance.TargetBarDistance = x, QCameraNearDistance, 0.5f)).SetEase(Ease.InFlash)
+            .Append(Camera.main.DOShakePosition(0.3f, 0.8f, 30))
+            //공격 판정
             .OnComplete(() =>
             {
                 Debug.Log("Q Skill Movement Completed");
                 context.StateData.CanMove = true;
-                Collider[] colliders = Physics.OverlapSphere(casterTransform.position, QAttackRange/2, LayerMask.GetMask("Enemy"));
+                Collider[] colliders = Physics.OverlapSphere(casterTransform.position, QAttackRange / 2, LayerMask.GetMask("Enemy"));
                 foreach (var collider in colliders)
                 {
                     collider.GetComponent<IForceable>()?.Airborne(9f);
                     collider.GetComponent<IDamageable>()?.TakeDamage(QskillDataInfo.Damage);
                 }
-                casterTransform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutQuad);
-                IsQContinue = false;
+                //casterTransform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutQuad);
+                DOTween.To(
+                    () => CameraController.Instance.TargetBarDistance, x => CameraController.Instance.TargetBarDistance = x, originalCameraDistance, 1f)
+                .SetEase(Ease.OutFlash);
             });
     }
 }
