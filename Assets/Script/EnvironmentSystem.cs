@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
+[ExecuteAlways]
 public class EnvironmentSystem : MonoBehaviour
 {
     public static EnvironmentSystem instance;
@@ -53,8 +54,19 @@ public class EnvironmentSystem : MonoBehaviour
         _lightInitIntensity = _light != null ? _light.intensity : 1.5f;
 
         instance = this;
-    
+    }
 
+    void Update()
+    {
+        if (_light != null)
+        {
+            _light.intensity = LightIntensity;
+        }
+
+        if (_bloomComponent != null)
+        {
+            _bloomComponent.intensity.value = BloomIntensity;
+        }   
     }
 
     public void Reset()
