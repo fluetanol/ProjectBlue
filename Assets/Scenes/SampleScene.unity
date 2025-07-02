@@ -25308,7 +25308,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnvironmentSystem
   _light: {fileID: 410087040}
   _lightIntensity: 1.75
-  _bloomIntensity: 0.2
+  _bloomIntensity: 0.3
   _volume: {fileID: 832575518}
 --- !u!1001 &1761939002
 PrefabInstance:
@@ -26955,7 +26955,7 @@ PrefabInstance:
       addedObject: {fileID: 1560288473}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 8543001802663035314, guid: ed62297e3a18e244d8d5b06b16d16093, type: 3}
-      insertIndex: -1
+      insertIndex: 4
       addedObject: {fileID: 1567505790}
   m_SourcePrefab: {fileID: 100100000, guid: ed62297e3a18e244d8d5b06b16d16093, type: 3}
 --- !u!4 &827251683002337878

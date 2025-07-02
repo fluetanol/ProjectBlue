@@ -70,7 +70,7 @@ public class SkillIndicator : MonoBehaviour, ISkillIndicator
     {
         Time.timeScale = _timeScale;
 
-        EnvironmentSystem.instance.BloomIntensity = 1.25f;
+       // EnvironmentSystem.instance.BloomIntensity = 1.25f;
         EnvironmentSystem.instance.LightIntensity = 0.5f;
         print("SkillIndicator enabled");
     }
