@@ -65,6 +65,7 @@ Material:
     - _DecalMeshViewBias: 0
     - _DrawOrder: 6
     m_Colors:
+    - _Emission: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0.3207547, g: 0.3207547, b: 0.3207547, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

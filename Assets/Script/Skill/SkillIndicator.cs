@@ -69,6 +69,9 @@ public class SkillIndicator : MonoBehaviour, ISkillIndicator
     void OnEnable()
     {
         Time.timeScale = _timeScale;
+
+        EnvironmentSystem.instance.BloomIntensity = 1.25f;
+        EnvironmentSystem.instance.LightIntensity = 0.5f;
         print("SkillIndicator enabled");
     }
 
@@ -77,6 +80,7 @@ public class SkillIndicator : MonoBehaviour, ISkillIndicator
     {
         Time.timeScale = 1f; // Reset time scale when the indicator is disabled
         print("SkillIndicator Disbled");
+        EnvironmentSystem.instance.Reset();
     }
 
     // Update is called once per frame
