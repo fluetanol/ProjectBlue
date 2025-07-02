@@ -65,7 +65,7 @@ public class YuukaSkill : SkillData
     {
         context.BasicData.currentShieldCount--;
         context.BasicData.currentShieldHeadIdx = ShieldCondition.MaxShieldIdx(context.BasicData.currentShields);
-        context.SkillTimeData.EElapsedTime = 0f;
+        context.SkillTimeData.EDurationElapsedTime = 0f;
         context.SkillTimeData.ECoolTimeElapsed = ECoolTime;
         IsEContinue = false;
     }

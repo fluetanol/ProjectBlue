@@ -13,34 +13,73 @@ public interface ISkillEvent
 
 public interface ISkillTimeData
 {
+    /// <summary>
+    /// E 스킬 쿨타임이 얼마나 지났는지
+    /// </summary>
     float ECoolTimeElapsed
     {
         get;
         set;
     }
+
+    /// <summary>
+    /// Q 스킬 쿨타임이 얼마나 지났는지
+    /// </summary>
     float QCoolTimeElapsed
     {
         get;
         set;
     }
 
-    float EElapsedTime
-    {
-        get;
-        set;
-    }
-    float QElapsedTime
+    /// <summary>
+    /// E 스킬 지속 시간이 얼마나 지났는지
+    /// </summary>
+    float EDurationElapsedTime
     {
         get;
         set;
     }
 
+    /// <summary>
+    /// Q 스킬 지속 시간이 얼마나 지났는지
+    float QDurationElapsedTime
+    {
+        get;
+        set;
+    }
+
+
+
+
+    /// <summary>
+    /// Q 전체 쿨타임
+    /// </summary>
     float QCoolTime
     {
         get;
     }
 
+    /// <summary>
+    /// E 전체 쿨타임
+    /// </summary>
     float ECoolTime
+    {
+        get;
+    }
+
+
+    /// <summary>
+    /// Q 스킬 지속 시간
+    /// </summary>
+    float QDuration
+    {
+        get;
+    }
+
+    /// <summary>
+    /// E 스킬 지속 시간
+    /// </summary>
+    float EDuration
     {
         get;
     }
@@ -66,18 +105,18 @@ public class PlayerSkillSystem : MonoBehaviour, ISkillEvent, ISkillTimeData
         set { _qCoolTimeElapsed = value; }
     }
 
-    [SerializeField, ReadOnly] private float _eElapsedTime;
-    public float EElapsedTime
+    [SerializeField, ReadOnly] private float _eDurationElapsedTime;
+    public float EDurationElapsedTime
     {
-        get { return _eElapsedTime; }
-        set { _eElapsedTime = value; }
+        get { return _eDurationElapsedTime; }
+        set { _eDurationElapsedTime = value; }
     }
 
-    [SerializeField, ReadOnly]  private float _qElapsedTime;
-    public float QElapsedTime
+    [SerializeField, ReadOnly]  private float _qDurationElapsedTime;
+    public float QDurationElapsedTime
     {
-        get { return _qElapsedTime; }
-        set { _qElapsedTime = value; }
+        get { return _qDurationElapsedTime; }
+        set { _qDurationElapsedTime = value; }
     }
 
     //Caching
@@ -86,9 +125,14 @@ public class PlayerSkillSystem : MonoBehaviour, ISkillEvent, ISkillTimeData
     private IBasicData _basicData;
     private IMoveData _moveData;
     private ISkillIndicator _skillIndicator;
-    private SkillData _skillData =>  _skillStrategy.SkillData;
-    public float QCoolTime       =>  _skillStrategy.SkillData.QCoolTime;
+    
+    private SkillData _skillData => _skillStrategy.SkillData;
+    
+    public float QCoolTime       => _skillStrategy.SkillData.QCoolTime;
     public float ECoolTime       =>  _skillStrategy.SkillData.ECoolTime;
+    public float QDuration      => _skillData.QDuration;
+    public float EDuration      => _skillData.EDuration;
+
 
     private SkillContext _skillContext;
 
@@ -153,8 +197,8 @@ public class PlayerSkillSystem : MonoBehaviour, ISkillEvent, ISkillTimeData
     {
         if (_skillData.IsEContinue)
         {
-            _eElapsedTime += Time.deltaTime;
-            if (_eElapsedTime >= _skillData.EDuration)
+            _eDurationElapsedTime += Time.deltaTime;
+            if (_eDurationElapsedTime >= _skillData.EDuration)
             {
                 OnFinishESkill();
             }
@@ -165,8 +209,8 @@ public class PlayerSkillSystem : MonoBehaviour, ISkillEvent, ISkillTimeData
     {
         if (_skillData.IsQContinue)
         {
-            _qElapsedTime += Time.deltaTime;
-            if (_qElapsedTime >= _skillData.QDuration)
+            _qDurationElapsedTime += Time.deltaTime;
+            if (_qDurationElapsedTime >= _skillData.QDuration)
             {
                 OnFinishQSkill();
             }
@@ -228,7 +272,7 @@ public class PlayerSkillSystem : MonoBehaviour, ISkillEvent, ISkillTimeData
         //_skillData.FinishESkill(_skillContext);
         _skillStrategy.OnFinishESkill(_skillContext);
         _skillData.IsEContinue = false;
-        _eElapsedTime = 0f; // Reset the elapsed time after finishing the skill
+        _eDurationElapsedTime = 0f; // Reset the elapsed time after finishing the skill
         _eCoolTimeElapsed = _skillData.ECoolTime; // Reset the cooldown after finishing the skill
     }
 
@@ -236,7 +280,7 @@ public class PlayerSkillSystem : MonoBehaviour, ISkillEvent, ISkillTimeData
     {
         _skillData.FinishQSkill(_skillContext);
         _skillData.IsQContinue = false;
-        _qElapsedTime = 0f; // Reset the elapsed time after finishing the skill
+        _qDurationElapsedTime = 0f; // Reset the elapsed time after finishing the skill
         _qCoolTimeElapsed = _skillData.QCoolTime; // Reset the cooldown after finishing the skill
     }
 

@@ -138,7 +138,7 @@ public class SkillIndicator : MonoBehaviour, ISkillIndicator
             _activeSkillCallback?.Invoke(_skillContext, _inputActionContext);
             _rangeDecalProjector.enabled = false; // Disable the range decal projector
 
-            _skillContext.SkillTimeData.QElapsedTime = 0f;
+            _skillContext.SkillTimeData.QDurationElapsedTime = 0f;
             _skillContext.SkillTimeData.QCoolTimeElapsed = _skillContext.SkillTimeData.QCoolTime;
         }
     }
