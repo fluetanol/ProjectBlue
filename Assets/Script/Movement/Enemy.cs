@@ -4,7 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(Animator))]
-public abstract class Enemy : MonoBehaviour, IDisposable
+public abstract class Enemy : MonoBehaviour, IDisposable, IEnemyData
 {
     public Transform Testobj;
 
@@ -25,6 +25,8 @@ public abstract class Enemy : MonoBehaviour, IDisposable
 
     protected bool _isDead = false;
 
+    public float RestHealth => health;
+    public virtual float MaxHealth => 0;
 
     void Awake()
     {

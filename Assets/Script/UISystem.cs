@@ -28,8 +28,6 @@ public class UISystem : MonoBehaviour, UISystemData
 
     private GameObject _UIOwnerPlayer;
 
-    public Image EnemyHealthBarImg;
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public ISkillTimeData _skillTimeData
     {
@@ -84,40 +82,4 @@ public class UISystem : MonoBehaviour, UISystemData
         Mathf.Max(0, _basicData.currentHP).ToString("F0") + " / " +
         _basicData.maxHP.ToString("F0") + " HP";
     }
-
-
-    private void EnemyHealthUpdate()
-    {
-
-    }
-
-    public void OutOfRangeEnemyHealthBar()
-    {
-        if (EnemyHealthBarImg != null)
-        {
-            EnemyHealthBarImg.gameObject.SetActive(false);
-        }
-    }
-
-    public void UpdateEnemyHealthBar(Vector3 screenPosition)
-    {
-        if (!EnemyHealthBarImg.IsActive())
-        {
-            EnemyHealthBarImg.gameObject.SetActive(true);
-        }
-
-        RectTransform canvasRect = Canvas.GetComponent<RectTransform>();
-        RectTransform enemyHealthBarRect = EnemyHealthBarImg.GetComponent<RectTransform>();
-
-        // screen point를 RectTransform의 로컬 포인트로 변환
-        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            (RectTransform)Canvas.transform,
-            screenPosition,
-            Canvas.worldCamera,
-            out Vector2 localPoint))
-        {
-            enemyHealthBarRect.anchoredPosition = localPoint;
-        }
-    }
-    
 }
