@@ -489,10 +489,12 @@ public class PlayerMovement : MonoBehaviour, IMoveData
     private IEnumerator Coroutine_Attacking()
     {
         float attackSpeed = _playerDataManager.WeaponStats[_playerDataManager.PlayerStats.WeaponID].AttackSpeed;
+        WaitForSeconds waitForSeconds = new WaitForSeconds(attackSpeed);    
+
         while (true)
         {
             AttackShooting();
-            yield return new WaitForSeconds(attackSpeed);
+            yield return waitForSeconds;
         }
     }
 
@@ -509,13 +511,15 @@ public class PlayerMovement : MonoBehaviour, IMoveData
     void forDebug()
     {
         if (_componentManager.LineRenderer == null) return;
-        Vector3 direction = LookPosition - transform.position;
+
+        Vector3 direction = transform.forward;  //LookPosition - transform.position;
         Vector3 dir = Quaternion.AngleAxis(30, Vector3.up) * direction;
         Vector3 dir2 = Quaternion.AngleAxis(-30, Vector3.up) * direction;
         dir.y = 0;
         dir2.y = 0;
         dir = dir.normalized * 6;
         dir2 = dir2.normalized * 6;
+
         _componentManager.LineRenderer.SetPosition(0, transform.position);
         _componentManager.LineRenderer.SetPosition(1, transform.position + dir);
         _componentManager.LineRenderer.SetPosition(2, transform.position);

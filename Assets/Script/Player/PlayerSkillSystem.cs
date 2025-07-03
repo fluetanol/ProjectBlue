@@ -48,9 +48,6 @@ public interface ISkillTimeData
         set;
     }
 
-
-
-
     /// <summary>
     /// Q 전체 쿨타임
     /// </summary>
@@ -133,7 +130,6 @@ public class PlayerSkillSystem : MonoBehaviour, ISkillEvent, ISkillTimeData
     public float QDuration      => _skillData.QDuration;
     public float EDuration      => _skillData.EDuration;
 
-
     private SkillContext _skillContext;
 
     void Awake()
@@ -148,7 +144,6 @@ public class PlayerSkillSystem : MonoBehaviour, ISkillEvent, ISkillTimeData
         _qCoolTimeElapsed = _skillData.QCoolTime;
         _skillData.IsEContinue = false;
         _skillData.IsQContinue = false;
-    
 
         _skillContext = new SkillContext()
         {
@@ -164,8 +159,9 @@ public class PlayerSkillSystem : MonoBehaviour, ISkillEvent, ISkillTimeData
         _skillStrategy.SkillIndicator = _skillIndicator;
     }
 
-    private void OnEnable()
+    void OnEnable()
     {
+        UISystem.Instance._skillTimeData = this;
         _inputActionControll.InputActions.Player.ESkill.performed += OnESkill;
         _inputActionControll.InputActions.Player.QSkill.performed += OnQSkill;
     }

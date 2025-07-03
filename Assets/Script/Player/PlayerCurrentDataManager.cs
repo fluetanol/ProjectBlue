@@ -10,7 +10,7 @@ public class PlayerDataManager : DataManager, IBasicData
         public ushort WeaponCode;
         public ushort WeaponLevel;
     }
-    
+
     [SerializeField] private PlayerStats _playerStats;
     public PlayerStats PlayerStats
     {
@@ -145,6 +145,11 @@ public class PlayerDataManager : DataManager, IBasicData
         WeaponStats = _weaponStats;
         InitializeCurrentStats();
         CreateWeapon(ref wponInfo);
+    }
+
+    void OnEnable()
+    {
+        UISystem.Instance._basicData = this;
     }
 
     private void InitializeCurrentStats()

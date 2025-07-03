@@ -30,16 +30,25 @@ public interface IInputActionControll
 
 public interface IInputData
 {
+    /// <summary>
+    /// 커서의 화면 좌표 위치
+    /// </summary>
     public Vector3 CursorPosition
     {
         get;
     }
 
+    /// <summary>
+    /// 커서의 월드 좌표 위치 (카메라의 nearClipPlane에 해당하는 오브젝트에만 적용)
+    /// </summary>
     public Vector3 CursorWorldPosition
     {
         get;
     }
 
+    /// <summary>
+    /// 커서의 지면 레이캐스팅 위치 (Ground 레이어에 해당하는 오브젝트에만 적용)
+    /// </summary>
     public Vector3 CursorRaycastingPosition
     {
         get;

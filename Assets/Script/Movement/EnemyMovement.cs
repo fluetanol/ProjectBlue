@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -17,15 +18,29 @@ public class EnemyMovement :Enemy, IDamageable, IForceable, IAttackable
     private Vector3 _targetPosition, _nextPosition;
     private bool _isAttacking = false;  
 
-    void Awake()
-    {
-       // _moveData = FindAnyObjectByType<PlayerMovement>();
-    }
 
     void OnEnable(){
         gameObject.SetActive(true);
         InitializeStats();
     }
+
+    void LateUpdate()
+    {
+        Vector3 position = transform.position;
+        Vector3 viewposition = Camera.main.WorldToViewportPoint(position);
+
+        bool isVisible = viewposition.x > 0 &&
+        viewposition.x < 1 && viewposition.y > 0 && viewposition.y < 1 && viewposition.z > 0;
+
+        if (isVisible)
+        {
+            position += Vector3.up * 0.75f;
+            Vector3 screenPosition = Camera.main.WorldToScreenPoint(position);
+            UISystem.Instance.UpdateEnemyHealthBar(screenPosition);
+        }
+       // print(viewposition);
+    }
+
 
     void FixedUpdate(){
         if(_isDead) {
