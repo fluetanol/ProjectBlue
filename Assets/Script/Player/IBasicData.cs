@@ -1,9 +1,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 플레이어의 기본 데이터를 정의하는 인터페이스
+/// </summary>
 public interface IBasicData
 {
     public float currentHP
+    {
+        get;
+    }
+    public float maxHP
     {
         get;
     }
@@ -40,6 +47,6 @@ public interface IBasicData
         get;
         set;
     }
-    
+
 }
 

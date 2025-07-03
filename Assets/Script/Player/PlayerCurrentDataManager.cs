@@ -10,6 +10,7 @@ public class PlayerDataManager : DataManager, IBasicData
         public ushort WeaponCode;
         public ushort WeaponLevel;
     }
+    
     [SerializeField] private PlayerStats _playerStats;
     public PlayerStats PlayerStats
     {
@@ -38,6 +39,15 @@ public class PlayerDataManager : DataManager, IBasicData
             // }
         }
     }
+
+    public float maxHP
+    {
+        get
+        {
+            return PlayerStats.Health;
+        }
+    } //플레이어 최대 체력
+
     public float currentDEF
     {
         get;

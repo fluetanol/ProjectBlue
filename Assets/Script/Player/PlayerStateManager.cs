@@ -14,7 +14,6 @@ public interface IStateData
         get;
         set;
     }
-
 }
 
 
