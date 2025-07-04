@@ -63,6 +63,7 @@ public class PlayerStateManager : MonoBehaviour, IDamageable, IHealable, IStateD
             else
             {
                 _playerDataManager.currentHP -= damage;
+                UISystem.Instance.HealthUpdate();
             }
             StartCoroutine(DmgTickTimer());
         }

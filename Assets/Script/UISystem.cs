@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,10 +21,14 @@ public class UISystem : MonoBehaviour, UISystemData
     public Canvas Canvas;
     public Image ESkillCoolImg;
     public Image QSkillCoolImg;
+    public Image ESkillDurationImg;
+    public Image QSkillDurationImg;
     public Image HeatlthIndicatorImg;
 
     public TMP_Text ESkillCoolText;
     public TMP_Text QSkillCoolText;
+    public TMP_Text ESkillDurationText;
+    public TMP_Text QSkillDurationText;
     public TMP_Text HealthIndicatorText;
 
     private GameObject _UIOwnerPlayer;
@@ -35,16 +40,11 @@ public class UISystem : MonoBehaviour, UISystemData
         set;
     }
 
+
     public IBasicData _basicData
     {
         private get;
         set;
-    }
-
-    public void LateUpdate()
-    {
-        CoolTimeUpdate();
-        HealthUpdate();
     }
 
     private void Awake()
@@ -55,28 +55,88 @@ public class UISystem : MonoBehaviour, UISystemData
         }
     }
 
+    private void Start()
+    {
+        HealthIndicatorText.text =
+        Mathf.Max(0, _basicData.currentHP).ToString("F0") + " / " +
+        _basicData.maxHP.ToString("F0") + " HP";
+    }
+
+    public void LateUpdate()
+    {
+        print("elapsed : " + _skillTimeData.ECoolTimeElapsed + " " + _skillTimeData.EDurationElapsedTime);
+        CoolTimeUpdate();
+        // HealthUpdate();
+        DurationTimeUpdate();
+    }
+
+
 
     private void CoolTimeUpdate()
     {
-        ESkillCoolImg.fillAmount =
-        1 - _skillTimeData.ECoolTimeElapsed / _skillTimeData.ECoolTime;
+        if (_skillTimeData.ECoolTimeElapsed >= 0 && _skillTimeData.EDurationElapsedTime == 0 )
+        {
+            print("??");
+            ESkillCoolImg.fillAmount =
+            1 - (_skillTimeData.ECoolTimeElapsed / _skillTimeData.ECoolTime);
 
-        QSkillCoolImg.fillAmount =
+            ESkillCoolText.text =
+            _skillTimeData.ECoolTimeElapsed == 0f ? "E" :
+            _skillTimeData.ECoolTimeElapsed.ToString("F1") + "s";
+        }
+
+        if (_skillTimeData.QCoolTimeElapsed >= 0 && _skillTimeData.QDurationElapsedTime == 0)
+        {
+            QSkillCoolImg.fillAmount =
         1 - _skillTimeData.QCoolTimeElapsed / _skillTimeData.QCoolTime;
 
-
-        ESkillCoolText.text =
-        _skillTimeData.ECoolTimeElapsed == 0f ? "E" :
-        _skillTimeData.ECoolTimeElapsed.ToString("F1") + "s";
-
-        QSkillCoolText.text =
-        _skillTimeData.QCoolTimeElapsed == 0f ? "Q" :
-        _skillTimeData.QCoolTimeElapsed.ToString("F1") + "s";
+            QSkillCoolText.text =
+            _skillTimeData.QCoolTimeElapsed == 0f ? "Q" :
+            _skillTimeData.QCoolTimeElapsed.ToString("F1") + "s";
+        }   
     }
 
-    private void HealthUpdate()
+    private void DurationTimeUpdate()
     {
-        HeatlthIndicatorImg.fillAmount = Mathf.Max(0, _basicData.currentHP / _basicData.maxHP);
+
+        if (_skillTimeData.EDurationElapsedTime > 0)
+        {
+            if (ESkillCoolImg.fillAmount != 0)
+            {
+                ESkillCoolImg.fillAmount = 0;
+            }
+
+            ESkillDurationImg.fillAmount =
+            1 - (_skillTimeData.EDurationElapsedTime / _skillTimeData.EDuration);
+
+            ESkillDurationText.text =
+            (_skillTimeData.EDuration - _skillTimeData.EDurationElapsedTime).ToString("F1") + "s";
+        }
+        else
+        {
+            ESkillDurationImg.fillAmount = 0;
+            //ESkillDurationText.text = "E";
+        }
+        if (_skillTimeData.QDurationElapsedTime > 0)
+        {
+
+        }
+
+    }
+
+    public void HealthUpdate()
+    {
+        if (HeatlthIndicatorImg.fillAmount == 0)
+        {
+            return;
+        }
+
+        DOTween.To(() => HeatlthIndicatorImg.fillAmount,
+        x => HeatlthIndicatorImg.fillAmount = x,
+        Mathf.Max(0, _basicData.currentHP / _basicData.maxHP),
+        0.1f).SetEase(Ease.Flash);
+
+        //HeatlthIndicatorImg.fillAmount = Mathf.Max(0, _basicData.currentHP / _basicData.maxHP);
 
         HealthIndicatorText.text =
         Mathf.Max(0, _basicData.currentHP).ToString("F0") + " / " +
