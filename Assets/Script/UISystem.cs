@@ -76,7 +76,6 @@ public class UISystem : MonoBehaviour, UISystemData
     {
         if (_skillTimeData.ECoolTimeElapsed >= 0 && _skillTimeData.EDurationElapsedTime == 0 )
         {
-            print("??");
             ESkillCoolImg.fillAmount =
             1 - (_skillTimeData.ECoolTimeElapsed / _skillTimeData.ECoolTime);
 
@@ -98,14 +97,8 @@ public class UISystem : MonoBehaviour, UISystemData
 
     private void DurationTimeUpdate()
     {
-
         if (_skillTimeData.EDurationElapsedTime > 0)
         {
-            if (ESkillCoolImg.fillAmount != 0)
-            {
-                ESkillCoolImg.fillAmount = 0;
-            }
-
             ESkillDurationImg.fillAmount =
             1 - (_skillTimeData.EDurationElapsedTime / _skillTimeData.EDuration);
 
