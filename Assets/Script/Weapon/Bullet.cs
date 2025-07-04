@@ -39,7 +39,7 @@ public abstract class Bullet : MonoBehaviour, IDisposable
     
     public void SetMoveData(IMoveData moveData)
     {
-        print("SetMoveData !!");
+        //print("SetMoveData !!");
         this.moveData = moveData;
     }
 

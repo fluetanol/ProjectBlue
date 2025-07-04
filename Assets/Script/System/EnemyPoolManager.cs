@@ -26,7 +26,7 @@ public class EnemyPoolManager : ObjectPoolManager<Enemy, EnemyPoolManager>
         //풀링할 적 오브젝트 코드
         foreach(var code in poolInfo.PoolTypes){
             GameObject prefab = enemyStats[code].EnemyPrefab;
-            prefab.GetComponent<Enemy>().MoveData = moveData;
+            prefab.GetComponentInChildren<Enemy>().MoveData = moveData;
 
             int count = poolInfo.PoolCount[code];
             //그 적을 생성시킬 갯수
@@ -34,8 +34,9 @@ public class EnemyPoolManager : ObjectPoolManager<Enemy, EnemyPoolManager>
             Enemy[] objs = new Enemy[count];
             for (int i = 0; i < count; i++)
             {
-                objs[i] = Instantiate(prefab, Parent).GetComponent<Enemy>();
+                objs[i] = Instantiate(prefab, Parent).GetComponentInChildren<Enemy>();
                 objs[i].MoveData = moveData;
+                objs[i].transform.parent.gameObject.SetActive(false);
             }
             
 
@@ -72,7 +73,7 @@ public class EnemyPoolManager : ObjectPoolManager<Enemy, EnemyPoolManager>
             enemy.transform.rotation = rotation;
         }
 
-       // enemy.gameObject.SetActive(isActive);
+        enemy.transform.parent.gameObject.SetActive(isActive);
         return enemy;
     }
 
