@@ -44,7 +44,5 @@ MonoBehaviour:
     indicatorMaterial: {fileID: 2100000, guid: 0aa1d2216ede05c4ab9500f689c1015a, type: 2}
     InstantiateObjects: []
     EffectObjects: []
-  QAnimDelay: 0
-  QCameraDelay: 0
-  QCameraFarDistance: 8.5
-  QCameraNearDistance: 3
+  QCameraFarDistance: 7.5
+  QCameraNearDistance: 4

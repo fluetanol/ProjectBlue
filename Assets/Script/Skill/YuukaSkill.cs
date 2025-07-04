@@ -11,8 +11,6 @@ public class YuukaSkill : SkillData
     private int shieldIdx = 0;
 
     [Header("For Q Skill Animation")]
-    [SerializeField] private float QAnimDelay;
-    [SerializeField] private float QCameraDelay;
     [SerializeField] private float QCameraFarDistance;
     [SerializeField] private float QCameraNearDistance;
 
