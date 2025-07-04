@@ -5,15 +5,15 @@ using UnityEngine;
 public class TestDotween : MonoBehaviour
 {
     public Vector3 targetPosition;
-    Rigidbody rigidbody;
+    Rigidbody _rigidbody;
 
     private void Awake()
     {
-        rigidbody = GetComponent<Rigidbody>();
+        _rigidbody = GetComponent<Rigidbody>();
 
 
-        DOTween.To(() => rigidbody.position,
-            (pos) => rigidbody.MovePosition(pos),
+        DOTween.To(() => _rigidbody.position,
+            (pos) => _rigidbody.MovePosition(pos),
             targetPosition,
             1f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutFlash);
 

@@ -439,7 +439,7 @@ void AlphaClipAndLODTest(Varyings input)
     DoClipTestToTargetAlphaValue(GetFinalBaseColor(input).a);
 
     #ifdef LOD_FADE_CROSSFADE
-    LODFadeCrossFade(input.positionCS);
+    //LODFadeCrossFade(input.positionCS);
     #endif
 }
 
