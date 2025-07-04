@@ -77,7 +77,7 @@ public class ObjectPool<T> : IPoolable<T> where T : MonoBehaviour, IDisposable
 
     public void Return(T obj)
     {
-        obj.transform.parent = _poolParent;
+        //obj.transform.parent = _poolParent;
         obj.Dispose();
         Add(obj);
         obj.transform.position = Vector3.zero;

@@ -26,7 +26,7 @@ public class EnemyMovement : Enemy, IDamageable, IForceable, IAttackable
 
 
     public override float MaxHealth => _enemyStats[EnemyCode].EnemyHealth;
-    
+
     void OnEnable()
     {
         gameObject.SetActive(true);
@@ -138,5 +138,13 @@ public class EnemyMovement : Enemy, IDamageable, IForceable, IAttackable
     {
         print("airborne force : " + force);
         _rigidbody.AddForce(Vector3.up * force, ForceMode.Impulse);
+    }
+
+    public override void Dispose()
+    {
+        base.Dispose();
+
+        transform.parent.gameObject.SetActive(false);
+ 
     }
 }
