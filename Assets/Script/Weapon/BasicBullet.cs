@@ -108,10 +108,10 @@ public class BasicBullet : Bullet
 
     protected override IEnumerator BulletLifeTime(){
         float _bulletLifeTimeCounter = 0;
-
+        WaitForFixedUpdate waitForFixedUpdate = new WaitForFixedUpdate();
         while(_bulletLifeTime >= _bulletLifeTimeCounter){
             _bulletLifeTimeCounter+=Time.fixedDeltaTime;
-            yield return new WaitForFixedUpdate();
+            yield return waitForFixedUpdate;
         }
 
         BulletPoolManager.Instance.Return(_bulletCode, this);

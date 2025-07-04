@@ -77,12 +77,26 @@ public class BulletPoolManager : ObjectPoolManager<Bullet, BulletPoolManager>
             bullet.transform.position = position;
             bullet.transform.rotation = rotation;
         }
+
+        bullet.SetMoveData(moveData);
+
         return bullet;
     }
 
     public override Bullet Get(int num)
     {
-        return bulletPool[num].Get();
+        if (bulletPool[num].TryGet(out Bullet bullet))
+        {
+            return bullet;
+        }
+        else
+        {
+            if (bullet != null)
+            {
+                bullet.SetMoveData(moveData);
+            }
+            return null; 
+        }
     }
 
     public override Bullet Get(int num, Vector3 position, Quaternion rotation, bool isActive = false)
@@ -92,8 +106,8 @@ public class BulletPoolManager : ObjectPoolManager<Bullet, BulletPoolManager>
         {
             bullet.transform.position = position;
             bullet.transform.rotation = rotation;
+            bullet.gameObject.SetActive(isActive);
         }
-        bullet.gameObject.SetActive(isActive);
         return bullet;
     }
 

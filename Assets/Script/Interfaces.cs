@@ -38,5 +38,6 @@ public interface IPoolable<T> : IPoolable where T : MonoBehaviour
 {
     void Add(T obj);
     T Get();
+    bool TryGet(out T obj);
     void Return(T obj);
 }

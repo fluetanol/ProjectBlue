@@ -35,6 +35,11 @@ public class ShotBullet : Bullet
 
     private bool CheckRange(Transform target, IDamageable Idmg)
     {
+        if (moveData == null)
+        {
+            Debug.LogError("MoveData is not set for ShotBullet.");
+            return false;
+        }
         Vector3 lookDirection = moveData.LookDirection;
         Vector3 targetPosition = target.position;
         Vector3 originPosition = moveData.PlayerPosition;

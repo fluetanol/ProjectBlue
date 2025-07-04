@@ -19,7 +19,7 @@ public abstract class Bullet : MonoBehaviour, IDisposable
 
     protected virtual void Awake()
     {
-        print("Awake !!");
+        //print("Awake !!");
         GetBulletComponent();
     }
 

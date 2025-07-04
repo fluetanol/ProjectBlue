@@ -5,7 +5,7 @@ public class ShotGun : Weapon
     public override void Attack()
     {
         //GameObject g = Instantiate(ShootingBulletPrefab, transform.position, transform.rotation);
-        print("shotgun attack");
+        //print("shotgun attack");
         Bullet shotgunBullet  = BulletPoolManager.Instance.Get(1, transform.position, transform.rotation, true);
         shotgunBullet.SetBulletStats(weaponInfo);
         shotgunBullet.SetBulletMask(attackMask);

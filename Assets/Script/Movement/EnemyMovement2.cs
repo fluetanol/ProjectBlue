@@ -68,7 +68,7 @@ public class EnemyMovement2 : Enemy, IDamageable, IForceable, IAttackable
 
     protected sealed override void InitializeStats()
     {
-        print("code : " + EnemyCode);
+        //print("code : " + EnemyCode);
         health = _enemyStats[EnemyCode].EnemyHealth;
         damage = _enemyStats[EnemyCode].EnemyDamage;
         dmgTick = _enemyStats[EnemyCode].EnemyDmgTick;

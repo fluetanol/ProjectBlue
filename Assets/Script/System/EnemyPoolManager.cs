@@ -75,9 +75,9 @@ public class EnemyPoolManager : ObjectPoolManager<Enemy, EnemyPoolManager>
         {
             enemy.transform.position = position;
             enemy.transform.rotation = rotation;
+            enemy.transform.parent.gameObject.SetActive(isActive);
         }
 
-        enemy.transform.parent.gameObject.SetActive(isActive);
         return enemy;
     }
 

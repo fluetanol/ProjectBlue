@@ -114,7 +114,7 @@ public class EnemyMovement : Enemy, IDamageable, IForceable, IAttackable
     //kinematic으로 변경해야 하는 순간이 온다면 코드 바꿔야 할 예정
     public void Knockback(Vector3 direction, float force)
     {
-        print("force!" + direction + " " + force);
+        //print("force!" + direction + " " + force);
         _rigidbody.AddForce(direction * force, ForceMode.Impulse);
     }
 

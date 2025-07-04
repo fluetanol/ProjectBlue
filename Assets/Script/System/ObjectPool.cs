@@ -11,6 +11,9 @@ public class ObjectPool<T> : IPoolable<T> where T : MonoBehaviour, IDisposable
     public GameObject _prefab;
     public Transform _poolParent;
 
+    //기본 최대 풀 사이즈
+    public int MaxAvailableSize = 512;
+
     private bool _enableCreateNew = true;
     public int Count = 0;
 
@@ -56,21 +59,56 @@ public class ObjectPool<T> : IPoolable<T> where T : MonoBehaviour, IDisposable
 
     public T Get()
     {
-        if (_pool.Count == 0 && _enableCreateNew)
+        if(_pool.Count > MaxAvailableSize)
+        {
+            Debug.LogWarning("Object pool size exceeded the maximum limit. Returning null.");
+            return null;
+        }
+        else if (_pool.Count == 0 && _enableCreateNew)
         {
             Debug.LogWarning("make new object : no object in pool");
             GameObject newObject = MonoBehaviour.Instantiate(_prefab, _poolParent);
             return newObject.GetComponent<T>();
         }
-        else if(_pool.Count == 0 && !_enableCreateNew){
-            Debug.LogWarning("no object in pool : cant make new object");  
+        else if (_pool.Count == 0 && !_enableCreateNew)
+        {
+            Debug.LogWarning("no object in pool : cant make new object");
             return null;
         }
 
             T obj = _pool.Dequeue();
             Count--;
             return obj;
-        
+    }
+
+    public bool TryGet(out T obj)
+    {
+        if (_pool.Count > MaxAvailableSize)
+        {
+            Debug.LogWarning("Object pool size exceeded the maximum limit. Returning null.");
+            obj = null;
+            return false;
+        }
+        //새로 만든 적에 대해서도 false가 반환되므로, obj가 null인지 확인하는 절차가 부가적으로 필요함
+        else if (_pool.Count == 0 && _enableCreateNew)
+        {
+            Debug.LogWarning("make new object : no object in pool");
+            GameObject newObject = MonoBehaviour.Instantiate(_prefab, _poolParent);
+            obj = newObject.GetComponent<T>();
+            return false;
+        }
+        else if (_pool.Count == 0 && !_enableCreateNew)
+        {
+            Debug.LogWarning("no object in pool : cant make new object");
+            obj = null;
+            return false;
+        }
+
+
+        //큐에 있는 거 가져오면 정상 반환 처리 함
+        obj = _pool.Dequeue();
+        Count--;
+        return true;
     }
 
     public void Return(T obj)
