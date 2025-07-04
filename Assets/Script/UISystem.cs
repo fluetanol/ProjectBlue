@@ -74,7 +74,8 @@ public class UISystem : MonoBehaviour, UISystemData
 
     private void CoolTimeUpdate()
     {
-        if (_skillTimeData.ECoolTimeElapsed >= 0 && _skillTimeData.EDurationElapsedTime == 0 )
+
+        if (_skillTimeData.ECoolTimeElapsed >= 0 && _skillTimeData.EDurationElapsedTime == 0)
         {
             ESkillCoolImg.fillAmount =
             1 - (_skillTimeData.ECoolTimeElapsed / _skillTimeData.ECoolTime);
