@@ -17,15 +17,19 @@ public class Spawn : MonoBehaviour
     }
 
     IEnumerator EnemySpawn(){
-        while(_enemyCount < _maxSpawn){
+        WaitForSeconds waitForSeconds = new WaitForSeconds(_spawnCycle);
+        while (_enemyCount < _maxSpawn)
+        {
 
-            yield return new WaitForSeconds(_spawnCycle);
+            yield return waitForSeconds;
 
-            for(int i = 0; i < _spawnCount; i++){
+            for (int i = 0; i < _spawnCount; i++)
+            {
                 int randomIndex = Random.Range(0, 2);
                 //print("randomIndex : " + randomIndex  + " " + _enemyObject.Count);
                 Enemy em = EnemyPoolManager.Instance.Get(randomIndex, transform.position, Quaternion.identity, true);
-                if(em == null) {
+                if (em == null)
+                {
                     Debug.LogWarning("no enemy in pool");
                     continue;
                 }
