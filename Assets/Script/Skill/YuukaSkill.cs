@@ -81,13 +81,18 @@ public class YuukaSkill : SkillData
         float originalCameraDistance = CameraController.Instance.TargetBarDistance;
         Sequence moveSequence = DOTween.Sequence();
 
+        float originalSmoothSpeed = CameraController.Instance.SmoothSpeed;
+        CameraController.Instance.SmoothSpeed = 6f; 
+
         moveSequence
             //선 딜레이
-            .Append(casterRigidbody.DOMoveY(casterRigidbody.position.y + 5f, 1f).SetEase(Ease.OutQuad))
+            .Append(casterRigidbody.DOMoveY(casterRigidbody.position.y + 5f, 0.3f).SetEase(Ease.OutFlash))
             .Join(DOTween.To(() => CameraController.Instance.TargetBarDistance, x => CameraController.Instance.TargetBarDistance = x, QCameraFarDistance, 0.5f)).SetEase(Ease.InFlash)
-            .Append(casterRigidbody.DOMove(targetPosition, 0.2f).SetEase(Ease.InOutFlash))
-
+            .AppendInterval(0.15f)
+            //돌진
+            .Append(casterRigidbody.DOMove(targetPosition, 1f).SetEase(Ease.InOutExpo))
             .Join(DOTween.To(() => CameraController.Instance.TargetBarDistance, x => CameraController.Instance.TargetBarDistance = x, QCameraNearDistance, 0.5f)).SetEase(Ease.InFlash)
+            
             .Append(Camera.main.DOShakePosition(0.3f, 0.8f, 30))
             //공격 판정
             .OnComplete(() =>
@@ -102,8 +107,10 @@ public class YuukaSkill : SkillData
                 }
                 //casterTransform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutQuad);
                 DOTween.To(
-                    () => CameraController.Instance.TargetBarDistance, x => CameraController.Instance.TargetBarDistance = x, originalCameraDistance, 1f)
-                .SetEase(Ease.OutFlash);
+                    () => CameraController.Instance.TargetBarDistance, x => CameraController.Instance.TargetBarDistance = x, originalCameraDistance, 0.25f)
+                .SetEase(Ease.InExpo);
+
+                CameraController.Instance.SmoothSpeed = originalSmoothSpeed;
             });
     }
 }

@@ -15,7 +15,7 @@ public class TestDotween : MonoBehaviour
         DOTween.To(() => rigidbody.position,
             (pos) => rigidbody.MovePosition(pos),
             targetPosition,
-            2f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutExpo);
+            1f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutFlash);
 
 
 
