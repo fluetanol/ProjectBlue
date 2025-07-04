@@ -93,7 +93,9 @@ public class BulletPoolManager : ObjectPoolManager<Bullet, BulletPoolManager>
         {
             if (bullet != null)
             {
+                print("새로 만들긴 해야하는듯???!!");
                 bullet.SetMoveData(moveData);
+                return bullet;
             }
             return null; 
         }

@@ -95,6 +95,7 @@ public class ObjectPool<T> : IPoolable<T> where T : MonoBehaviour, IDisposable
             Debug.LogWarning("make new object : no object in pool");
             GameObject newObject = MonoBehaviour.Instantiate(_prefab, _poolParent);
             obj = newObject.GetComponent<T>();
+            if(obj == null) Debug.Log("new object is null");
             return false;
         }
         else if (_pool.Count == 0 && !_enableCreateNew)

@@ -2026,15 +2026,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: E
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: c6f78d87fb6a5fc40b00919c02c1aed3, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: c6f78d87fb6a5fc40b00919c02c1aed3, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 6567c63bcd9485f4ea8fc60040fa03da, type: 2}
+  m_sharedMaterial: {fileID: -855397339996513224, guid: 6567c63bcd9485f4ea8fc60040fa03da, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4285493103
-  m_fontColor: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 1}
+    rgba: 4294942848
+  m_fontColor: {r: 0.5019608, g: 0.627451, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2046,13 +2046,13 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: -1183493901
+  m_TextStyleHashCode: 2192
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 35
-  m_fontSizeBase: 35
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2763,7 +2763,7 @@ PrefabInstance:
       objectReference: {fileID: 1645771259}
     - target: {fileID: 8649236004549737484, guid: 76531ed63f1b622459f38dbf091bce3e, type: 3}
       propertyPath: m_VersionIndex
-      value: 3653
+      value: 3656
       objectReference: {fileID: 0}
     - target: {fileID: 8649236004549737484, guid: 76531ed63f1b622459f38dbf091bce3e, type: 3}
       propertyPath: m_Faces.Array.size
@@ -22725,15 +22725,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: Q
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: c6f78d87fb6a5fc40b00919c02c1aed3, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: c6f78d87fb6a5fc40b00919c02c1aed3, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 6567c63bcd9485f4ea8fc60040fa03da, type: 2}
+  m_sharedMaterial: {fileID: -855397339996513224, guid: 6567c63bcd9485f4ea8fc60040fa03da, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4294942848
+  m_fontColor: {r: 0.5019608, g: 0.627451, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -25653,13 +25653,13 @@ Canvas:
   m_RenderMode: 0
   m_Camera: {fileID: 0}
   m_PlaneDistance: 3.39
-  m_PixelPerfect: 0
+  m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 1
-  m_AdditionalShaderChannelsFlag: 31
+  m_AdditionalShaderChannelsFlag: 7
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -32650,7 +32650,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _weaponStats: {fileID: 11400000, guid: 9bb14c387f983984ba9f8efba8caf9e6, type: 2}
-  WeaponStats: {fileID: 0}
+  WeaponStats: {fileID: 11400000, guid: 9bb14c387f983984ba9f8efba8caf9e6, type: 2}
   _playerStats: {fileID: 11400000, guid: 385b8705e86a5884f9b42204193c03b1, type: 2}
   ShootPoint: {fileID: 8719710633935628174}
   weapon: {fileID: 0}

@@ -7,6 +7,11 @@ public class ShotGun : Weapon
         //GameObject g = Instantiate(ShootingBulletPrefab, transform.position, transform.rotation);
         //print("shotgun attack");
         Bullet shotgunBullet  = BulletPoolManager.Instance.Get(1, transform.position, transform.rotation, true);
+        if(shotgunBullet == null)
+        {
+            Debug.LogWarning("No shotgun bullet available in the pool.");
+            return;
+        }
         shotgunBullet.SetBulletStats(weaponInfo);
         shotgunBullet.SetBulletMask(attackMask);
 
