@@ -11,7 +11,6 @@ public class ObjectPool<T> : IPoolable<T> where T : MonoBehaviour, IDisposable
     public GameObject _prefab;
     public Transform _poolParent;
 
-
     private bool _enableCreateNew = true;
     public int Count = 0;
 
@@ -39,7 +38,6 @@ public class ObjectPool<T> : IPoolable<T> where T : MonoBehaviour, IDisposable
         _prefab = prefab;
         _poolParent = parent;
         _enableCreateNew = enableCreateNew; 
-
     }
 
     public void Add(T obj)

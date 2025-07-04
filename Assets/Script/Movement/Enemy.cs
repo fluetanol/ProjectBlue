@@ -31,8 +31,8 @@ public abstract class Enemy : MonoBehaviour, IDisposable, IEnemyData
     void Awake()
     {
         if (_rigidbody == null) _rigidbody = GetComponent<Rigidbody>();
-        InitializeStats();
         if (_animator == null) _animator = GetComponent<Animator>();
+       // InitializeStats();
     }
 
     protected abstract void InitializeStats();

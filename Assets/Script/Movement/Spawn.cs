@@ -23,14 +23,14 @@ public class Spawn : MonoBehaviour
 
             for(int i = 0; i < _spawnCount; i++){
                 int randomIndex = Random.Range(0, 2);
-                print("randomIndex : " + randomIndex  + " " + _enemyObject.Count);
+                //print("randomIndex : " + randomIndex  + " " + _enemyObject.Count);
                 Enemy em = EnemyPoolManager.Instance.Get(randomIndex, transform.position, Quaternion.identity, true);
                 if(em == null) {
                     Debug.LogWarning("no enemy in pool");
                     continue;
                 }
                 em.gameObject.SetActive(true);
-                print("enemy spawn : " + em.gameObject.name);
+                //print("enemy spawn : " + em.gameObject.name);
                 //Instantiate(enemyObject, transform.position, Quaternion.identity);
             }
 

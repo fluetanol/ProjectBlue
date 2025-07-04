@@ -20,10 +20,8 @@ public class EnemyMovement : Enemy, IDamageable, IForceable, IAttackable
 
     [Header("Setting Enemy Move Stats Scriptable Object")]
     [SerializeField] private EnemyStats _enemyStats;
-
     private Vector3 _targetPosition, _nextPosition;
     private bool _isAttacking = false;
-
 
     public override float MaxHealth => _enemyStats[EnemyCode].EnemyHealth;
 

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 
 
-[RequireComponent(typeof(Rigidbody))]   
+[RequireComponent(typeof(Rigidbody))]
 public class EnemyMovement2 : Enemy, IDamageable, IForceable, IAttackable
 {
     [Header("Enemy Additional Stats")]
@@ -17,13 +17,15 @@ public class EnemyMovement2 : Enemy, IDamageable, IForceable, IAttackable
     [SerializeField] private EnemyStats _enemyStats;
     EnemyCurrentDataManager enemyCurrentDataManager;
     WeaponStats.WeaponInfo weaponStats;
-    
+
     private Vector3 _targetPosition, _nextPosition;
     private Weapon _weapon;
-    private bool _isAttacking = false;  
+    private bool _isAttacking = false;
     private bool _moveLock = false;
 
     private IMoveData _moveData;
+
+    public override float MaxHealth => _enemyStats[EnemyCode].EnemyHealth;
 
     void Awake()
     {
@@ -31,55 +33,73 @@ public class EnemyMovement2 : Enemy, IDamageable, IForceable, IAttackable
         enemyCurrentDataManager = FindAnyObjectByType<EnemyCurrentDataManager>();
     }
 
-    void Start(){
-         WeaponStats.WeaponInfo weaponStats = enemyCurrentDataManager.WeaponStats[_weaponCode];
-         weaponStats.AddMask(LayerMask.GetMask("Player"));
-         GameObject createWeapon = Instantiate(weaponStats.WeaponPrefab, ShotPoint.position, Quaternion.identity, this.transform);
-         _weapon = createWeapon.GetComponent<Weapon>();
-         _weapon.SetWeaponStats(weaponStats);
-    
+    void OnEnable()
+    {
+        gameObject.SetActive(true);
+        InitializeStats();
     }
 
-    void FixedUpdate(){
-        if(_isDead) {
+    void Start()
+    {
+        WeaponStats.WeaponInfo weaponStats = enemyCurrentDataManager.WeaponStats[_weaponCode];
+        weaponStats.AddMask(LayerMask.GetMask("Player"));
+        GameObject createWeapon = Instantiate(weaponStats.WeaponPrefab, ShotPoint.position, Quaternion.identity, this.transform);
+        _weapon = createWeapon.GetComponent<Weapon>();
+        _weapon.SetWeaponStats(weaponStats);
+
+
+       // print("code2 int sTart : " + EnemyCode);
+
+    }
+
+    void FixedUpdate()
+    {
+        if (_isDead)
+        {
             return;
         }
         _nextPosition = enemyMove();
         Attack();
 
-        if(_moveLock) return;
+        if (_moveLock) return;
         _rigidbody.MovePosition(_nextPosition);
     }
 
 
-    protected sealed override void InitializeStats(){
+    protected sealed override void InitializeStats()
+    {
+        print("code : " + EnemyCode);
         health = _enemyStats[EnemyCode].EnemyHealth;
         damage = _enemyStats[EnemyCode].EnemyDamage;
         dmgTick = _enemyStats[EnemyCode].EnemyDmgTick;
     }
 
 
-    public void TakeDamage(float damage){
+    public void TakeDamage(float damage)
+    {
         //StartCoroutine(TEST());
         health -= damage;
-        if(health <= 0){
+        if (health <= 0)
+        {
             _isDead = true;
             _animator.SetBool("isDead", _isDead);
         }
     }
 
-    private Vector3 enemyMove(){
+    private Vector3 enemyMove()
+    {
         //기본 타겟은 항상 플레이어입니다.
         _targetPosition = _target != null ? _target.position : _moveData.PlayerPosition;
 
         transform.LookAt(_targetPosition);
-//        print("enemy look at : " + _targetPosition);
-        
-        if(_enemyStats[0].EnemyMoveType == EenemyMoveType.linearInterpolation)
-            return Vector3.Lerp(_rigidbody.position, _targetPosition, 
+        //        print("enemy look at : " + _targetPosition);
+
+        if (_enemyStats[0].EnemyMoveType == EenemyMoveType.linearInterpolation)
+            return Vector3.Lerp(_rigidbody.position, _targetPosition,
             Time.fixedDeltaTime * _enemyStats[0]._linearInterpolationMoveSpeed);
 
-        else{
+        else
+        {
             Vector3 direction = _targetPosition - _rigidbody.position;
             direction.Normalize();
             return _rigidbody.position + direction * Time.fixedDeltaTime * _enemyStats[0]._linearMoveSpeed;
@@ -87,38 +107,44 @@ public class EnemyMovement2 : Enemy, IDamageable, IForceable, IAttackable
     }
 
     //근접 공격
-     public void Attack(){
-        if(_isAttacking){
+    public void Attack()
+    {
+        if (_isAttacking)
+        {
             return;
-        } 
+        }
 
         //공격 로직
         Vector3 substraction = _moveData.PlayerPosition - _rigidbody.position;
         float distance = substraction.magnitude;
 
-       // print("distance : " + distance);
-        
-        if (distance <= range){
+        // print("distance : " + distance);
+
+        if (distance <= range)
+        {
             _weapon.Attack();
             StartCoroutine(AttackTimer());
             _animator.SetBool("isAttack", true);
         }
-        else{
+        else
+        {
             _moveLock = false;
         }
-        
+
         //Debug.DrawRay(_rigidbody.position, newdirection * (Vector3.Distance(_rigidbody.position, _nextPosition)+1f), Color.red,3f);
     }
 
 
     //현재 enemy는 dynamic 모드라서 addforce로 처리하지만
     //kinematic으로 변경해야 하는 순간이 온다면 코드 바꿔야 할 예정
-    public void Knockback(Vector3 direction, float force){
+    public void Knockback(Vector3 direction, float force)
+    {
         print("force!" + direction + " " + force);
-        _rigidbody.AddForce(direction * force,ForceMode.Impulse);
+        _rigidbody.AddForce(direction * force, ForceMode.Impulse);
     }
 
-    private IEnumerator AttackTimer(){
+    private IEnumerator AttackTimer()
+    {
         _isAttacking = true;
         _moveLock = true;
         yield return new WaitForSeconds(attackTick);
@@ -145,5 +171,11 @@ public class EnemyMovement2 : Enemy, IDamageable, IForceable, IAttackable
     {
         print("airborne force : " + force);
         _rigidbody.AddForce(Vector3.up * force, ForceMode.Impulse);
+    }
+
+    public override void Dispose()
+    {
+        base.Dispose();
+        transform.parent.gameObject.SetActive(false);
     }
 }

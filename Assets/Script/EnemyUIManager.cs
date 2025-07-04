@@ -33,6 +33,7 @@ public class EnemyUIManager : MonoBehaviour
 
     private void SetHealthBar()
     {
+        //print("_enemyData.MaxHealth : " + _enemyData.MaxHealth + " " + _enemyData.RestHealth);
         EnemyHealthBarImg.fillAmount = _enemyData.RestHealth / _enemyData.MaxHealth;
     }
 

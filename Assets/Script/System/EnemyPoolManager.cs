@@ -26,7 +26,10 @@ public class EnemyPoolManager : ObjectPoolManager<Enemy, EnemyPoolManager>
         //풀링할 적 오브젝트 코드
         foreach(var code in poolInfo.PoolTypes){
             GameObject prefab = enemyStats[code].EnemyPrefab;
-            prefab.GetComponentInChildren<Enemy>().MoveData = moveData;
+            Enemy prefabEnemy = prefab.GetComponentInChildren<Enemy>();
+            prefabEnemy.EnemyCode = code;
+            prefabEnemy.MoveData = moveData;
+            
 
             int count = poolInfo.PoolCount[code];
             //그 적을 생성시킬 갯수
@@ -35,6 +38,7 @@ public class EnemyPoolManager : ObjectPoolManager<Enemy, EnemyPoolManager>
             for (int i = 0; i < count; i++)
             {
                 objs[i] = Instantiate(prefab, Parent).GetComponentInChildren<Enemy>();
+                objs[i].EnemyCode = code;
                 objs[i].MoveData = moveData;
                 objs[i].transform.parent.gameObject.SetActive(false);
             }
