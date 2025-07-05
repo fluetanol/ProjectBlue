@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 2f3ef41b4bd5fd7468d4ecfe377649d0
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/Examples/SceneRuntimeExample/MB_ExampleSkinnedMeshDescription.cs
+  uploadId: 401663

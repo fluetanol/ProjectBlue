@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: 69b5721e37860ab4199ddb2d6684c64b
+NativeFormatImporter:
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/Examples/MultipleMaterials/SourceMaterials/roof2.mat
+  uploadId: 401663

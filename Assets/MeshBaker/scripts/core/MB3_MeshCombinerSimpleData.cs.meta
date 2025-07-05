@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: a48d33b6bcc4b4645b87cab80608ca2e
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/scripts/core/MB3_MeshCombinerSimpleData.cs
+  uploadId: 401663

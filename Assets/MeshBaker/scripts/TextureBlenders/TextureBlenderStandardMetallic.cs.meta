@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: ad6e327911774fb4d9cf5c3b4c233d15
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/scripts/TextureBlenders/TextureBlenderStandardMetallic.cs
+  uploadId: 401663

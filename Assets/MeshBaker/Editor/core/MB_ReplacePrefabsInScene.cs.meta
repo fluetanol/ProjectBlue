@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 5a70ad841248acf4ab4bdadc52c88841
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/Editor/core/MB_ReplacePrefabsInScene.cs
+  uploadId: 401663

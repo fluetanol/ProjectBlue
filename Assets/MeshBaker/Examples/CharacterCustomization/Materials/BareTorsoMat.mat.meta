@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: 1a0384c48005e4d4688030a9896c62f2
+NativeFormatImporter:
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/Examples/CharacterCustomization/Materials/BareTorsoMat.mat
+  uploadId: 401663

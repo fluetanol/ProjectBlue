@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 96875af05a8fc9c4f8ce03e13615199f
+timeCreated: 1522041809
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/scripts/core/TextureCombiner/MB2_TexturePacker.cs
+  uploadId: 401663

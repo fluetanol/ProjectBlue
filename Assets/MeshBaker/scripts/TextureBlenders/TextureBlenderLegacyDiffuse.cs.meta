@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c86cc13385933e94a915ee9b0520efcb
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/scripts/TextureBlenders/TextureBlenderLegacyDiffuse.cs
+  uploadId: 401663

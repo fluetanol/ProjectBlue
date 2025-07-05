@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 1caa0caed1da6af47b756fe7bec22da9
+timeCreated: 1522041808
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/scripts/core/TextureCombiner/MB3_TextureCombinerAtlasRect.cs
+  uploadId: 401663

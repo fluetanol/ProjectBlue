@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: cdd26f72161907c4c945dcdb81cd77bf
+timeCreated: 1501094664
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/Examples/MultipleMaterials/Materials/Material.mat
+  uploadId: 401663

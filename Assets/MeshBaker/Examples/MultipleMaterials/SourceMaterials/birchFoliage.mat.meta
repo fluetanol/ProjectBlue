@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: 1723e8afe79ca7b4f9e2c3c609445d3d
+NativeFormatImporter:
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/Examples/MultipleMaterials/SourceMaterials/birchFoliage.mat
+  uploadId: 401663

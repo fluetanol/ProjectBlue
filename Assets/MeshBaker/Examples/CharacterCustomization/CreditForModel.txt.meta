@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: bd5223a68adbb56488f1fd1cc588e607
+TextScriptImporter:
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/Examples/CharacterCustomization/CreditForModel.txt
+  uploadId: 401663

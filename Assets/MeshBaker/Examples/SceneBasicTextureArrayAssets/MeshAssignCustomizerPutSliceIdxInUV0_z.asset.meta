@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: c73b4ea76db451b4ab3b4f8f5eb45e43
+timeCreated: 1568408312
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/Examples/SceneBasicTextureArrayAssets/MeshAssignCustomizerPutSliceIdxInUV0_z.asset
+  uploadId: 401663

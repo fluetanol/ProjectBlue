@@ -1,0 +1,203 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d41887b1546f5c44ab54e7e65aad3bc, type: 3}
+  m_Name: Ako
+  m_EditorClassIdentifier: MeshBakerCore::MB2_TextureBakeResults
+  version: 3252
+  resultType: 0
+  materialsAndUVRects:
+  - material: {fileID: 7022819931398376142, guid: 8c17389834be11a4f8597f06e44a8cff, type: 3}
+    atlasRect:
+      serializedVersion: 2
+      x: 0.6191406
+      y: 0.0009765625
+      width: 0.119140625
+      height: 0.12011719
+    srcObjName: Ako_Original_Body
+    textureArraySliceIdx: -1
+    allPropsUseSameTiling: 1
+    allPropsUseSameTiling_sourceMaterialTiling:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 1
+      height: 1
+    allPropsUseSameTiling_samplingEncapsulatinRect:
+      serializedVersion: 2
+      x: 0.022882348
+      y: 0.015000124
+      width: 0.95571977
+      height: 0.96754307
+    propsUseDifferntTiling_srcUVsamplingRect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    tilingTreatment: 1
+  - material: {fileID: -1453388728441008695, guid: 8c17389834be11a4f8597f06e44a8cff, type: 3}
+    atlasRect:
+      serializedVersion: 2
+      x: 0.0009765625
+      y: 0.49804688
+      width: 0.49121094
+      height: 0.49316406
+    srcObjName: Ako_Original_Body
+    textureArraySliceIdx: -1
+    allPropsUseSameTiling: 1
+    allPropsUseSameTiling_sourceMaterialTiling:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 1
+      height: 1
+    allPropsUseSameTiling_samplingEncapsulatinRect:
+      serializedVersion: 2
+      x: 0.015000124
+      y: 0.0051473435
+      width: 0.98330754
+      height: 0.98724866
+    propsUseDifferntTiling_srcUVsamplingRect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    tilingTreatment: 1
+  - material: {fileID: 775123852687568614, guid: 8c17389834be11a4f8597f06e44a8cff, type: 3}
+    atlasRect:
+      serializedVersion: 2
+      x: 0.0009765625
+      y: 0.0009765625
+      width: 0.49414062
+      height: 0.4951172
+    srcObjName: Ako_Original_Body
+    textureArraySliceIdx: -1
+    allPropsUseSameTiling: 1
+    allPropsUseSameTiling_sourceMaterialTiling:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 1
+      height: 1
+    allPropsUseSameTiling_samplingEncapsulatinRect:
+      serializedVersion: 2
+      x: 0.009088456
+      y: 0.0031767872
+      width: 0.9892192
+      height: 0.9911897
+    propsUseDifferntTiling_srcUVsamplingRect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    tilingTreatment: 1
+  - material: {fileID: 5641535709810131923, guid: 8c17389834be11a4f8597f06e44a8cff, type: 3}
+    atlasRect:
+      serializedVersion: 2
+      x: 0.4970703
+      y: 0.0009765625
+      width: 0.12011719
+      height: 0.12207031
+    srcObjName: Ako_Original_Body
+    textureArraySliceIdx: -1
+    allPropsUseSameTiling: 1
+    allPropsUseSameTiling_sourceMaterialTiling:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 1
+      height: 1
+    allPropsUseSameTiling_samplingEncapsulatinRect:
+      serializedVersion: 2
+      x: 0.009088456
+      y: 0.026823461
+      width: 0.96754307
+      height: 0.98330754
+    propsUseDifferntTiling_srcUVsamplingRect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    tilingTreatment: 1
+  - material: {fileID: 4380030518476042310, guid: 8c17389834be11a4f8597f06e44a8cff, type: 3}
+    atlasRect:
+      serializedVersion: 2
+      x: 0.0009765625
+      y: 0.99316406
+      width: 0.001953125
+      height: 0.001953125
+    srcObjName: Ako_Original_Body
+    textureArraySliceIdx: -1
+    allPropsUseSameTiling: 1
+    allPropsUseSameTiling_sourceMaterialTiling:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 1
+      height: 1
+    allPropsUseSameTiling_samplingEncapsulatinRect:
+      serializedVersion: 2
+      x: 0.5056686
+      y: 0.9372204
+      width: 0.09458673
+      height: 0.015764475
+    propsUseDifferntTiling_srcUVsamplingRect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    tilingTreatment: 1
+  - material: {fileID: 7836906778515443862, guid: 8c17389834be11a4f8597f06e44a8cff, type: 3}
+    atlasRect:
+      serializedVersion: 2
+      x: 0.7402344
+      y: 0.0009765625
+      width: 0.026367188
+      height: 0.028320312
+    srcObjName: Ako_Original_Halo
+    textureArraySliceIdx: -1
+    allPropsUseSameTiling: 1
+    allPropsUseSameTiling_sourceMaterialTiling:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 1
+      height: 1
+    allPropsUseSameTiling_samplingEncapsulatinRect:
+      serializedVersion: 2
+      x: 0.08820023
+      y: 0.03744507
+      width: 0.86283773
+      height: 0.924469
+    propsUseDifferntTiling_srcUVsamplingRect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    tilingTreatment: 1
+  resultMaterials:
+  - combinedMaterial: {fileID: 2100000, guid: 992029fdeb0695c4a8ac4d1458e76a3b, type: 2}
+    considerMeshUVs: 1
+    sourceMaterials:
+    - {fileID: 7022819931398376142, guid: 8c17389834be11a4f8597f06e44a8cff, type: 3}
+    - {fileID: -1453388728441008695, guid: 8c17389834be11a4f8597f06e44a8cff, type: 3}
+    - {fileID: 775123852687568614, guid: 8c17389834be11a4f8597f06e44a8cff, type: 3}
+    - {fileID: 5641535709810131923, guid: 8c17389834be11a4f8597f06e44a8cff, type: 3}
+    - {fileID: 4380030518476042310, guid: 8c17389834be11a4f8597f06e44a8cff, type: 3}
+    - {fileID: 7836906778515443862, guid: 8c17389834be11a4f8597f06e44a8cff, type: 3}
+  resultMaterialsTexArray: []
+  doMultiMaterial: 0

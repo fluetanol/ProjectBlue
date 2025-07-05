@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 0c06a9c96253b2c4e94d65ecc349b306
+AssemblyDefinitionImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/scripts/MeshBakerCore.asmdef
+  uploadId: 401663

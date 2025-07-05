@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: f43a876118156fb4dae726cda03b2b0d
+timeCreated: 1571676531
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/docs/API-3.29.0.zip
+  uploadId: 401663

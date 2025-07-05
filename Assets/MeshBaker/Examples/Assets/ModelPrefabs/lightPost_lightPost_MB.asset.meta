@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: ab8b47aae33551443a7beaed8de224fe
+NativeFormatImporter:
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/Examples/Assets/ModelPrefabs/lightPost_lightPost_MB.asset
+  uploadId: 401663

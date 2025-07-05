@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: ea3802a52aba025488a49e86288d08bf
+NativeFormatImporter:
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/Examples/Assets/ModelPrefabs/hatPrefab-mesh.asset
+  uploadId: 401663

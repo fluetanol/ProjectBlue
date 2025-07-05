@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 727a1b5619dc36f43a2d00164cd6c964
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/scripts/TextureBlenders/TextureBlenderURPLit.cs
+  uploadId: 401663

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 878f9710d4ae4cb408f056108c0b4a73
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/scripts/core/MB3_PriorityQueue.cs
+  uploadId: 401663

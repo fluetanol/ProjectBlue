@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 89fdb6b2d5d77544a89d515d7a5eea2f
+timeCreated: 1545092246
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/Examples/SwitchBakedObjectsTexture/MB_SwitchBakedObjectsTexture.cs
+  uploadId: 401663

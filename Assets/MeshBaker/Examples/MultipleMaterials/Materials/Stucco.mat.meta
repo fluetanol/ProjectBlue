@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 6cf3629028ae31a4aadbfc4b0d8d7c25
+timeCreated: 1501094664
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/Examples/MultipleMaterials/Materials/Stucco.mat
+  uploadId: 401663

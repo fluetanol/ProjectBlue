@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: f0788963e7a9ac4418742439b8707317
+NativeFormatImporter:
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/Examples/MultipleMaterials/SourceMaterials/brick.mat
+  uploadId: 401663

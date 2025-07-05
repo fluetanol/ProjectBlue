@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: fb5ca79f4f7ef6c429d6e1cf881efbcd
+NativeFormatImporter:
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/Examples/Assets/ModelPrefabs/glasses-mat.mat
+  uploadId: 401663

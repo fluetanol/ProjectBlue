@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: f97fc119fe5cbd44ab8af8622fb2b8a9
+timeCreated: 1531872383
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/Examples/PrepareObjectsForDynamicBatching/ModifiedPrefabs/Cube.asset
+  uploadId: 401663

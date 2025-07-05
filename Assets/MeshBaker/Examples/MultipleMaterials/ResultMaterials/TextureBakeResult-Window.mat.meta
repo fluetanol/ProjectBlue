@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: 9559e54b8ce1cd94786535de5961591b
+NativeFormatImporter:
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/Examples/MultipleMaterials/ResultMaterials/TextureBakeResult-Window.mat
+  uploadId: 401663

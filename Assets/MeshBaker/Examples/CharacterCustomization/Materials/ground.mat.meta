@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: 9b9a19d256dee2740b83b2c7cb08f9ba
+NativeFormatImporter:
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/Examples/CharacterCustomization/Materials/ground.mat
+  uploadId: 401663

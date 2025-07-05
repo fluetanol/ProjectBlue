@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: 9553f134e6d4dda49afd069db4be722d
+NativeFormatImporter:
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/Examples/MultipleMaterials/SourceMaterials/stuccoyellow.mat
+  uploadId: 401663

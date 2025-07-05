@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: fccba580318feaa4ab27e9c9bcba5719
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 118123
+  packageName: Simplest Mesh Baker
+  packageVersion: 1.0
+  assetPath: Assets/UnitySimplestMeshBaker/SimplestMeshBaker/Editor/SkinnedMeshRendererCombiner.cs
+  uploadId: 725343

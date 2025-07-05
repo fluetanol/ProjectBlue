@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: db54b6488362bc04b988250b35ebd03b
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/Examples/BatchPrepareObjectsForDynamicBatching/MB_BatchPrepareObjectsForDynamicBatchingDescription.cs
+  uploadId: 401663

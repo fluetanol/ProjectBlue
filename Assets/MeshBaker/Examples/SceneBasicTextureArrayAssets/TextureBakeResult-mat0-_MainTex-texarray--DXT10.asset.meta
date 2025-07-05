@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 2538c1c6526a1f44789739711ce46988
+timeCreated: 1571699419
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 18700000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/Examples/SceneBasicTextureArrayAssets/TextureBakeResult-mat0-_MainTex-texarray--DXT10.asset
+  uploadId: 401663

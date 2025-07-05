@@ -2,8 +2,6 @@ using System;
 using UnityEngine;
 
 
-[RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(Animator))]
 public abstract class Enemy : MonoBehaviour, IDisposable, IEnemyData
 {
     public Transform Testobj;

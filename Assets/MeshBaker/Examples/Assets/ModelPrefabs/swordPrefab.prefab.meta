@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 377d68e882542544eadfa7186190aaf7
+timeCreated: 1526405349
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/Examples/Assets/ModelPrefabs/swordPrefab.prefab
+  uploadId: 401663

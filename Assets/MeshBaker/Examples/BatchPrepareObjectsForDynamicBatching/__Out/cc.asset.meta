@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: 77414bb2c2e97464e955880f240cc0cc
+NativeFormatImporter:
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/Examples/BatchPrepareObjectsForDynamicBatching/__Out/cc.asset
+  uploadId: 401663

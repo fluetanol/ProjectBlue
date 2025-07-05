@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: 6720b86e0a8482145996b43344e1b322
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/Examples/PrepareObjectsForDynamicBatching/ModifiedPrefabs/CombinedMaterial-mat.mat
+  uploadId: 401663

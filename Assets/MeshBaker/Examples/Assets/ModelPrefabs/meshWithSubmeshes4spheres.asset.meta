@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: b06f336637f7053498a45352e4874f9e
+NativeFormatImporter:
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/Examples/Assets/ModelPrefabs/meshWithSubmeshes4spheres.asset
+  uploadId: 401663

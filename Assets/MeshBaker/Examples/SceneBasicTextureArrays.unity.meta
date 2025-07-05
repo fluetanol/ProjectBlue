@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: 99c1959ebb05e50439d4162847142089
+DefaultImporter:
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/Examples/SceneBasicTextureArrays.unity
+  uploadId: 401663

@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: 1de6497fad977cf4db5b6ebcc8e74036
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/Examples/PrepareObjectsForDynamicBatching/OriginalPrefabs/Cylinder.prefab
+  uploadId: 401663

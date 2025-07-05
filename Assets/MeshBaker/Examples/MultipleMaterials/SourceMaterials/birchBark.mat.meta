@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: 63386ae7cb4960145b7c8bcbe70a07c2
+NativeFormatImporter:
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/Examples/MultipleMaterials/SourceMaterials/birchBark.mat
+  uploadId: 401663

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 7d41887b1546f5c44ab54e7e65aad3bc
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/scripts/MB2_TextureBakeResults.cs
+  uploadId: 401663

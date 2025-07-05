@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 14fd58535ad7b5e45b98d5d35af26f4d
+timeCreated: 1507578272
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/Examples/BatchPrepareObjectsForDynamicBatching/__Out/aa
+    1.asset
+  uploadId: 401663

@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 93f246464bc2f0e468fdc4761cc80c6c
+timeCreated: 1524695231
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/scripts/TextureBlenders/TextureBlenderStandardMetallicRoughness.cs
+  uploadId: 401663

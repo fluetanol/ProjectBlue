@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: c696f5c198bd98e4192dcbf80008157c
+NativeFormatImporter:
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/Examples/Assets/ModelPrefabs/ConstructionDude/ConstructionDudeGreenPrefab.prefab
+  uploadId: 401663

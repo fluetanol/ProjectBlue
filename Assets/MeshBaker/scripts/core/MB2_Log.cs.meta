@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: e269d2f71ce6fea4c9661e2a613d27c6
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/scripts/core/MB2_Log.cs
+  uploadId: 401663

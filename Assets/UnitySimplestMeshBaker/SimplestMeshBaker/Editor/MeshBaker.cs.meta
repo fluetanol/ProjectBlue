@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 8c4bb7f87b94ef445a0b0e99f2641cb8
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 118123
+  packageName: Simplest Mesh Baker
+  packageVersion: 1.0
+  assetPath: Assets/UnitySimplestMeshBaker/SimplestMeshBaker/Editor/MeshBaker.cs
+  uploadId: 725343

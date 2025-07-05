@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 0e6975d20fbb7db4cb282debae7dc110
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/scripts/core/MB_Utility.cs
+  uploadId: 401663

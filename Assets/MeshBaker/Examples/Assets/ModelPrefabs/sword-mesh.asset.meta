@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: 24d24b792ed653946925885e530075a4
+NativeFormatImporter:
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/Examples/Assets/ModelPrefabs/sword-mesh.asset
+  uploadId: 401663

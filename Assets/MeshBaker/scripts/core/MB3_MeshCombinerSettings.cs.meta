@@ -1,0 +1,20 @@
+fileFormatVersion: 2
+guid: 6f9a961bf2247e448a9cf290130254df
+timeCreated: 1555969770
+licenseType: Store
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/scripts/core/MB3_MeshCombinerSettings.cs
+  uploadId: 401663

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 8642e9fb7f0c7b34db102415e2b7135f
+timeCreated: 1501094664
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/Examples/MultipleMaterials/Materials/Window.mat
+  uploadId: 401663

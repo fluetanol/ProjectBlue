@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: d4485411682b71746ac1259efa04d3f5
+NativeFormatImporter:
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/Examples/Assets/ModelPrefabs/ConstructionDude/Materials/Worker-09
+    - Default.mat
+  uploadId: 401663

@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: 818984a5be6e550498c1ec91ce8ae26f
+NativeFormatImporter:
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/Examples/CharacterCustomization/Materials/CombinedMat-mat.mat
+  uploadId: 401663

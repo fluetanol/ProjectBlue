@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: 34b4ee8a98af9b04cbf34ae08ef6ad7b
+DefaultImporter:
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/Examples/SkinnedMeshRendererSetup.unity
+  uploadId: 401663

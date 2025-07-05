@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: c826bbf6368da3d49a05490409857f1a
+NativeFormatImporter:
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/Examples/MultipleMaterials/ResultMaterials/TextureBakeResult-Stuco.mat
+  uploadId: 401663

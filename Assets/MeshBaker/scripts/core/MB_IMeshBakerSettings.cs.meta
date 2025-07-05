@@ -1,0 +1,20 @@
+fileFormatVersion: 2
+guid: bb7e18c535284a84f877576ebe43decd
+timeCreated: 1555964253
+licenseType: Store
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/scripts/core/MB_IMeshBakerSettings.cs
+  uploadId: 401663

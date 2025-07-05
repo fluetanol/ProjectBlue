@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 17fe77716f2fcc840976d6c0234fad17
+timeCreated: 1501094264
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/Examples/CharacterCustomization/CharacterCustomization
+    - Shortcut.lnk
+  uploadId: 401663

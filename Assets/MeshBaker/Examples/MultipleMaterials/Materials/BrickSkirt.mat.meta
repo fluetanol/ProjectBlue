@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 821a4e4979f37574894181bbbb4809ac
+timeCreated: 1501094664
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/Examples/MultipleMaterials/Materials/BrickSkirt.mat
+  uploadId: 401663

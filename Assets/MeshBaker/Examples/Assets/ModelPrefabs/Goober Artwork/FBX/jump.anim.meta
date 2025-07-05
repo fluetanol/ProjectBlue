@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: 32f3d124bc96b624ba2f1c83852ea4c1
+NativeFormatImporter:
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 31895
+  packageName: Mesh Baker Free
+  packageVersion: 3.32.1
+  assetPath: Assets/MeshBaker/Examples/Assets/ModelPrefabs/Goober Artwork/FBX/jump.anim
+  uploadId: 401663
