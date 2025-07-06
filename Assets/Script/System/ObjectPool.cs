@@ -13,9 +13,11 @@ public class ObjectPool<T> : IPoolable<T> where T : MonoBehaviour, IDisposable
 
     //기본 최대 풀 사이즈
     public int MaxAvailableSize = 512;
-
     private bool _enableCreateNew = true;
-    public int Count = 0;
+
+    // 풀에서 빠져나간 오브젝트 개수 (즉 현재 씬에 렌더링 중인 오브젝트 개수임)
+    public int ActiveCount = 0;
+    public int PoolCount => _pool.Count;
 
     public ObjectPool()
     {
@@ -32,7 +34,7 @@ public class ObjectPool<T> : IPoolable<T> where T : MonoBehaviour, IDisposable
     {
         _pool = new Queue<T>(values.Length);
         Add(values);
-        Count = values.Length;
+        ActiveCount = 0;
         SettingPool(prefab, parent, enableCreateNew);
     }
 
@@ -68,6 +70,7 @@ public class ObjectPool<T> : IPoolable<T> where T : MonoBehaviour, IDisposable
         {
             Debug.LogWarning("make new object : no object in pool");
             GameObject newObject = MonoBehaviour.Instantiate(_prefab, _poolParent);
+            ActiveCount++;
             return newObject.GetComponent<T>();
         }
         else if (_pool.Count == 0 && !_enableCreateNew)
@@ -77,7 +80,7 @@ public class ObjectPool<T> : IPoolable<T> where T : MonoBehaviour, IDisposable
         }
 
             T obj = _pool.Dequeue();
-            Count--;
+            ActiveCount++; 
             return obj;
     }
 
@@ -96,6 +99,7 @@ public class ObjectPool<T> : IPoolable<T> where T : MonoBehaviour, IDisposable
             GameObject newObject = MonoBehaviour.Instantiate(_prefab, _poolParent);
             obj = newObject.GetComponent<T>();
             if(obj == null) Debug.Log("new object is null");
+            ActiveCount++;
             return false;
         }
         else if (_pool.Count == 0 && !_enableCreateNew)
@@ -108,7 +112,7 @@ public class ObjectPool<T> : IPoolable<T> where T : MonoBehaviour, IDisposable
 
         //큐에 있는 거 가져오면 정상 반환 처리 함
         obj = _pool.Dequeue();
-        Count--;
+        ActiveCount++;
         return true;
     }
 
@@ -119,7 +123,7 @@ public class ObjectPool<T> : IPoolable<T> where T : MonoBehaviour, IDisposable
         Add(obj);
         obj.transform.position = Vector3.zero;
         obj.transform.rotation = Quaternion.identity;
-        Count++;
+        ActiveCount--;
     }
 
 }

@@ -2,12 +2,18 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyPoolManager : ObjectPoolManager<Enemy, EnemyPoolManager>
+public interface IPoolDebugData
+{
+    public int ActiveCount { get; }
+    public int PoolCount { get; }
+}
+
+public class EnemyPoolManager : ObjectPoolManager<Enemy, EnemyPoolManager>, IPoolDebugData
 {
     public EnemyStats enemyStats;
-    public IMoveData moveData;                
+    public IMoveData moveData;
     public List<ObjectPool<Enemy>> enemyPool;
-    
+
     protected override void Awake()
     {
         base.Awake();
@@ -24,16 +30,17 @@ public class EnemyPoolManager : ObjectPoolManager<Enemy, EnemyPoolManager>
     public override void FirstCreate(PoolingInfo poolInfo)
     {
         //풀링할 적 오브젝트 코드
-        foreach(var code in poolInfo.PoolTypes){
+        foreach (var code in poolInfo.PoolTypes)
+        {
             GameObject prefab = enemyStats[code].EnemyPrefab;
             Enemy prefabEnemy = prefab.GetComponentInChildren<Enemy>();
             prefabEnemy.EnemyCode = code;
             prefabEnemy.MoveData = moveData;
-            
+
 
             int count = poolInfo.PoolCount[code];
             //그 적을 생성시킬 갯수
-//            print("create count : " + count);
+            //            print("create count : " + count);
             Enemy[] objs = new Enemy[count];
             for (int i = 0; i < count; i++)
             {
@@ -42,9 +49,9 @@ public class EnemyPoolManager : ObjectPoolManager<Enemy, EnemyPoolManager>
                 objs[i].MoveData = moveData;
                 objs[i].transform.parent.gameObject.SetActive(false);
             }
-            
 
-    //            print("create code : " + code);
+
+            //            print("create code : " + code);
             enemyPool[code] = new ObjectPool<Enemy>(Parent, prefab, enableCreateNew, objs);
         }
 
@@ -84,8 +91,9 @@ public class EnemyPoolManager : ObjectPoolManager<Enemy, EnemyPoolManager>
     public override Enemy[] Get(int num, int count)
     {
         Enemy[] enemies = new Enemy[count];
- 
-        for(int i=0; i<count; i++){
+
+        for (int i = 0; i < count; i++)
+        {
             enemies[i] = enemyPool[num].Get();
         }
 
@@ -115,4 +123,31 @@ public class EnemyPoolManager : ObjectPoolManager<Enemy, EnemyPoolManager>
     {
         throw new NotImplementedException();
     }
+
+    public int ActiveCount
+    {
+        get
+        {
+            int count = 0;
+            foreach (var pool in enemyPool)
+            {
+                count += pool.ActiveCount;
+            }
+            return count;
+        }
+    }
+
+    public int PoolCount
+    {
+        get
+        {
+            int count = 0;
+            foreach (var pool in enemyPool)
+            {
+                count += pool.PoolCount;
+            }
+            return count;
+        }
+    }
+
 }
