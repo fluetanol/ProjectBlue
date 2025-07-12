@@ -53,6 +53,10 @@ PrefabInstance:
       value: ako
       objectReference: {fileID: 0}
     - target: {fileID: 1630794972795428178, guid: 5da99c0b6749dd54c9457ac31dbedb00, type: 3}
+      propertyPath: m_ForceMeshLod
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1630794972795428178, guid: 5da99c0b6749dd54c9457ac31dbedb00, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 2b3a81bdfd61a764d8e070c7059ed8c6, type: 2}

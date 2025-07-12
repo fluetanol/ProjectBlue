@@ -359,7 +359,7 @@ PrefabInstance:
     - target: {fileID: 3152864919516226331, guid: c87f80a9ca22c6b499d25d2f6dfc358b, type: 3}
       propertyPath: _animator
       value: 
-      objectReference: {fileID: 8149738451695414072}
+      objectReference: {fileID: 8036944847398790149}
     - target: {fileID: 4419597052279901153, guid: c87f80a9ca22c6b499d25d2f6dfc358b, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -367,6 +367,10 @@ PrefabInstance:
     - target: {fileID: 6308480257989523103, guid: c87f80a9ca22c6b499d25d2f6dfc358b, type: 3}
       propertyPath: m_Name
       value: 'Enemy '
+      objectReference: {fileID: 0}
+    - target: {fileID: 6954445395162730116, guid: c87f80a9ca22c6b499d25d2f6dfc358b, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -389,8 +393,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 763c677b45e70be4bbcb2862256f7540, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!95 &8149738451695414072 stripped
+--- !u!95 &8036944847398790149 stripped
 Animator:
-  m_CorrespondingSourceObject: {fileID: 9084461993091350969, guid: c87f80a9ca22c6b499d25d2f6dfc358b, type: 3}
+  m_CorrespondingSourceObject: {fileID: 6954445395162730116, guid: c87f80a9ca22c6b499d25d2f6dfc358b, type: 3}
   m_PrefabInstance: {fileID: 1084191016784423553}
   m_PrefabAsset: {fileID: 0}

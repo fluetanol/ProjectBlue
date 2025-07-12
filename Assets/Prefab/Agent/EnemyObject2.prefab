@@ -319,7 +319,11 @@ PrefabInstance:
     - target: {fileID: 2246871761955845953, guid: a88acf2f6a573ee4d809fe1a969ca3ec, type: 3}
       propertyPath: _animator
       value: 
-      objectReference: {fileID: 6756900964505731459}
+      objectReference: {fileID: 5638110045477710752}
+    - target: {fileID: 5255265305335367594, guid: a88acf2f6a573ee4d809fe1a969ca3ec, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5353685321370902351, guid: a88acf2f6a573ee4d809fe1a969ca3ec, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -385,8 +389,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5353685321370902351, guid: a88acf2f6a573ee4d809fe1a969ca3ec, type: 3}
   m_PrefabInstance: {fileID: 491143896251870218}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &6756900964505731459 stripped
+--- !u!95 &5638110045477710752 stripped
 Animator:
-  m_CorrespondingSourceObject: {fileID: 6563347082909478281, guid: a88acf2f6a573ee4d809fe1a969ca3ec, type: 3}
+  m_CorrespondingSourceObject: {fileID: 5255265305335367594, guid: a88acf2f6a573ee4d809fe1a969ca3ec, type: 3}
   m_PrefabInstance: {fileID: 491143896251870218}
   m_PrefabAsset: {fileID: 0}

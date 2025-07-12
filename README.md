@@ -6,7 +6,7 @@
 
 
 # 기술
-### 계단 오르기
+## 계단 오르기
 ![stairGIF](Image/stepup.gif)
 
 말 그대로 계단형 지형을 오르는 로직을 적용했습니다.
@@ -65,7 +65,14 @@ raycast 두 번만으로 계단 지형을 판정하는 로직을 만들었습니
 로직의 작동 원리에 대해 더 자세히 보고 싶으면 기록된 [노션 링크](https://glaze-culotte-b91.notion.site/1befbd73ff3f807489e8d6d3a3deb97c)를 참고해주세요
 
 
-### batch 및 fps 개선
+## 스킬 시스템
+
+직접 스킬시스템을 설계하고 구현했습니다.
+
+
+
+
+## batch 및 fps 개선
 
 굉장히 많은 적 오브젝트가 쏟아져 나오는 게임인 만큼, 최적화가 중요합니다.
 
@@ -74,11 +81,14 @@ raycast 두 번만으로 계단 지형을 판정하는 로직을 만들었습니
 
 - 씬 안에 100마리의 몬스터가 보인다고 가정.
 
-1. 초기 상태 
+### 1. 초기 상태
 
-2. Mesh baking + Texture Baking
+### 2. Mesh baking + Texture Baking
     - 빌드 전 성능<br>
     batches : 평균 2600 →  910정도 (65%감소)<br>
     Fps : 평균 40 → 70fps (75%증가)
 
-    - 빌드 후 성능
+    - 빌드 후 성능<br>
+    Fps : 평균 90 → 160정도 (78%증가)
+
+더 자세한 내용은 [노션 링크](https://glaze-culotte-b91.notion.site/228fbd73ff3f8093b259f4a5483a3ab1?pvs=74)를 참고해주세요
