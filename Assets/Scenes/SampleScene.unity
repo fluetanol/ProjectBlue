@@ -23647,7 +23647,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a89ea7a1b4ac9bd45b3ba0a83cb4ba09, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1630794972795428178, guid: a89ea7a1b4ac9bd45b3ba0a83cb4ba09, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -29941,7 +29941,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnvironmentSystem
   _light: {fileID: 410087040}
   _lightIntensity: 2
-  _bloomIntensity: 0.3
+  _bloomIntensity: 1
   _volume: {fileID: 832575518}
 --- !u!1001 &1761939002
 PrefabInstance:
@@ -33037,6 +33037,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 1435725977}
     m_Modifications:
     - target: {fileID: 2529857695356212397, guid: ca2c4f945d7e3444391f689d203e3245, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2529857695356212397, guid: ca2c4f945d7e3444391f689d203e3245, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2529857695356212397, guid: ca2c4f945d7e3444391f689d203e3245, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2529857695356212397, guid: ca2c4f945d7e3444391f689d203e3245, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -33082,6 +33094,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6237381316575354163, guid: ca2c4f945d7e3444391f689d203e3245, type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8085675832834846275, guid: ca2c4f945d7e3444391f689d203e3245, type: 3}
+      propertyPath: m_CastShadows
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

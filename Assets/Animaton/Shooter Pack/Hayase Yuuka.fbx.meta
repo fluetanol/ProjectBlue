@@ -86,7 +86,7 @@ ModelImporter:
     maxBonesPerVertex: 38
     minBoneWeight: 0.001
     optimizeBones: 0
-    generateMeshLods: 0
+    generateMeshLods: 1
     meshLodGenerationFlags: 0
     maximumMeshLod: -1
     meshOptimizationFlags: -1
@@ -101,7 +101,7 @@ ModelImporter:
     useFileScale: 1
     strictVertexDataChecks: 0
   tangentSpace:
-    normalSmoothAngle: 60
+    normalSmoothAngle: 100
     normalImportMode: 0
     tangentImportMode: 1
     normalCalculationMode: 4
