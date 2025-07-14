@@ -14,7 +14,7 @@ public interface IMoveData
         get;
     }
 
-    public Vector3 MoveDirction
+    public Vector3 MoveDirection
     {
         get;
     }
@@ -42,7 +42,16 @@ public class PlayerMovement : MonoBehaviour, IMoveData
         XY = 0,
         XZ = 1
     }
+
+    enum EPlayerMoveBaseType
+    {
+        ByAbsolute, // forward 벡터가 월드 기준임
+        ByRelative, // forward 벡터가 플레이어 기준임
+        ByCamera    //
+    }
+
     [SerializeField] private EPlayerMoveAxis _playerMoveAxisType;
+    [SerializeField] private EPlayerMoveBaseType _playerMoveBaseType;
 
 
     // ******  Move Interface Data ****** // 
@@ -61,7 +70,7 @@ public class PlayerMovement : MonoBehaviour, IMoveData
         private set;
     }
 
-    public Vector3 MoveDirction
+    public Vector3 MoveDirection
     {
         get;
         private set;
@@ -79,8 +88,8 @@ public class PlayerMovement : MonoBehaviour, IMoveData
         {
             return new Vector3[]
             {
-                new Vector3(MoveDirction.x,  MoveDirction.y),
-                new Vector3(MoveDirction.x, 0, MoveDirction.y)
+                new Vector3(MoveDirection.x,  MoveDirection.y),
+                new Vector3(MoveDirection.x, 0, MoveDirection.y)
             };
         }
     }
@@ -147,7 +156,14 @@ public class PlayerMovement : MonoBehaviour, IMoveData
     {
         if(!_stateData.CanMove) return;
         
-        xdelta = _moveTypeList[(int)_playerMoveAxisType] * _playerDataManager.currentMoveSpeed * Time.fixedDeltaTime;
+        if(_playerMoveBaseType == EPlayerMoveBaseType.ByAbsolute || _playerMoveBaseType == EPlayerMoveBaseType.ByRelative)
+            xdelta = _moveTypeList[(int)_playerMoveAxisType] * _playerDataManager.currentMoveSpeed * Time.fixedDeltaTime;
+
+        else if(_playerMoveBaseType == EPlayerMoveBaseType.ByCamera)
+        xdelta = MoveDirection * _playerDataManager.currentMoveSpeed * Time.fixedDeltaTime;
+
+
+
         if (isGrounded) ydelta = Vector3.zero;
         ydelta += Physics.gravity * Time.fixedDeltaTime * Time.fixedDeltaTime * GravityMultiplier;
 
@@ -448,13 +464,38 @@ public class PlayerMovement : MonoBehaviour, IMoveData
     void OnMoveStart(InputAction.CallbackContext context)
     {
         // Debug.Log("move " + context.ReadValue<Vector2>());
-        MoveDirction = context.ReadValue<Vector2>();
+        MoveDirection = context.ReadValue<Vector2>();
+
+        switch (_playerMoveBaseType)
+        {
+            case EPlayerMoveBaseType.ByRelative:
+                // 플레이어 기준으로 이동
+                MoveDirection = transform.TransformDirection(MoveDirection);
+                break;
+
+            case EPlayerMoveBaseType.ByCamera:
+                // 카메라 기준으로 이동
+                Vector3 cameraForward = Camera.main.transform.forward;
+                Vector3 cameraRight = Camera.main.transform.right;
+                cameraForward.y = 0; // Y축은 무시
+                cameraRight.y = 0; // Y축은 무시
+
+                cameraForward.Normalize();
+                cameraRight.Normalize();
+
+
+                MoveDirection = cameraForward * MoveDirection.y + cameraRight * MoveDirection.x;
+
+                break;
+
+        }
+
     }
 
     void OnMoveCancel(InputAction.CallbackContext context)
     {
         // Debug.Log(context.ReadValue<Vector2>());
-        MoveDirction = Vector2.zero;
+        MoveDirection = Vector2.zero;
     }
 
     void OnClickStart(InputAction.CallbackContext context)

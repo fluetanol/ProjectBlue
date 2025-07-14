@@ -81,6 +81,10 @@ public class CameraController : MonoBehaviour
             _target.position + TargetBarDirection * _targetBarDistance + TargetBarOffset,
             SmoothSpeed * Time.deltaTime);
         }
+        if (Camera.main.orthographic)
+        {
+            Camera.main.orthographicSize = _targetBarDistance;
+        }
     }
 
     private void LookTargetControll()
