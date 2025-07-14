@@ -32174,7 +32174,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1590121775201482148, guid: 27e762bce060ef94388ad2b1cdaa6da8, type: 3}
       propertyPath: TargetBarOffset.y
-      value: 2.5
+      value: 1.95
       objectReference: {fileID: 0}
     - target: {fileID: 1590121775201482148, guid: 27e762bce060ef94388ad2b1cdaa6da8, type: 3}
       propertyPath: TargetBarOffset.z
@@ -32210,7 +32210,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7906143608247324108, guid: 27e762bce060ef94388ad2b1cdaa6da8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 31.063
+      value: 30.513
       objectReference: {fileID: 0}
     - target: {fileID: 7906143608247324108, guid: 27e762bce060ef94388ad2b1cdaa6da8, type: 3}
       propertyPath: m_LocalPosition.z

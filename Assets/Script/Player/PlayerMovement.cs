@@ -82,6 +82,8 @@ public class PlayerMovement : MonoBehaviour, IMoveData
         private set;
     }
 
+    
+
     private Vector3[] _moveTypeList
     {
         get
@@ -156,11 +158,16 @@ public class PlayerMovement : MonoBehaviour, IMoveData
     {
         if(!_stateData.CanMove) return;
         
-        if(_playerMoveBaseType == EPlayerMoveBaseType.ByAbsolute || _playerMoveBaseType == EPlayerMoveBaseType.ByRelative)
+        if(_playerMoveBaseType == EPlayerMoveBaseType.ByAbsolute)
             xdelta = _moveTypeList[(int)_playerMoveAxisType] * _playerDataManager.currentMoveSpeed * Time.fixedDeltaTime;
 
         else if(_playerMoveBaseType == EPlayerMoveBaseType.ByCamera)
-        xdelta = MoveDirection * _playerDataManager.currentMoveSpeed * Time.fixedDeltaTime;
+            xdelta = MoveDirection * _playerDataManager.currentMoveSpeed * Time.fixedDeltaTime;
+
+        else if(_playerMoveBaseType == EPlayerMoveBaseType.ByRelative)
+        //상대 좌표계로 바꾸는 기법
+            xdelta = transform.TransformDirection(
+                _moveTypeList[(int)_playerMoveAxisType]) * _playerDataManager.currentMoveSpeed * Time.fixedDeltaTime;
 
 
 
@@ -466,14 +473,7 @@ public class PlayerMovement : MonoBehaviour, IMoveData
         // Debug.Log("move " + context.ReadValue<Vector2>());
         MoveDirection = context.ReadValue<Vector2>();
 
-        switch (_playerMoveBaseType)
-        {
-            case EPlayerMoveBaseType.ByRelative:
-                // 플레이어 기준으로 이동
-                MoveDirection = transform.TransformDirection(MoveDirection);
-                break;
-
-            case EPlayerMoveBaseType.ByCamera:
+        if(EPlayerMoveBaseType.ByCamera == _playerMoveBaseType){
                 // 카메라 기준으로 이동
                 Vector3 cameraForward = Camera.main.transform.forward;
                 Vector3 cameraRight = Camera.main.transform.right;
@@ -485,9 +485,6 @@ public class PlayerMovement : MonoBehaviour, IMoveData
 
 
                 MoveDirection = cameraForward * MoveDirection.y + cameraRight * MoveDirection.x;
-
-                break;
-
         }
 
     }
