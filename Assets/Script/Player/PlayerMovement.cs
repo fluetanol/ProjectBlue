@@ -52,6 +52,7 @@ public class PlayerMovement : MonoBehaviour, IMoveData
 
     [SerializeField] private EPlayerMoveAxis _playerMoveAxisType;
     [SerializeField] private EPlayerMoveBaseType _playerMoveBaseType;
+    [SerializeField] private LayerMask _collisionLayerMask;
 
 
     // ******  Move Interface Data ****** // 
@@ -277,12 +278,12 @@ public class PlayerMovement : MonoBehaviour, IMoveData
         // Debug.DrawRay(_componentManager.Rigidbody.position + delta + Vector3.up * maxStepHeight, direction * stepCheckDistance, Color.green, 5);
         // Debug.DrawRay(stepcheck, Vector3.down * maxStepHeight, Color.cyan, 5);
 
-        if (!Physics.Raycast(ray, stepCheckDistance))
+        if (!Physics.Raycast(ray, stepCheckDistance, _collisionLayerMask))
         {
             Ray ray2 = new Ray(stepcheck, Vector3.down);
             Debug.DrawRay(_componentManager.Rigidbody.position + delta + Vector3.up * maxStepHeight, direction * stepCheckDistance, Color.green, 5);
 
-            if (Physics.Raycast(ray2, out RaycastHit hit, maxStepHeight))
+            if (Physics.Raycast(ray2, out RaycastHit hit, maxStepHeight, _collisionLayerMask))
             {
                 if (hit.normal == Vector3.up)
                 {
@@ -327,7 +328,7 @@ public class PlayerMovement : MonoBehaviour, IMoveData
         //즉, "덜 충돌한 듯한" 느낌을 주어야 충돌판정이 boundary 위치에서 잘못된 cast가 일어나 노클립하는 현상을 방지할 수 있습니다.
         //물론 최대한 덜 빼야 속도 손실이 덜하긴 하지만, 아무리 못해도 (skin width / 재귀 횟수) 만큼은 빼서 위치를 보정해주세요.
         if (Physics.CapsuleCast(info.point1, info.point2, info.radius, direction,
-        out RaycastHit hit, delta.magnitude + skinWidth, LayerMask.GetMask("Ground")))
+        out RaycastHit hit, delta.magnitude + skinWidth, _collisionLayerMask))
         {
 
             //hit하고 남은 거리와 벡터
@@ -376,7 +377,7 @@ public class PlayerMovement : MonoBehaviour, IMoveData
             {
                 //TODO: 내려가는 slope에서 경사면을 인지 못하는 경우를 대비한 것으로,
                 //만약 이를 조절하고 싶다면 내려갈 때는 붕 떠서 내려가게 하는 별도의 tag를 가진 지형을 만드십시오
-                if (Physics.CapsuleCast(info.point1, info.point2, info.radius, Vector3.down, out RaycastHit hit2, ydelta.magnitude + 0.01f))
+                if (Physics.CapsuleCast(info.point1, info.point2, info.radius, Vector3.down, out RaycastHit hit2, ydelta.magnitude + 0.01f, _collisionLayerMask ))
                 {
                     Vector3 projectDelta = Vector3.ProjectOnPlane(xdelta, hit2.normal).normalized;
                     //ydelta = -hit2.normal * ydelta.magnitude;
@@ -448,7 +449,7 @@ public class PlayerMovement : MonoBehaviour, IMoveData
     {
         Ray ray3 = new Ray(hit.point + Vector3.up * skinWidth, sideVector);
         //Debug.DrawRay(hit.point, sideVector * 0.25f, Color.purple, 5);
-        if (Physics.Raycast(ray3, out RaycastHit hit2, 0.25f, LayerMask.GetMask("Ground")))
+        if (Physics.Raycast(ray3, out RaycastHit hit2, 0.25f, _collisionLayerMask))
         {
             float diff = _componentManager.CapsuleCollider.radius - hit2.distance;
             stepUp -= sideVector * diff;
@@ -458,7 +459,7 @@ public class PlayerMovement : MonoBehaviour, IMoveData
 
         ray3.direction = -sideVector;
         Debug.DrawRay(hit.point, -sideVector * 0.25f, Color.purple, 5);
-        if (Physics.Raycast(ray3, out RaycastHit hit3, 0.25f, LayerMask.GetMask("Ground")))
+        if (Physics.Raycast(ray3, out RaycastHit hit3, 0.25f, _collisionLayerMask))
         {
             float diff = _componentManager.CapsuleCollider.radius - hit3.distance;
             stepUp += sideVector * diff;
