@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -54,6 +55,8 @@ public class EnvironmentSystem : MonoBehaviour
         _lightInitIntensity = _light != null ? _light.intensity : 1.5f;
 
         instance = this;
+
+        GC.Collect();
     }
 
     void Update()

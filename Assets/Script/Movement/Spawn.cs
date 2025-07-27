@@ -5,6 +5,7 @@ using UnityEngine;
 public class Spawn : MonoBehaviour
 {
     [SerializeField] private List<GameObject> _enemyObject;
+    [SerializeField] private int       _enemyMaxCode = 2;
     [SerializeField] private float      _spawnCycle = 3f;
     [SerializeField] private int        _spawnCount = 3;
     [SerializeField] private int        _maxSpawn = 30;
@@ -25,7 +26,7 @@ public class Spawn : MonoBehaviour
 
             for (int i = 0; i < _spawnCount; i++)
             {
-                int randomIndex = Random.Range(0, 2);
+                int randomIndex = Random.Range(0,  _enemyMaxCode);
                 //print("randomIndex : " + randomIndex  + " " + _enemyObject.Count);
                 Enemy em = EnemyPoolManager.Instance.Get(randomIndex, transform.position, Quaternion.identity, true);
                 if (em == null)
