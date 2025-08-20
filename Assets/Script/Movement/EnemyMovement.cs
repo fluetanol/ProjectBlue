@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.Jobs.LowLevel.Unsafe;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Rendering;
 
 public interface IPoolCreatable
@@ -27,20 +28,29 @@ public class EnemyMovement : Enemy, IDamageable, IForceable, IAttackable
 
     public override float MaxHealth => _enemyStats[EnemyCode].EnemyHealth;
 
-    public Queue<Vector3> PathQueue { get; } = new Queue<Vector3>(20);
-
-    [SerializeField] private float _pathfindHeight = 0.25f;
+    [SerializeField] private float _enemyHeight = 0.25f;
     [SerializeField] private bool _pathfindMode = false;
     [SerializeField] private float _pathfindupdateTime = 0.5f;
     [SerializeField] private float _pathfindTick = 0;
     [SerializeField] private float _pathfindWidth = 0.5f;
     [SerializeField] private bool _isFindPath = false;
-    private Vector3 _pathfindTargetPosition;
+
+    [SerializeField] private NavMeshAgent _agent;
+    [SerializeField] private LayerMask _hitLayerMask;
+    private NavMeshPath _path;
+    
+
 
     void OnEnable()
     {
         gameObject.SetActive(true);
         InitializeStats();
+    }
+
+    void Start()
+    {
+        _agent = GetComponent<NavMeshAgent>();
+        _path = new NavMeshPath();
     }
 
     void FixedUpdate()
@@ -50,23 +60,20 @@ public class EnemyMovement : Enemy, IDamageable, IForceable, IAttackable
             return;
         }
 
-  
-        _nextPosition = enemyMove();
 
-        // if (_pathfindMode)
-        // {
-        //     _pathfindTick += Time.fixedDeltaTime;
-        //     if (_pathfindTick >= _pathfindupdateTime)
-        //     {
-        //         _pathfindTick = 0;
-        //         _pathfindMode = false;
-        //     }
-        // }
-        
-        Attack();
-        //_rigidbody.linearVelocity = (_nextPosition - _rigidbody.position)/Time.fixedDeltaTime;
-        //Debug.Log(_nextPosition +" " + _rigidbody.position);
-        _rigidbody.MovePosition(_nextPosition);
+        Vector3 delta = enemyMove();
+        if(IsAbleMoveDirection(delta))
+        {
+            _nextPosition = _rigidbody.position + delta;
+            transform.LookAt(_nextPosition);
+            Attack();
+            _rigidbody.MovePosition(_nextPosition);
+        }
+        else
+        {
+            _agent.CalculatePath(_nextPosition, _path);
+            _agent.SetPath(_path);
+        }
     }
 
 
@@ -94,115 +101,32 @@ public class EnemyMovement : Enemy, IDamageable, IForceable, IAttackable
         }
     }
 
+    private bool IsAbleMoveDirection(Vector3 direction)
+    {
+        Ray ray = new Ray(_rigidbody.position + Vector3.up * _enemyHeight, direction);
+        return !Physics.Raycast(ray, out RaycastHit hit, _pathfindWidth, _hitLayerMask);
+    }
+
+
+    /// <summary>
+    /// 적의 다음 위치를 구합니다.
+    /// </summary>
+    /// <returns>다음 위치를 가기 위한 delta값, 즉 currentPosition + delta = nextPosition</returns>
     private Vector3 enemyMove()
     {
         //기본 타겟은 항상 플레이어입니다.
         _targetPosition = _target != null ? _target.position : MoveData.PlayerPosition;
 
-
-        if (PathQueue.Count > 0 && Vector3.Distance(_rigidbody.position, PathQueue.Peek()) < 0.1f)
-        {
-            PathQueue.Dequeue();
-        }
-        // else if(PathQueue.Count > 0)
-        // {
-        //     Debug.DrawLine(_rigidbody.position, PathQueue.Peek(), Color.red, 0.1f);
-        // }
-        _targetPosition.y = 0; //y값을 현재 rigidbody의 y값으로 고정
-        Vector3 targetDiff  = _targetPosition - _rigidbody.position;
-        Vector3 targetDirection = targetDiff.normalized;
-        float targetMagnitude = targetDiff.magnitude;
-        LayerMask ExceptionGroundMask = LayerMask.GetMask("Building", "Props", "Player");
-
-
-
-       _isFindPath = pathFinding(_rigidbody.position, ref _targetPosition, targetDirection, targetMagnitude, _pathfindHeight, _pathfindWidth, ref ExceptionGroundMask, 0);
-        
-
-        Vector3 nextPos = PathQueue.Peek();
-        nextPos.y = targetDiff.y; //y값을 현재 rigidbody의 y값으로 고정
-
-        Debug.DrawLine(_rigidbody.position, nextPos, Color.green, 0.1f);
-        transform.LookAt(PathQueue.Peek());
-
-
         if (_enemyStats[0].EnemyMoveType == EenemyMoveType.linearInterpolation)
-            return Vector3.Lerp(_rigidbody.position, PathQueue.Peek(),
-            Time.fixedDeltaTime * _enemyStats[0]._linearInterpolationMoveSpeed);
+        {
+            return MoveByInterpolate();
+        }
 
         else
         {
-            //Vector3 direction = nextPos - _rigidbody.position;
-            //direction.Normalize();
-            Vector3 direction = transform.forward;
-            return _rigidbody.position + direction * Time.fixedDeltaTime * _enemyStats[0]._linearMoveSpeed;
+            return MoveByLinear();
         }
     }
-
-
-    public bool pathFinding(Vector3 originPosition, ref Vector3 targetPosition, Vector3 targetDirection, float magnitude, float pathfindHeight, float pathfindWidth, ref LayerMask Mask, int repeat)
-    {
-        bool isPathfind = false;
-        Vector3 origin = originPosition;
-        origin.y = 0;
-        origin.y += pathfindHeight; //y값을 현재 rigidbody의 y값으로 고정
-        Ray ray = new Ray(origin, targetDirection);
-        if (repeat == 0 && Physics.Raycast(ray, out RaycastHit hit, magnitude + 0.5f, Mask))
-        {
-            if(repeat == 0 && PathQueue.Count > 0)
-            {
-                print("큐에 아직 갈 길이 남아있음");
-                return false;
-            }
-            print("hit! pathfind! : " + hit.normal + " " + hit.distance);
-            
-            Debug.DrawRay(hit.point, hit.normal, Color.red, 2f);
-
-
-            Vector3 hitnormal = hit.normal;
-            hitnormal.y = 0;
-
-            //수직
-            Vector3 moveDirection = new Vector3(-hitnormal.z, 0, hitnormal.x).normalized; //수직으로 빼기
-            Debug.DrawRay(hit.point, moveDirection, Color.blue, 2f);
-            float hitDistance = hit.distance - pathfindWidth;
-            Vector3 movePos1 = originPosition + targetDirection * hitDistance + moveDirection * (magnitude - hitDistance);
-            Vector3 movePos2 = originPosition + targetDirection * hitDistance - moveDirection * (magnitude - hitDistance);
-
-
-            Vector3 movePos = Vector3.Distance(movePos1, targetPosition) < Vector3.Distance(movePos2, targetPosition) ? movePos1 : movePos2;
-
-
-            movePos.y = 0; //y값을 현재 rigidbody의 y값으로 고정
-            Vector3 test = (movePos - origin).normalized * _enemyStats[0]._linearMoveSpeed * Time.fixedDeltaTime;
-            // PathQueue.Enqueue(movePos);
-            PathQueue.Enqueue(origin + test);
-
-            Vector3 NextDirection = (targetPosition - movePos).normalized;
-            float NextMagnitude = Vector3.Distance(movePos, targetPosition);
-            Debug.DrawLine(originPosition, PathQueue.Peek(), Color.red, 1f);
-            return isPathfind = pathFinding(movePos, ref targetPosition, NextDirection, NextMagnitude, pathfindHeight, pathfindWidth, ref Mask, repeat + 1);
-
-        }
-        else
-        {
-            if (repeat > 0)
-            {
-                isPathfind = true;
-            }
-            else
-            {
-                Debug.Log("뭣?");
-                PathQueue.Clear();
-            }
-
-            PathQueue.Enqueue(origin + targetDirection * magnitude);
-            
-        }
-
-        return isPathfind;
-    }
-
 
     //근접 공격
     public void Attack()
@@ -225,7 +149,6 @@ public class EnemyMovement : Enemy, IDamageable, IForceable, IAttackable
 
         //Debug.DrawRay(_rigidbody.position, newdirection * (Vector3.Distance(_rigidbody.position, _nextPosition)+1f), Color.red,3f);
     }
-
 
     //현재 enemy는 dynamic 모드라서 addforce로 처리하지만
     //kinematic으로 변경해야 하는 순간이 온다면 코드 바꿔야 할 예정
@@ -260,6 +183,20 @@ public class EnemyMovement : Enemy, IDamageable, IForceable, IAttackable
         base.Dispose();
 
         transform.parent.gameObject.SetActive(false);
- 
     }
+
+
+    private Vector3 MoveByInterpolate()
+    {
+        return _rigidbody.position - Vector3.Lerp(_rigidbody.position, _targetPosition,
+            Time.fixedDeltaTime * _enemyStats[0]._linearInterpolationMoveSpeed);
+    }
+
+    private Vector3 MoveByLinear()
+    {
+        Vector3 direction = _targetPosition - _rigidbody.position;
+        direction.Normalize();
+        return direction * Time.fixedDeltaTime * _enemyStats[0]._linearMoveSpeed;
+    }
+
 }
