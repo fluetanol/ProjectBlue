@@ -78,7 +78,7 @@ public class UISystem : MonoBehaviour, UISystemData
 
     void LateUpdate()
     {
-        print("elapsed : " + _skillTimeData.ECoolTimeElapsed + " " + _skillTimeData.EDurationElapsedTime);
+        // print("elapsed : " + _skillTimeData.ECoolTimeElapsed + " " + _skillTimeData.EDurationElapsedTime);
         CoolTimeUpdate();
         // HealthUpdate();
         DurationTimeUpdate();

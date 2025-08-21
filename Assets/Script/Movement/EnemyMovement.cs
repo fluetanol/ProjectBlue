@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.InferenceEngine;
 using Unity.Jobs.LowLevel.Unsafe;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -31,14 +32,16 @@ public class EnemyMovement : Enemy, IDamageable, IForceable, IAttackable
     [SerializeField] private float _enemyHeight = 0.25f;
     [SerializeField] private bool _pathfindMode = false;
     [SerializeField] private float _pathfindupdateTime = 0.5f;
+
+
     [SerializeField] private float _pathfindTick = 0;
-    [SerializeField] private float _pathfindWidth = 0.5f;
     [SerializeField] private bool _isFindPath = false;
 
     [SerializeField] private NavMeshAgent _agent;
     [SerializeField] private LayerMask _hitLayerMask;
+
     private NavMeshPath _path;
-    
+    private float _pathTick = 0;
 
 
     void OnEnable()
@@ -49,7 +52,7 @@ public class EnemyMovement : Enemy, IDamageable, IForceable, IAttackable
 
     void Start()
     {
-        _agent = GetComponent<NavMeshAgent>();
+        // _agent = GetComponent<NavMeshAgent>();
         _path = new NavMeshPath();
     }
 
@@ -60,20 +63,43 @@ public class EnemyMovement : Enemy, IDamageable, IForceable, IAttackable
             return;
         }
 
+        _pathTick += Time.fixedDeltaTime;
 
         Vector3 delta = enemyMove();
-        if(IsAbleMoveDirection(delta))
+        // if (IsAbleMoveDirection(delta))
+        // {
+        // _agent.isStopped = true;
+
+        _nextPosition = _rigidbody.position + delta;
+        transform.LookAt(_nextPosition);
+        if (Physics.Raycast(_nextPosition + transform.forward  + Vector3.up * 0.75f, Vector3.down, out RaycastHit hit, 10f, LayerMask.GetMask("Ground")))
         {
-            _nextPosition = _rigidbody.position + delta;
-            transform.LookAt(_nextPosition);
-            Attack();
-            _rigidbody.MovePosition(_nextPosition);
+            print("hit point : " + hit.point);
+            _nextPosition.y = hit.point.y;
         }
-        else
-        {
-            _agent.CalculatePath(_nextPosition, _path);
-            _agent.SetPath(_path);
-        }
+        Debug.DrawRay(_nextPosition + transform.forward + Vector3.up * 0.75f, Vector3.down * 10f, Color.green, 0.3f);
+        Attack();
+        _rigidbody.MovePosition(_nextPosition);
+        // }
+         
+        //  else
+        //  {
+        //      print("unable to move!");
+
+        //     _targetPosition = _target != null ? _target.position : MoveData.PlayerPosition;
+        //      _agent.CalculatePath(_targetPosition, _path);
+        //      _agent.SetPath(_path);
+
+        //     Attack();
+        //     Debug.DrawLine(_rigidbody.position, _path.corners[0], Color.red, 0.3f);
+        //     for (int i = 1; i < _path.corners.Length; i++)
+        //     {
+        //         Vector3 corner = _path.corners[i];
+        //         print("corner " + corner);
+        //         Debug.DrawLine(_path.corners[i - 1], corner, Color.red, 0.3f);
+        //     }
+        //  }
+
     }
 
 
@@ -104,7 +130,7 @@ public class EnemyMovement : Enemy, IDamageable, IForceable, IAttackable
     private bool IsAbleMoveDirection(Vector3 direction)
     {
         Ray ray = new Ray(_rigidbody.position + Vector3.up * _enemyHeight, direction);
-        return !Physics.Raycast(ray, out RaycastHit hit, _pathfindWidth, _hitLayerMask);
+        return !Physics.Raycast(ray, out RaycastHit hit, float.PositiveInfinity, _hitLayerMask);
     }
 
 
