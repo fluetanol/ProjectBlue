@@ -48,12 +48,14 @@ public class EnemyMovement : Enemy, IDamageable, IForceable, IAttackable
     {
         gameObject.SetActive(true);
         InitializeStats();
+
     }
 
     void Start()
     {
         // _agent = GetComponent<NavMeshAgent>();
         _path = new NavMeshPath();
+        _agent.updatePosition = false;
     }
 
     void FixedUpdate()
@@ -64,42 +66,56 @@ public class EnemyMovement : Enemy, IDamageable, IForceable, IAttackable
         }
 
         _pathTick += Time.fixedDeltaTime;
+        print( "path status "  + _path.status);
 
         Vector3 delta = enemyMove();
-        // if (IsAbleMoveDirection(delta))
-        // {
-        // _agent.isStopped = true;
-
-        _nextPosition = _rigidbody.position + delta;
-        transform.LookAt(_nextPosition);
-        if (Physics.Raycast(_nextPosition + transform.forward  + Vector3.up * 0.75f, Vector3.down, out RaycastHit hit, 10f, LayerMask.GetMask("Ground")))
+        if (IsAbleMoveDirection(delta))
         {
-            print("hit point : " + hit.point);
-            _nextPosition.y = hit.point.y;
+            print("able to move!");
+       
+            _nextPosition = _rigidbody.position + delta;
+            transform.LookAt(_nextPosition);
+            if (Physics.Raycast(_nextPosition + transform.forward + Vector3.up * 0.75f, Vector3.down, out RaycastHit hit, 10f, LayerMask.GetMask("Ground")))
+            {
+                // print("hit point : " + hit.point);
+                //_nextPosition.y = hit.point.y;
+            }
+            Debug.DrawRay(_nextPosition + transform.forward + Vector3.up * 0.75f, Vector3.down * 10f, Color.green, 0.3f);
+            Attack();
+            _rigidbody.MovePosition(_nextPosition);
         }
-        Debug.DrawRay(_nextPosition + transform.forward + Vector3.up * 0.75f, Vector3.down * 10f, Color.green, 0.3f);
-        Attack();
-        _rigidbody.MovePosition(_nextPosition);
-        // }
-         
-        //  else
-        //  {
-        //      print("unable to move!");
+    
+        else
+        {
+            print("unable to move!");
 
-        //     _targetPosition = _target != null ? _target.position : MoveData.PlayerPosition;
-        //      _agent.CalculatePath(_targetPosition, _path);
-        //      _agent.SetPath(_path);
+            _agent.nextPosition = _rigidbody.position;
+            _targetPosition = _target != null ? _target.position : MoveData.PlayerPosition;
+            _agent.CalculatePath(_targetPosition, _path);
+              _agent.SetPath(_path);
+            // Debug.DrawLine(_rigidbody.position, _path.corners[1], Color.red, 0.3f);
+            // for (int i = 1; i < _path.corners.Length; i++)
+            // {
+            //     Vector3 corner = _path.corners[i];
+            //     // print("corner " + corner);
+            //     Debug.DrawLine(_path.corners[i - 1], corner, Color.red, 0.3f);
+            // }
+            Debug.DrawLine(_rigidbody.position, _agent.steeringTarget, Color.red, 5f);
+            print("steering target : " + _agent.steeringTarget  + " " + "my Position : " + _rigidbody.position);
+            delta = enemyMove(true);
+            _nextPosition = _rigidbody.position + delta;
+            transform.LookAt(_agent.steeringTarget);
+            if (Physics.Raycast(_nextPosition + transform.forward + Vector3.up * 0.75f, Vector3.down, out RaycastHit hit, 10f, LayerMask.GetMask("Ground")))
+            {
+                // print("hit point : " + hit.point);
+               // _nextPosition.y = hit.point.y;
+            }
+            Attack();
+            
+            _rigidbody.MovePosition(_nextPosition);
 
-        //     Attack();
-        //     Debug.DrawLine(_rigidbody.position, _path.corners[0], Color.red, 0.3f);
-        //     for (int i = 1; i < _path.corners.Length; i++)
-        //     {
-        //         Vector3 corner = _path.corners[i];
-        //         print("corner " + corner);
-        //         Debug.DrawLine(_path.corners[i - 1], corner, Color.red, 0.3f);
-        //     }
-        //  }
-
+        }
+    
     }
 
 
@@ -130,7 +146,19 @@ public class EnemyMovement : Enemy, IDamageable, IForceable, IAttackable
     private bool IsAbleMoveDirection(Vector3 direction)
     {
         Ray ray = new Ray(_rigidbody.position + Vector3.up * _enemyHeight, direction);
-        return !Physics.Raycast(ray, out RaycastHit hit, float.PositiveInfinity, _hitLayerMask);
+
+        Debug.DrawRay(ray.origin, ray.direction * 2f, Color.red, 0.3f);
+        bool isHit = Physics.Raycast(ray, out RaycastHit hit, float.PositiveInfinity, _hitLayerMask);
+        if (isHit && hit.transform.gameObject.layer == LayerMask.NameToLayer("Player"))
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
+
+
+
     }
 
 
@@ -138,11 +166,13 @@ public class EnemyMovement : Enemy, IDamageable, IForceable, IAttackable
     /// 적의 다음 위치를 구합니다.
     /// </summary>
     /// <returns>다음 위치를 가기 위한 delta값, 즉 currentPosition + delta = nextPosition</returns>
-    private Vector3 enemyMove()
+    private Vector3 enemyMove(bool isPathfinding = false)
     {
         //기본 타겟은 항상 플레이어입니다.
-        _targetPosition = _target != null ? _target.position : MoveData.PlayerPosition;
-
+        if (!isPathfinding)
+            _targetPosition = _target != null ? _target.position : MoveData.PlayerPosition;
+        else
+            _targetPosition = _agent.steeringTarget;
         if (_enemyStats[0].EnemyMoveType == EenemyMoveType.linearInterpolation)
         {
             return MoveByInterpolate();
