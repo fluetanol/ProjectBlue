@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -20,6 +21,14 @@ public interface IMoveData
     }
 
     public Vector3 LookPosition
+    {
+        get;
+    }
+
+    /// <summary>
+    /// 실제 적의 타겟이 될 포지션을 반환합니다. (이는 y축 이동으로 인한 실제 타겟 해야 할 지점을 정확히 구하기 위함)
+    /// </summary>
+    public Vector3 TargetPosition
     {
         get;
     }
@@ -53,6 +62,7 @@ public class PlayerMovement : MonoBehaviour, IMoveData
     [SerializeField] private EPlayerMoveAxis _playerMoveAxisType;
     [SerializeField] private EPlayerMoveBaseType _playerMoveBaseType;
     [SerializeField] private LayerMask _collisionLayerMask;
+    [SerializeField] private Transform _targetTransform;
 
 
     // ******  Move Interface Data ****** // 
@@ -64,6 +74,17 @@ public class PlayerMovement : MonoBehaviour, IMoveData
         }
         private set { }
     }
+
+    
+    public Vector3 TargetPosition
+    {
+        get
+        {
+            return _targetTransform.position;
+        }
+        private set { }
+    }
+
 
     public Vector3 LookDirection
     {
@@ -83,7 +104,6 @@ public class PlayerMovement : MonoBehaviour, IMoveData
         private set;
     }
 
-    
 
     private Vector3[] _moveTypeList
     {
@@ -157,16 +177,16 @@ public class PlayerMovement : MonoBehaviour, IMoveData
 
     void FixedUpdate()
     {
-        if(!_stateData.CanMove) return;
-        
-        if(_playerMoveBaseType == EPlayerMoveBaseType.ByAbsolute)
+        if (!_stateData.CanMove) return;
+
+        if (_playerMoveBaseType == EPlayerMoveBaseType.ByAbsolute)
             xdelta = _moveTypeList[(int)_playerMoveAxisType] * _playerDataManager.currentMoveSpeed * Time.fixedDeltaTime;
 
-        else if(_playerMoveBaseType == EPlayerMoveBaseType.ByCamera)
+        else if (_playerMoveBaseType == EPlayerMoveBaseType.ByCamera)
             xdelta = MoveDirection * _playerDataManager.currentMoveSpeed * Time.fixedDeltaTime;
 
-        else if(_playerMoveBaseType == EPlayerMoveBaseType.ByRelative)
-        //상대 좌표계로 바꾸는 기법
+        else if (_playerMoveBaseType == EPlayerMoveBaseType.ByRelative)
+            //상대 좌표계로 바꾸는 기법
             xdelta = transform.TransformDirection(
                 _moveTypeList[(int)_playerMoveAxisType]) * _playerDataManager.currentMoveSpeed * Time.fixedDeltaTime;
 
@@ -180,14 +200,17 @@ public class PlayerMovement : MonoBehaviour, IMoveData
         nextDelta = HorizontalCollideAndSlide(xdelta, _componentManager.Rigidbody.position, 0);
         nextDelta += VerticalCollideAndSlide(ydelta, _componentManager.Rigidbody.position + nextDelta, 0);
 
-        // // 
-        // // 
-        //     PenetraionTest(_componentManager.Rigidbody.position + nextDelta, _componentManager.Rigidbody.rotation, out Vector3 correctVector);
-        //    // print("correctVector " + correctVector);
-        //     // 침투 보정
-        //     nextDelta += correctVector;
-        // // 
         _componentManager.Rigidbody.MovePosition(_componentManager.Rigidbody.position + nextDelta);
+
+        if (Physics.Raycast(_componentManager.Rigidbody.position, Vector3.down, out RaycastHit hit, float.PositiveInfinity, LayerMask.GetMask("Ground")))
+        {
+            _targetTransform.position = new Vector3(_componentManager.Rigidbody.position.x, hit.point.y, _componentManager.Rigidbody.position.z);
+        }
+        else
+        {
+            _targetTransform.position = _componentManager.Rigidbody.position;
+        }
+
     }
 
     // Update is called once per frame
@@ -195,52 +218,6 @@ public class PlayerMovement : MonoBehaviour, IMoveData
     {
         forDebug();
     }
-
-    private void PenetraionTest(Vector3 playerPosition, Quaternion playerRotation, out Vector3 correctVector)
-    {
-        CapsuleInfo info = CapsuleCastInfo(playerPosition);
-        correctVector = Vector3.zero;
-
-        int size = Physics.OverlapCapsuleNonAlloc(info.point1, info.point2, info.radius,
-        buffer,
-        LayerMask.GetMask("Ground"),
-        QueryTriggerInteraction.Ignore);
-
-
-        if (size > 0)
-        {
-           // print("overlap ");
-        }
-
-        for (int i = 0; i < size; i++)
-        {
-            bool isOverlapping = Physics.ComputePenetration(
-            _componentManager.CapsuleCollider,
-            playerPosition,
-            playerRotation,
-                buffer[i],
-                buffer[i].transform.position,
-                buffer[i].transform.rotation,
-                 out Vector3 penetrationDirection,
-                  out float penetrationDistance);
-
-            if (isOverlapping)
-            {
-                //print(Time.fixedTime + "overlapping with " + buffer[i].name + " "
-               // + penetrationDirection + " " + penetrationDistance + " " + "move " + xdelta);
-                //print(xdelta);
-                Vector3 correction = penetrationDirection * penetrationDistance;
-                correctVector += correction;
-                //transform.position += correction; // 침투 보정
-            }
-        }
-        
-        isStepUp = false; // 계단을 올라갔으니 초기화
-        //delta + stepUp;
-    }
-
-
-
 
     /// <summary>
     /// 계단을 올라가는 로직
