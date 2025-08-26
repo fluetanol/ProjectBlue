@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Spawn : MonoBehaviour
 {
@@ -26,9 +27,18 @@ public class Spawn : MonoBehaviour
 
             for (int i = 0; i < _spawnCount; i++)
             {
-                int randomIndex = Random.Range(0,  _enemyMaxCode);
+                int randomIndex = Random.Range(0, _enemyMaxCode);
                 //print("randomIndex : " + randomIndex  + " " + _enemyObject.Count);
-                Enemy em = EnemyPoolManager.Instance.Get(randomIndex, transform.position, Quaternion.identity, true);
+
+                NavMeshHit hit;
+                Vector3 SpawnPosition = transform.position;
+                if (NavMesh.SamplePosition(transform.position, out hit, 3f, NavMesh.AllAreas))
+                {
+                    print("sample ! " +hit.position);
+                    SpawnPosition = hit.position;
+                }
+
+                Enemy em = EnemyPoolManager.Instance.Get(randomIndex, SpawnPosition, Quaternion.identity, true);
                 if (em == null)
                 {
                     Debug.LogWarning("no enemy in pool");

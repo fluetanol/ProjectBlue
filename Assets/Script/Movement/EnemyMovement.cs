@@ -77,6 +77,12 @@ public class EnemyMovement : Enemy, IDamageable, IForceable, IAttackable
             _targetPosition = _target != null ? _target.position : MoveData.PlayerPosition;
             _agent.CalculatePath(_targetPosition, _path);
             _agent.SetPath(_path);
+
+            for(int i=0; i<_path.corners.Length-1; i++)
+            {
+                Debug.DrawLine(_path.corners[i], _path.corners[i+1], Color.red, 5f);
+            }
+
             delta = enemyMove(true);
         }
         _nextPosition = _rigidbody.position + delta;
