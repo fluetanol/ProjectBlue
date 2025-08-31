@@ -1,6 +1,13 @@
 using System;
-using DG.Tweening;
 using UnityEngine;
+
+public enum CameraMode
+{
+    follow,
+    lookAt,
+    lookAtFollow,
+    free
+}
 
 [ExecuteAlways]
 public class CameraController : MonoBehaviour
@@ -8,6 +15,8 @@ public class CameraController : MonoBehaviour
     public static CameraController Instance;
 
     [SerializeField] private Transform _target;
+
+
     public Transform Target
     {
         get { return _target; }
