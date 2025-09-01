@@ -74,7 +74,7 @@ public class EnemyMovement : Enemy, IDamageable, IForceable, IAttackable
         if (!IsAbleMoveDirection(delta))
         {
             _agent.nextPosition = _rigidbody.position;
-            _targetPosition = _target != null ? _target.position : MoveData.PlayerPosition;
+            _targetPosition = _target != null ? _target.position : MoveData.TargetPosition;
             _agent.CalculatePath(_targetPosition, _path);
             _agent.SetPath(_path);
 

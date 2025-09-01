@@ -14,6 +14,17 @@ public interface IStateData
         get;
         set;
     }
+
+    bool CanAttack
+    {
+        get;
+        set;
+    }
+
+    bool CanDamage
+    {
+        get;set;
+    }
 }
 
 
@@ -27,7 +38,7 @@ public class PlayerStateManager : MonoBehaviour, IDamageable, IHealable, IStateD
 
     private bool isWaitDmgTick = false; //데미지 틱을 기다리는 중인지 확인
     public bool IsWaitDmgTick
-    { 
+    {
         get => isWaitDmgTick;
         set => isWaitDmgTick = value;
     }
@@ -38,8 +49,20 @@ public class PlayerStateManager : MonoBehaviour, IDamageable, IHealable, IStateD
         get => _canMove;
         set => _canMove = value;
     }
-    
-    
+
+    private bool _canAttack = true; //플레이어가 공격 가능한지 여부
+    public bool CanAttack
+    {
+        get => _canAttack;
+        set => _canAttack = value;
+    }
+
+    private bool _canDamage = true;
+    public bool CanDamage
+    {
+        get => _canDamage;
+        set => _canDamage = value;
+    }
 
     void Awake()
     {

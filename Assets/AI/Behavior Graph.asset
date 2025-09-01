@@ -28,7 +28,7 @@ MonoBehaviour:
         AuthoringAssetID:
           m_Value0: 6071874306708354744
           m_Value1: 1273888424977031098
-        m_DebugInfo: {fileID: 0}
+        m_DebugInfo: {fileID: -2103198253141683558}
         BlackboardReference:
           rid: 2145702057041199919
         BlackboardGroupReferences: []
@@ -40,7 +40,7 @@ MonoBehaviour:
           rid: 2145702057041199921
         m_EndedNodes:
           rid: 2145702057041199922
-        m_VersionTimestamp: 638922863434715763
+        m_VersionTimestamp: 638923714163296230
     - rid: 2145702057041199919
       type: {class: BlackboardReference, ns: Unity.Behavior, asm: Unity.Behavior}
       data:
@@ -430,7 +430,7 @@ MonoBehaviour:
   - rid: 2145702056889156362
   - rid: 2145702056889156456
   - rid: 2145702056889156543
-  m_VersionTimestamp: 638922863434715763
+  m_VersionTimestamp: 638923714163296230
   m_DebugInfo: {fileID: -2103198253141683558}
   m_RuntimeGraph: {fileID: -7457298570086122834}
   AssetID:
@@ -637,7 +637,7 @@ MonoBehaviour:
     - rid: 2145701940822278603
       type: {class: StartNodeModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
       data:
-        Position: {x: -451.09854, y: -123.92558}
+        Position: {x: -376.69846, y: -127.92559}
         ID:
           m_Value0: 11302372655480908595
           m_Value1: 14007511096141238591
@@ -680,7 +680,7 @@ MonoBehaviour:
           m_Value0: 3356300611230043817
           m_Value1: 5497005381991559097
         m_FieldValues:
-        - rid: 2145702057041199945
+        - rid: 8316301369912328194
         TriggerBehavior: 0
     - rid: 2145701940822278615
       type: {class: PortModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
@@ -852,7 +852,7 @@ MonoBehaviour:
     - rid: 2145702056889155607
       type: {class: BranchingConditionNodeModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
       data:
-        Position: {x: -448.39996, y: -10.874955}
+        Position: {x: -375.6, y: -10.874955}
         ID:
           m_Value0: 17307243329525994893
           m_Value1: 9972244000093927256
@@ -904,7 +904,7 @@ MonoBehaviour:
     - rid: 2145702056889155609
       type: {class: FloatingPortNodeModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
       data:
-        Position: {x: -294.80014, y: 141.12503}
+        Position: {x: -130.00014, y: 133.92499}
         ID:
           m_Value0: 4813393781712459248
           m_Value1: 10710432164549231235
@@ -1365,7 +1365,7 @@ MonoBehaviour:
         IsExposed: 1
         m_IsShared: 1
         m_Value: 0
-    - rid: 2145702057041199945
+    - rid: 8316301369912328194
       type: {class: BehaviorGraphNodeModel/FieldModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
       data:
         FieldName: ChannelVariable
@@ -1373,10 +1373,10 @@ MonoBehaviour:
           m_SerializableType: Unity.Behavior.EventChannelBase, Unity.Behavior, Version=0.0.0.0,
             Culture=neutral, PublicKeyToken=null
         LocalValue:
-          rid: 2145702057041199946
+          rid: 8316301369912328195
         LinkedVariable:
           rid: -2
-    - rid: 2145702057041199946
+    - rid: 8316301369912328195
       type: {class: 'BlackboardVariable`1[[Unity.Behavior.EventChannelBase, Unity.Behavior]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         GUID:

@@ -16,7 +16,7 @@ public abstract class Enemy : MonoBehaviour, IDisposable, IEnemyData
     [Header("Enemy Basic Components")]
     [SerializeField] protected Rigidbody _rigidbody;
     [SerializeField] protected Animator _animator;
-    [SerializeField] protected Rigidbody _target;
+    [SerializeField] protected Transform _target;
 
     [Header("DI")]
     public IMoveData MoveData;

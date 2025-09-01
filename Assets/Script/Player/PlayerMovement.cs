@@ -31,6 +31,7 @@ public interface IMoveData
     public Vector3 TargetPosition
     {
         get;
+        set;
     }
 
 }
@@ -82,7 +83,7 @@ public class PlayerMovement : MonoBehaviour, IMoveData
         {
             return _targetTransform.position;
         }
-        private set { }
+        set { _targetTransform.position = value; }
     }
 
 
