@@ -236,7 +236,6 @@ public class PlayerMovement : MonoBehaviour, IMoveData
             Vector3.up * maxStepHeight +
             direction * stepCheckDistance;
 
-
         /*
 
                            pos
@@ -355,7 +354,7 @@ public class PlayerMovement : MonoBehaviour, IMoveData
             {
                 //TODO: 내려가는 slope에서 경사면을 인지 못하는 경우를 대비한 것으로,
                 //만약 이를 조절하고 싶다면 내려갈 때는 붕 떠서 내려가게 하는 별도의 tag를 가진 지형을 만드십시오
-                if (Physics.CapsuleCast(info.point1, info.point2, info.radius, Vector3.down, out RaycastHit hit2, ydelta.magnitude + 0.01f, _collisionLayerMask ))
+                if (Physics.CapsuleCast(info.point1, info.point2, info.radius, Vector3.down, out RaycastHit hit2, ydelta.magnitude + 0.01f, _collisionLayerMask))
                 {
                     Vector3 projectDelta = Vector3.ProjectOnPlane(xdelta, hit2.normal).normalized;
                     //ydelta = -hit2.normal * ydelta.magnitude;
@@ -368,6 +367,8 @@ public class PlayerMovement : MonoBehaviour, IMoveData
         }
     }
 
+
+    
 
     private Vector3 VerticalCollideAndSlide(Vector3 delta, Vector3 playerPosition, int count, int maxRecursion = 3)
     {
@@ -393,7 +394,7 @@ public class PlayerMovement : MonoBehaviour, IMoveData
             //남은 벡터로 충돌 검사
             Vector3 projectDelta = Vector3.ProjectOnPlane(delta, hit.normal).normalized * restMagnitude;
             return sumVector += HorizontalCollideAndSlide(projectDelta, playerPosition + movedelta, count + 1) + movedelta;
-            
+
         }
         else
         {
