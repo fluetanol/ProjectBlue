@@ -360,6 +360,10 @@ PrefabInstance:
       propertyPath: _animator
       value: 
       objectReference: {fileID: 8036944847398790149}
+    - target: {fileID: 4346560156568635152, guid: c87f80a9ca22c6b499d25d2f6dfc358b, type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 2048
+      objectReference: {fileID: 0}
     - target: {fileID: 4419597052279901153, guid: c87f80a9ca22c6b499d25d2f6dfc358b, type: 3}
       propertyPath: m_IsActive
       value: 0

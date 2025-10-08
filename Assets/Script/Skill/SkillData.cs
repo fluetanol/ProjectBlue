@@ -7,6 +7,7 @@ public class SkillContext
 {
     public GameObject Target;
     public GameObject Caster;
+    public GameObject MeshRoot;
     public Vector3 TargetPosition;
     public IBasicData BasicData;
     public IMoveData MoveData;

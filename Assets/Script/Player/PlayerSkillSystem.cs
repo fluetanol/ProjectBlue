@@ -118,11 +118,11 @@ public class PlayerSkillSystem : MonoBehaviour, ISkillEvent, ISkillTimeData
 
     //Caching
     private IInputActionControll _inputActionControll;
+    private ISkillIndicator _skillIndicator;
     private IStateData _stateData;
     private IBasicData _basicData;
     private IMoveData _moveData;
-    private ISkillIndicator _skillIndicator;
-    
+
     private SkillData _skillData => _skillStrategy.SkillData;
     
     public float QCoolTime       => _skillStrategy.SkillData.QCoolTime;
@@ -131,6 +131,7 @@ public class PlayerSkillSystem : MonoBehaviour, ISkillEvent, ISkillTimeData
     public float EDuration      => _skillData.EDuration;
 
     private SkillContext _skillContext;
+    [SerializeField] private GameObject _meshRoot;
 
     void Awake()
     {
@@ -149,6 +150,7 @@ public class PlayerSkillSystem : MonoBehaviour, ISkillEvent, ISkillTimeData
         {
             Target = null,
             Caster = gameObject,
+            MeshRoot = _meshRoot,
             BasicData = _basicData,
             MoveData = _moveData,
             StateData = _stateData,

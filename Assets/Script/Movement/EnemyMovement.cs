@@ -1,7 +1,11 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using Unity.InferenceEngine;
+using Unity.Jobs.LowLevel.Unsafe;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Rendering;
 
 public interface IPoolCreatable
@@ -25,10 +29,35 @@ public class EnemyMovement : Enemy, IDamageable, IForceable, IAttackable
 
     public override float MaxHealth => _enemyStats[EnemyCode].EnemyHealth;
 
+    [SerializeField] private float _enemyHeight = 0.25f;
+    [SerializeField] private bool _pathfindMode = false;
+    [SerializeField] private float _pathfindupdateTime = 0.5f;
+
+
+    [SerializeField] private float _pathfindTick = 0;
+    [SerializeField] private bool _isFindPath = false;
+
+    [SerializeField] private NavMeshAgent _agent;
+    [SerializeField] private LayerMask _hitLayerMask;
+
+    
+
+    private NavMeshPath _path;
+    private float _pathTick = 0;
+
+
     void OnEnable()
     {
         gameObject.SetActive(true);
         InitializeStats();
+
+    }
+
+    void Start()
+    {
+        // _agent = GetComponent<NavMeshAgent>();
+        _path = new NavMeshPath();
+        _agent.updatePosition = false;
     }
 
     void FixedUpdate()
@@ -37,11 +66,38 @@ public class EnemyMovement : Enemy, IDamageable, IForceable, IAttackable
         {
             return;
         }
-        _nextPosition = enemyMove();
+
+        _pathTick += Time.fixedDeltaTime;
+        //print( "path status "  + _path.status);
+
+        Vector3 delta = enemyMove();
+        if (!IsAbleMoveDirection(delta))
+        {
+            _agent.nextPosition = _rigidbody.position;
+            _targetPosition = _target != null ? _target.position : MoveData.TargetPosition;
+            _agent.CalculatePath(_targetPosition, _path);
+            _agent.SetPath(_path);
+
+            for(int i=0; i<_path.corners.Length-1; i++)
+            {
+                Debug.DrawLine(_path.corners[i], _path.corners[i+1], Color.red, 5f);
+            }
+
+            delta = enemyMove(true);
+        }
+        _nextPosition = _rigidbody.position + delta;
+        transform.LookAt(_nextPosition);
+        if (Physics.Raycast(_nextPosition, Vector3.down, out RaycastHit hit, 9.8f * Time.fixedDeltaTime, LayerMask.GetMask("Ground")))
+        {
+            // print("hit point : " + hit.point);
+            //_nextPosition.y = hit.point.y;
+        }
+        Debug.DrawRay(_nextPosition + transform.forward + Vector3.up * 0.75f, Vector3.down * 10f, Color.green, 0.3f);
         Attack();
-        //_rigidbody.linearVelocity = (_nextPosition - _rigidbody.position)/Time.fixedDeltaTime;
-        //Debug.Log(_nextPosition +" " + _rigidbody.position);
+
+        //_rigidbody.linearVelocity = delta / Time.fixedDeltaTime;
         _rigidbody.MovePosition(_nextPosition);
+
     }
 
 
@@ -69,21 +125,44 @@ public class EnemyMovement : Enemy, IDamageable, IForceable, IAttackable
         }
     }
 
-    private Vector3 enemyMove()
+    private bool IsAbleMoveDirection(Vector3 direction)
+    {
+        Ray ray = new Ray(_rigidbody.position + Vector3.up * _enemyHeight, direction);
+
+        Debug.DrawRay(ray.origin, ray.direction * 2f, Color.red, 0.3f);
+        bool isHit = Physics.Raycast(ray, out RaycastHit hit, float.PositiveInfinity, _hitLayerMask);
+        if (isHit && hit.transform.gameObject.layer == LayerMask.NameToLayer("Player"))
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
+
+
+
+    }
+
+
+    /// <summary>
+    /// 적의 다음 위치를 구합니다.
+    /// </summary>
+    /// <returns>다음 위치를 가기 위한 delta값, 즉 currentPosition + delta = nextPosition</returns>
+    private Vector3 enemyMove(bool isPathfinding = false)
     {
         //기본 타겟은 항상 플레이어입니다.
-        _targetPosition = _target != null ? _target.position : MoveData.PlayerPosition;
-
-        transform.LookAt(_targetPosition);
+        if (!isPathfinding)
+            _targetPosition = _target != null ? _target.position : MoveData.TargetPosition;
+        else
+            _targetPosition = _agent.steeringTarget;
         if (_enemyStats[0].EnemyMoveType == EenemyMoveType.linearInterpolation)
-            return Vector3.Lerp(_rigidbody.position, _targetPosition,
-            Time.fixedDeltaTime * _enemyStats[0]._linearInterpolationMoveSpeed);
+        {
+            return MoveByInterpolate();
+        }
 
         else
         {
-            Vector3 direction = _targetPosition - _rigidbody.position;
-            direction.Normalize();
-            return _rigidbody.position + direction * Time.fixedDeltaTime * _enemyStats[0]._linearMoveSpeed;
+            return MoveByLinear();
         }
     }
 
@@ -108,7 +187,6 @@ public class EnemyMovement : Enemy, IDamageable, IForceable, IAttackable
 
         //Debug.DrawRay(_rigidbody.position, newdirection * (Vector3.Distance(_rigidbody.position, _nextPosition)+1f), Color.red,3f);
     }
-
 
     //현재 enemy는 dynamic 모드라서 addforce로 처리하지만
     //kinematic으로 변경해야 하는 순간이 온다면 코드 바꿔야 할 예정
@@ -143,6 +221,20 @@ public class EnemyMovement : Enemy, IDamageable, IForceable, IAttackable
         base.Dispose();
 
         transform.parent.gameObject.SetActive(false);
- 
     }
+
+
+    private Vector3 MoveByInterpolate()
+    {
+        return _rigidbody.position - Vector3.Lerp(_rigidbody.position, _targetPosition,
+            Time.fixedDeltaTime * _enemyStats[0]._linearInterpolationMoveSpeed);
+    }
+
+    private Vector3 MoveByLinear()
+    {
+        Vector3 direction = _targetPosition - _rigidbody.position;
+        direction.Normalize();
+        return direction * Time.fixedDeltaTime * _enemyStats[0]._linearMoveSpeed;
+    }
+
 }

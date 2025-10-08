@@ -456,7 +456,7 @@ Material:
     - _Set_SystemShadowsToBase: 1
     - _ShadeColor_Step: 0
     - _Shininess: 0
-    - _Smoothness: 0.63
+    - _Smoothness: 0.286
     - _SmoothnessRemapMax: 1
     - _SmoothnessRemapMin: 0
     - _SmoothnessSource: 1

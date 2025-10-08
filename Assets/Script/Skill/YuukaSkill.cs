@@ -80,7 +80,7 @@ public class YuukaSkill : SkillData
         Sequence moveSequence = DOTween.Sequence();
 
         float originalSmoothSpeed = CameraController.Instance.SmoothSpeed;
-        CameraController.Instance.SmoothSpeed = 6f; 
+        CameraController.Instance.SmoothSpeed = 6f;
 
         moveSequence
             //선 딜레이
