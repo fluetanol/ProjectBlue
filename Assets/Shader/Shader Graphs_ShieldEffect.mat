@@ -53,6 +53,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: bdf818c9fe660b34ebcee5a4311d8a20, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Shield_Texture:
+        m_Texture: {fileID: 2800000, guid: bdf818c9fe660b34ebcee5a4311d8a20, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Triplanar_535a8fa7f6834cbf8c7e4b7ce28113bf_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: bdf818c9fe660b34ebcee5a4311d8a20, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -72,10 +76,12 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaClip: 0.0001
-    - _FersenlEffect: 0
+    - _FersenlEffect: -1.7
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _RotateSpeed: 0.5
     m_Colors:
-    - _EmissionColor: {r: 0, g: 23.468878, b: 36.758343, a: 1}
+    - _EmissionColor: {r: 0, g: 1.3526163, b: 2.1185477, a: 0.48235294}
+    - _Tiling: {r: 2, g: 2, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

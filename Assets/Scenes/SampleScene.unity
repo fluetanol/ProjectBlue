@@ -16318,6 +16318,10 @@ PrefabInstance:
       value: MainCamera
       objectReference: {fileID: 0}
     - target: {fileID: 7541671783666424884, guid: 27e762bce060ef94388ad2b1cdaa6da8, type: 3}
+      propertyPath: m_RendererIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7541671783666424884, guid: 27e762bce060ef94388ad2b1cdaa6da8, type: 3}
       propertyPath: m_Cameras.Array.size
       value: 0
       objectReference: {fileID: 0}

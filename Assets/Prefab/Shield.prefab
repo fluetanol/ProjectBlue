@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2529857695356212397}
   - component: {fileID: 2616857057515628637}
   - component: {fileID: 8085675832834846275}
-  - component: {fileID: 3092525132743130553}
   m_Layer: 0
   m_Name: Shield
   m_TagString: Untagged
@@ -67,7 +66,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 643a91f07cdc7f2418e7c84518137cfa, type: 2}
+  - {fileID: 2100000, guid: 7f7bbfe0da672824ca5789b43767a9e3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -90,20 +89,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!111 &3092525132743130553
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6237381316575354163}
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Animation: {fileID: 7400000, guid: 133c0982f3b7be345890a1d222b1ceb4, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 133c0982f3b7be345890a1d222b1ceb4, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_UpdateMode: 0
-  m_CullingType: 0
